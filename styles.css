@@ -94,16 +94,17 @@ button:hover {
 }
 
 .conference-block {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 0.7fr; /* left = divisions, right = best teams */
   gap: 12px;
 }
 
 .conference-left {
-  flex: 2;
+  padding-right: 6px;
 }
 
 .conference-right {
-  flex: 1;
+  padding-left: 6px;
 }
 
 /* Standings layout */
@@ -118,10 +119,10 @@ button:hover {
 /* --- FIXED TIGHT GRID --- */
 .team-row {
   display: grid;
-  grid-template-columns: 1fr 40px 40px 40px 40px 40px;
-  gap: 4px;
+  grid-template-columns: 1fr 32px 32px 32px 32px 32px; /* tighter */
+  gap: 2px;
   align-items: center;
-  padding: 4px 6px;
+  padding: 3px 4px;
   cursor: pointer;
   border-radius: 4px;
   background: #1a2135;
@@ -137,14 +138,18 @@ button:hover {
   gap: 6px;
 }
 
+.team-name span {
+  font-size: 13px; /* NEW: scrunch name column */
+}
+
 .team-logo {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px; /* NEW: smaller logos */
 }
 
 /* Conference best list */
 .best-list .team-row {
-  grid-template-columns: 1fr 40px;
+  grid-template-columns: 1fr 32px;
 }
 
 /* Teams list */
