@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>2026 NFL Pick'em</title>
+  <title>2026 NFL Pick'em 01</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -267,10 +267,17 @@
     }
 
     function renderWeek(weekNumber) {
-      const weekObj = scheduleData.weeks[String(weekNumber)];
+      const weekObj = scheduleData[String(weekNumber)];
       const gamesContainer = document.getElementById("games");
       const byeContainer = document.getElementById("bye-teams");
       const weekLabel = document.getElementById("week-label");
+
+      if (!weekObj) {
+        gamesContainer.innerHTML = "<p>No data for this week.</p>";
+        byeContainer.innerHTML = "";
+        weekLabel.textContent = `Week ${weekNumber}`;
+        return;
+      }
 
       weekLabel.textContent = `Week ${weekNumber}`;
       gamesContainer.innerHTML = "";
@@ -422,7 +429,7 @@
       const teamStats = {};
 
       Object.keys(results).forEach(week => {
-        const weekGames = scheduleData.weeks[week].games;
+        const weekGames = scheduleData[week].games;
         Object.keys(results[week]).forEach(gameIndex => {
           const idx = Number(gameIndex);
           const game = weekGames[idx];
