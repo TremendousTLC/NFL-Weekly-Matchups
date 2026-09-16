@@ -2,305 +2,498 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>NFL Weekly Matchup</title>
+  <title>2026 NFL Pick'em</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #0b162a;
+      background: #0b1020;
       color: #f5f5f5;
       margin: 0;
       padding: 0;
     }
     header {
-      background: #101820;
-      padding: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid #c8102e;
+      background: #111827;
+      padding: 15px;
+      text-align: center;
+      border-bottom: 2px solid #1f2937;
     }
-    .app-title {
+    h1 {
+      margin: 0;
       font-size: 24px;
-      font-weight: bold;
     }
-    .nfl-menu button {
-      margin-left: 8px;
-      padding: 6px 10px;
-      background: #c8102e;
+    #winner-banner {
+      margin-top: 10px;
+      padding: 10px;
+      text-align: center;
+      font-weight: bold;
+      background: #222;
+      color: #fff;
+    }
+    .hidden { display: none; }
+    .flash-banner {
+      animation: flash 1s ease-in-out 5;
+    }
+    @keyframes flash {
+      0% { background-color: #222; }
+      50% { background-color: #ffcc00; color: #000; }
+      100% { background-color: #222; color: #fff; }
+    }
+    #week-nav {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+    #week-nav button {
+      padding: 6px 12px;
+      background: #2563eb;
       border: none;
       color: #fff;
       cursor: pointer;
       border-radius: 4px;
-      font-size: 12px;
     }
-    .nfl-menu button:hover {
-      background: #ff3b4f;
+    #week-nav button:disabled {
+      background: #4b5563;
+      cursor: default;
+    }
+    #week-label {
+      font-weight: bold;
     }
     main {
-      padding: 16px;
+      padding: 15px;
       max-width: 1000px;
       margin: 0 auto;
     }
-    .top-panel {
+    #games {
       display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-      gap: 16px;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
     }
-    .leaderboard, .user-panel {
-      background: #1c2b3a;
-      padding: 12px;
+    .game-card {
+      background: #111827;
       border-radius: 6px;
-      flex: 1 1 300px;
+      padding: 10px;
+      border: 1px solid #1f2937;
     }
-    .leaderboard h2, .user-panel h2 {
-      margin-top: 0;
-      font-size: 18px;
-      border-bottom: 1px solid #c8102e;
-      padding-bottom: 4px;
+    .game-meta {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 6px;
     }
-    .leaderboard-list {
-      margin-top: 8px;
-      font-size: 14px;
+    .teams {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
-    .leaderboard-list div {
-      margin-bottom: 4px;
-    }
-    .user-panel label {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 14px;
-    }
-    .user-panel input {
-      width: 100%;
-      padding: 6px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      margin-bottom: 8px;
-    }
-    .user-panel button {
+    .team-pick {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
       padding: 6px 10px;
-      background: #c8102e;
-      border: none;
-      color: #fff;
-      cursor: pointer;
+      background: #1f2937;
+      border: 1px solid #374151;
       border-radius: 4px;
-      font-size: 13px;
+      cursor: pointer;
+      color: #f9fafb;
+      min-width: 110px;
     }
-    .user-panel button:hover {
-      background: #ff3b4f;
+    .team-pick img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
     }
-    table {
+    .team-pick.picked {
+      background: #10b981;
+      border-color: #059669;
+      color: #000;
+    }
+    .vs {
+      font-weight: bold;
+      font-size: 14px;
+    }
+    #bye-teams h3 {
+      margin: 10px 0 5px;
+    }
+    #bye-teams ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    #bye-teams li {
+      padding: 2px 0;
+    }
+    section {
+      margin-bottom: 25px;
+    }
+    #leaderboard-table table,
+    #standings-table table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 12px;
-      background: #1c2b3a;
+      background: #111827;
     }
-    th, td {
-      padding: 8px;
-      border-bottom: 1px solid #2f3f4f;
-      text-align: left;
-      font-size: 14px;
-    }
-    th {
-      background: #101820;
-    }
-    .team-button {
-      padding: 4px 8px;
-      border-radius: 4px;
-      border: none;
-      cursor: pointer;
+    #leaderboard-table th,
+    #leaderboard-table td,
+    #standings-table th,
+    #standings-table td {
+      border: 1px solid #1f2937;
+      padding: 6px;
+      text-align: center;
       font-size: 13px;
-      margin-right: 4px;
     }
-    .team-button.away {
-      background: #3b82f6;
-      color: #fff;
-    }
-    .team-button.home {
-      background: #22c55e;
-      color: #fff;
-    }
-    .team-button.selected {
-      box-shadow: 0 0 0 2px #facc15;
-    }
-    .footer-note {
-      margin-top: 12px;
-      font-size: 12px;
-      color: #cbd5f5;
+    #leaderboard-table th,
+    #standings-table th {
+      background: #1f2937;
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="app-title">NFL Weekly Matchup – Week 2</div>
-    <div class="nfl-menu">
-      <button onclick="alert('Standings view coming soon')">Standings</button>
-      <button onclick="alert('Schedule view coming soon')">Schedule</button>
-      <button onclick="alert('Injury report coming soon')">Injury Report</button>
+    <h1>2026 NFL Pick'em</h1>
+    <div id="winner-banner" class="hidden"></div>
+    <div id="week-nav">
+      <button id="prev-week">Prev Week</button>
+      <span id="week-label"></span>
+      <button id="next-week">Next Week</button>
     </div>
   </header>
 
   <main>
-    <div class="top-panel">
-      <section class="leaderboard">
-        <h2>Leaderboard</h2>
-        <div class="leaderboard-list" id="leaderboardShort">
-          <!-- Short leaderboard (top 3) -->
-          <div>Season Leader: <strong id="seasonLeader">TBD</strong></div>
-          <div>Last Week Winner: <strong id="lastWeekWinner">TBD</strong></div>
-        </div>
-        <button onclick="showFullLeaderboard()">Show Full Leaderboard</button>
-      </section>
+    <section id="games"></section>
+    <section id="bye-teams"></section>
 
-      <section class="user-panel">
-        <h2>Your Info</h2>
-        <label for="userName">Enter your name:</label>
-        <input type="text" id="userName" placeholder="e.g., Terry">
-        <button onclick="setCurrentUser()">Set Player</button>
-        <div id="currentUserDisplay" style="margin-top:8px;font-size:14px;">
-          Current Player: <strong id="currentUserName">None</strong>
-        </div>
-      </section>
-    </div>
+    <section id="leaderboard">
+      <h2>Leaderboard</h2>
+      <div id="leaderboard-table"></div>
+    </section>
 
-    <section>
-      <h2>Week 2 Matchups</h2>
-      <table id="matchupTable">
-        <thead>
-          <tr>
-            <th>Game</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>TV</th>
-            <th>Away</th>
-            <th>Home</th>
-            <th>Your Pick</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Example Week 2 schedule (you can adjust teams/times) -->
-          <tr data-game-id="1">
-            <td>Game 1</td>
-            <td>Sun Sept 20</td>
-            <td>1:00 PM</td>
-            <td>FOX</td>
-            <td>
-              <button class="team-button away" onclick="selectPick(1, 'Away', 'Bears')">Bears</button>
-            </td>
-            <td>
-              <button class="team-button home" onclick="selectPick(1, 'Home', 'Packers')">Packers</button>
-            </td>
-            <td class="pick-cell" id="pick-1">–</td>
-          </tr>
-          <tr data-game-id="2">
-            <td>Game 2</td>
-            <td>Sun Sept 20</td>
-            <td>1:00 PM</td>
-            <td>CBS</td>
-            <td>
-              <button class="team-button away" onclick="selectPick(2, 'Away', 'Ravens')">Ravens</button>
-            </td>
-            <td>
-              <button class="team-button home" onclick="selectPick(2, 'Home', 'Steelers')">Steelers</button>
-            </td>
-            <td class="pick-cell" id="pick-2">–</td>
-          </tr>
-          <tr data-game-id="3">
-            <td>Game 3</td>
-            <td>Sun Sept 20</td>
-            <td>4:25 PM</td>
-            <td>FOX</td>
-            <td>
-              <button class="team-button away" onclick="selectPick(3, 'Away', 'Cowboys')">Cowboys</button>
-            </td>
-            <td>
-              <button class="team-button home" onclick="selectPick(3, 'Home', 'Eagles')">Eagles</button>
-            </td>
-            <td class="pick-cell" id="pick-3">–</td>
-          </tr>
-          <tr data-game-id="4">
-            <td>Game 4</td>
-            <td>Mon Sept 21</td>
-            <td>8:15 PM</td>
-            <td>ESPN</td>
-            <td>
-              <button class="team-button away" onclick="selectPick(4, 'Away', 'Chiefs')">Chiefs</button>
-            </td>
-            <td>
-              <button class="team-button home" onclick="selectPick(4, 'Home', 'Broncos')">Broncos</button>
-            </td>
-            <td class="pick-cell" id="pick-4">–</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="footer-note">
-        Picks are stored in memory for now. Later you can save them to a backend or localStorage.
-      </div>
+    <section id="standings">
+      <h2>Standings</h2>
+      <div id="standings-table"></div>
     </section>
   </main>
 
   <script>
-    let currentUser = null;
-    const picksByUser = {}; // { userName: { gameId: teamName } }
+    const TEAM_LOGOS = {
+      "Patriots": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/NE",
+      "Bills": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/BUF",
+      "Jets": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/NYJ",
+      "Dolphins": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/MIA",
+      "Chiefs": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/KC",
+      "Broncos": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/DEN",
+      "Raiders": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/LV",
+      "Chargers": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/LAC",
+      "Texans": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/HOU",
+      "Colts": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/IND",
+      "Jaguars": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/JAX",
+      "Titans": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/TEN",
+      "Ravens": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/BAL",
+      "Bengals": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/CIN",
+      "Browns": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/CLE",
+      "Steelers": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/PIT",
+      "Cowboys": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/DAL",
+      "Giants": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/NYG",
+      "Eagles": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/PHI",
+      "Commanders": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/WAS",
+      "Packers": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/GB",
+      "Bears": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/CHI",
+      "Lions": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/DET",
+      "Vikings": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/MIN",
+      "Buccaneers": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/TB",
+      "Saints": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/NO",
+      "Falcons": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/ATL",
+      "Panthers": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/CAR",
+      "49ers": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/SF",
+      "Seahawks": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/SEA",
+      "Rams": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/LA",
+      "Cardinals": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/ARI"
+    };
 
-    function setCurrentUser() {
-      const nameInput = document.getElementById('userName');
-      const name = nameInput.value.trim();
-      if (!name) {
-        alert('Please enter a name.');
-        return;
+    let scheduleData = null;
+    let currentWeek = 1;
+    const TOTAL_WEEKS = 18;
+
+    const WEEK_STARTS = {
+      1: new Date("2026-09-09"),
+      2: new Date("2026-09-16"),
+      3: new Date("2026-09-23"),
+      4: new Date("2026-09-30"),
+      5: new Date("2026-10-07"),
+      6: new Date("2026-10-14"),
+      7: new Date("2026-10-21"),
+      8: new Date("2026-10-28"),
+      9: new Date("2026-11-04"),
+      10: new Date("2026-11-11"),
+      11: new Date("2026-11-18"),
+      12: new Date("2026-11-25"),
+      13: new Date("2026-12-02"),
+      14: new Date("2026-12-09"),
+      15: new Date("2026-12-16"),
+      16: new Date("2026-12-23"),
+      17: new Date("2026-12-30"),
+      18: new Date("2027-01-06")
+    };
+
+    const STORAGE_KEY_PICKS = "nfl2026_picks";
+    const STORAGE_KEY_RESULTS = "nfl2026_results";
+    const STORAGE_KEY_LAST_WINNER = "nfl2026_last_week_winner";
+
+    function detectCurrentWeek() {
+      const today = new Date();
+      let week = 1;
+      for (let w = 1; w <= TOTAL_WEEKS; w++) {
+        const start = WEEK_STARTS[w];
+        const next = WEEK_STARTS[w + 1] || new Date("2027-02-01");
+        if (today >= start && today < next) {
+          week = w;
+          break;
+        }
       }
-      currentUser = name;
-      document.getElementById('currentUserName').textContent = currentUser;
-      if (!picksByUser[currentUser]) {
-        picksByUser[currentUser] = {};
-      }
+      return week;
     }
 
-    function selectPick(gameId, side, teamName) {
-      if (!currentUser) {
-        alert('Set your name first at the top.');
-        return;
-      }
-
-      // Store pick
-      if (!picksByUser[currentUser]) {
-        picksByUser[currentUser] = {};
-      }
-      picksByUser[currentUser][gameId] = teamName;
-
-      // Update UI cell
-      const pickCell = document.getElementById('pick-' + gameId);
-      pickCell.textContent = teamName + ' (' + currentUser + ')';
-
-      // Clear previous selected state for this row
-      const row = document.querySelector('tr[data-game-id="' + gameId + '"]');
-      const buttons = row.querySelectorAll('.team-button');
-      buttons.forEach(btn => btn.classList.remove('selected'));
-
-      // Highlight selected button
-      const selector = side === 'Away' ? '.team-button.away' : '.team-button.home';
-      const selectedBtn = row.querySelector(selector);
-      if (selectedBtn) {
-        selectedBtn.classList.add('selected');
-      }
-
-      // (Later) update leaderboard based on correct picks
-      // For now, just log:
-      console.log('Picks:', picksByUser);
+    function getPicks() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY_PICKS) || "{}");
     }
 
-    function showFullLeaderboard() {
-      // Placeholder: later you can compute totals from picksByUser + actual results
-      alert('Full leaderboard coming soon.\nYou will aggregate weekly wins and season totals here.');
+    function savePicks(picks) {
+      localStorage.setItem(STORAGE_KEY_PICKS, JSON.stringify(picks));
     }
 
-    // Placeholder: you could later fetch standings/schedule/injuries from an API:
-    // fetch('https://some-sports-api.com/nfl/week/2')
-    //   .then(res => res.json())
-    //   .then(data => { /* populate table dynamically */ });
+    function getResults() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY_RESULTS) || "{}");
+    }
+
+    function renderWeek(weekNumber) {
+      const weekObj = scheduleData.weeks[String(weekNumber)];
+      const gamesContainer = document.getElementById("games");
+      const byeContainer = document.getElementById("bye-teams");
+      const weekLabel = document.getElementById("week-label");
+
+      weekLabel.textContent = `Week ${weekNumber}`;
+      gamesContainer.innerHTML = "";
+      byeContainer.innerHTML = "";
+
+      weekObj.games.forEach((game, index) => {
+        const card = document.createElement("div");
+        card.className = "game-card";
+
+        const awayLogo = TEAM_LOGOS[game.away] || "";
+        const homeLogo = TEAM_LOGOS[game.home] || "";
+
+        card.innerHTML = `
+          <div class="game-meta">
+            <span>${game.date} • ${game.time} • ${game.tv}</span>
+          </div>
+          <div class="teams">
+            <button class="team-pick" data-week="${weekNumber}" data-game="${index}" data-team="${game.away}">
+              ${awayLogo ? `<img src="${awayLogo}" alt="${game.away}" onerror="this.style.display='none'">` : ""}
+              <span>${game.away}</span>
+            </button>
+            <span class="vs">@</span>
+            <button class="team-pick" data-week="${weekNumber}" data-game="${index}" data-team="${game.home}">
+              ${homeLogo ? `<img src="${homeLogo}" alt="${game.home}" onerror="this.style.display='none'">` : ""}
+              <span>${game.home}</span>
+            </button>
+          </div>
+        `;
+        gamesContainer.appendChild(card);
+      });
+
+      if (weekObj.bye && weekObj.bye.length) {
+        const title = document.createElement("h3");
+        title.textContent = "Bye Week Teams";
+        byeContainer.appendChild(title);
+
+        const list = document.createElement("ul");
+        weekObj.bye.forEach(team => {
+          const li = document.createElement("li");
+          li.textContent = team;
+          list.appendChild(li);
+        });
+        byeContainer.appendChild(list);
+      }
+
+      attachPickHandlers();
+      updateNavButtons();
+    }
+
+    function setupWeekNav() {
+      document.getElementById("prev-week").addEventListener("click", () => {
+        if (currentWeek > 1) {
+          currentWeek--;
+          renderWeek(currentWeek);
+        }
+      });
+      document.getElementById("next-week").addEventListener("click", () => {
+        if (currentWeek < TOTAL_WEEKS) {
+          currentWeek++;
+          renderWeek(currentWeek);
+        }
+      });
+    }
+
+    function updateNavButtons() {
+      document.getElementById("prev-week").disabled = currentWeek <= 1;
+      document.getElementById("next-week").disabled = currentWeek >= TOTAL_WEEKS;
+    }
+
+    function attachPickHandlers() {
+      const buttons = document.querySelectorAll(".team-pick");
+      const picks = getPicks();
+
+      buttons.forEach(btn => {
+        const week = btn.dataset.week;
+        const game = btn.dataset.game;
+        const team = btn.dataset.team;
+        if (picks[week] && picks[week][game] === team) {
+          btn.classList.add("picked");
+        }
+      });
+
+      buttons.forEach(btn => {
+        btn.onclick = () => {
+          const week = btn.dataset.week;
+          const game = btn.dataset.game;
+          const team = btn.dataset.team;
+          const picks = getPicks();
+
+          if (!picks[week]) picks[week] = {};
+
+          if (picks[week][game] === team) {
+            delete picks[week][game];
+            btn.classList.remove("picked");
+          } else {
+            picks[week][game] = team;
+            document.querySelectorAll(`.team-pick[data-week="${week}"][data-game="${game}"]`)
+              .forEach(b => b.classList.remove("picked"));
+            btn.classList.add("picked");
+          }
+
+          savePicks(picks);
+          updateLeaderboard();
+          updateStandings();
+        };
+      });
+    }
+
+    function updateLeaderboard() {
+      const picks = getPicks();
+      const results = getResults();
+      let totalCorrect = 0;
+      let totalGames = 0;
+
+      Object.keys(results).forEach(week => {
+        Object.keys(results[week]).forEach(gameIndex => {
+          totalGames++;
+          const winner = results[week][gameIndex];
+          const pick = picks[week] && picks[week][gameIndex];
+          if (pick && pick === winner) totalCorrect++;
+        });
+      });
+
+      const lb = document.getElementById("leaderboard-table");
+      lb.innerHTML = `
+        <table>
+          <thead>
+            <tr><th>Player</th><th>Correct</th><th>Games</th><th>%</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>You</td>
+              <td>${totalCorrect}</td>
+              <td>${totalGames}</td>
+              <td>${totalGames ? ((totalCorrect / totalGames) * 100).toFixed(1) : "0.0"}%</td>
+            </tr>
+          </tbody>
+        </table>
+      `;
+    }
+
+    function loadLeaderboard() {
+      updateLeaderboard();
+    }
+
+    function updateStandings() {
+      const picks = getPicks();
+      const results = getResults();
+      const teamStats = {};
+
+      Object.keys(results).forEach(week => {
+        const weekGames = scheduleData.weeks[week].games;
+        Object.keys(results[week]).forEach(gameIndex => {
+          const idx = Number(gameIndex);
+          const game = weekGames[idx];
+          const winner = results[week][gameIndex];
+          const pick = picks[week] && picks[week][gameIndex];
+
+          [game.away, game.home].forEach(team => {
+            if (!teamStats[team]) teamStats[team] = { correct: 0, total: 0 };
+            teamStats[team].total++;
+            if (pick === winner && pick === team) {
+              teamStats[team].correct++;
+            }
+          });
+        });
+      });
+
+      const standingsDiv = document.getElementById("standings-table");
+      const rows = Object.entries(teamStats)
+        .sort((a, b) => b[1].correct - a[1].correct);
+
+      let html = `
+        <table>
+          <thead>
+            <tr><th>Team</th><th>Correct Picks</th><th>Games</th><th>%</th></tr>
+          </thead>
+          <tbody>
+      `;
+      rows.forEach(([team, stat]) => {
+        const pct = stat.total ? ((stat.correct / stat.total) * 100).toFixed(1) : "0.0";
+        html += `<tr><td>${team}</td><td>${stat.correct}</td><td>${stat.total}</td><td>${pct}%</td></tr>`;
+      });
+      html += `</tbody></table>`;
+      standingsDiv.innerHTML = html;
+    }
+
+    function loadStandings() {
+      updateStandings();
+    }
+
+    function showLastWeekWinnerBanner() {
+      const winner = localStorage.getItem(STORAGE_KEY_LAST_WINNER);
+      if (!winner) return;
+
+      const banner = document.getElementById("winner-banner");
+      banner.textContent = `Last Week's Winner: ${winner}!`;
+      banner.classList.remove("hidden");
+      banner.classList.add("flash-banner");
+
+      setTimeout(() => {
+        banner.classList.remove("flash-banner");
+      }, 5000);
+    }
+
+    function setLastWeekWinner(playerName) {
+      localStorage.setItem(STORAGE_KEY_LAST_WINNER, playerName);
+    }
+
+    fetch("2026_NFL_schedule.json")
+      .then(res => res.json())
+      .then(data => {
+        scheduleData = data;
+        currentWeek = detectCurrentWeek();
+        renderWeek(currentWeek);
+        setupWeekNav();
+        loadLeaderboard();
+        loadStandings();
+        showLastWeekWinnerBanner();
+      })
+      .catch(err => {
+        console.error("Error loading schedule:", err);
+      });
   </script>
 </body>
 </html>
