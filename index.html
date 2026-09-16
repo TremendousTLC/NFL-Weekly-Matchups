@@ -5,8 +5,10 @@
   <title>NFL Weekly Matchups - Pick'em League</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <div id="app">
+
     <!-- LEFT: LEAGUE PANEL -->
     <section id="league-panel">
       <h2>League</h2>
@@ -46,17 +48,33 @@
       </div>
 
       <div id="nfl-standings">
-        <h3>AFC Standings</h3>
-        <div id="afc-standings"></div>
 
-        <h4>AFC Best Teams</h4>
-        <div id="afc-best"></div>
+        <!-- AFC block -->
+        <div class="conference-block">
+          <div class="conference-left">
+            <h3>AFC Standings</h3>
+            <div id="afc-standings"></div>
+          </div>
 
-        <h3>NFC Standings</h3>
-        <div id="nfc-standings"></div>
+          <div class="conference-right">
+            <h4>AFC Best Teams</h4>
+            <div id="afc-best"></div>
+          </div>
+        </div>
 
-        <h4>NFC Best Teams</h4>
-        <div id="nfc-best"></div>
+        <!-- NFC block -->
+        <div class="conference-block">
+          <div class="conference-left">
+            <h3>NFC Standings</h3>
+            <div id="nfc-standings"></div>
+          </div>
+
+          <div class="conference-right">
+            <h4>NFC Best Teams</h4>
+            <div id="nfc-best"></div>
+          </div>
+        </div>
+
       </div>
 
       <div class="nfl-buttons">
@@ -81,15 +99,18 @@
         <select id="schedule-week-select"></select>
         <div id="nfl-schedule-week"></div>
       </div>
+
     </section>
   </div>
 
   <!-- BOTTOM: WEEKLY PICKS -->
   <section id="picks-panel">
     <h2>Weekly Picks</h2>
+
     <div id="picks-week-display">
       <strong>Week:</strong> <span id="picks-week">-</span>
     </div>
+
     <div id="picks-table"></div>
 
     <div class="picks-actions">
@@ -103,3 +124,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
