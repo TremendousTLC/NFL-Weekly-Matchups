@@ -1,506 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>2026 NFL Pick'em 01</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0b1020;
-      color: #f5f5f5;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #111827;
-      padding: 15px;
-      text-align: center;
-      border-bottom: 2px solid #1f2937;
-    }
-    h1 {
-      margin: 0;
-      font-size: 24px;
-    }
-    #winner-banner {
-      margin-top: 10px;
-      padding: 10px;
-      text-align: center;
-      font-weight: bold;
-      background: #222;
-      color: #fff;
-    }
-    .hidden { display: none; }
-    .flash-banner {
-      animation: flash 1s ease-in-out 5;
-    }
-    @keyframes flash {
-      0% { background-color: #222; }
-      50% { background-color: #ffcc00; color: #000; }
-      100% { background-color: #222; color: #fff; }
-    }
-    #week-nav {
-      margin-top: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-    }
-    #week-nav button {
-      padding: 6px 12px;
-      background: #2563eb;
-      border: none;
-      color: #fff;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    #week-nav button:disabled {
-      background: #4b5563;
-      cursor: default;
-    }
-    #week-label {
-      font-weight: bold;
-    }
-    main {
-      padding: 15px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    #games {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .game-card {
-      background: #111827;
-      border-radius: 6px;
-      padding: 10px;
-      border: 1px solid #1f2937;
-    }
-    .game-meta {
-      font-size: 12px;
-      color: #9ca3af;
-      margin-bottom: 6px;
-    }
-    .teams {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    .team-pick {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      padding: 6px 10px;
-      background: #1f2937;
-      border: 1px solid #374151;
-      border-radius: 4px;
-      cursor: pointer;
-      color: #f9fafb;
-      min-width: 110px;
-    }
-    .team-pick img {
-      width: 40px;
-      height: 40px;
-      object-fit: contain;
-    }
-    .team-pick.picked {
-      background: #10b981;
-      border-color: #059669;
-      color: #000;
-    }
-    .vs {
-      font-weight: bold;
-      font-size: 14px;
-    }
-    #bye-teams h3 {
-      margin: 10px 0 5px;
-    }
-    #bye-teams ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    #bye-teams li {
-      padding: 2px 0;
-    }
-    section {
-      margin-bottom: 25px;
-    }
-    #leaderboard-table table,
-    #standings-table table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #111827;
-    }
-    #leaderboard-table th,
-    #leaderboard-table td,
-    #standings-table th,
-    #standings-table td {
-      border: 1px solid #1f2937;
-      padding: 6px;
-      text-align: center;
-      font-size: 13px;
-    }
-    #leaderboard-table th,
-    #standings-table th {
-      background: #1f2937;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>2026 NFL Pick'em 02</title>
+<style>
+  body { font-family: Arial; background:#0b1020; color:#fff; margin:0; }
+  header { background:#111827; padding:15px; text-align:center; }
+  h1 { margin:0; }
+  #winner-banner { margin-top:10px; padding:10px; background:#222; font-weight:bold; }
+  .hidden { display:none; }
+  .flash-banner { animation:flash 1s ease-in-out 5; }
+  @keyframes flash {
+    0%{background:#222;} 50%{background:#ffcc00;color:#000;} 100%{background:#222;color:#fff;}
+  }
+  #leaderboard, #standings { background:#111827; padding:10px; margin:10px; border-radius:6px; }
+  table { width:100%; border-collapse:collapse; }
+  th,td { border:1px solid #333; padding:6px; text-align:center; }
+  #week-nav { margin:10px; text-align:center; }
+  #week-nav button { padding:6px 12px; background:#2563eb; border:none; color:#fff; border-radius:4px; }
+  #games { margin:10px; }
+  .game-card { background:#111827; padding:10px; margin-bottom:10px; border-radius:6px; }
+  .teams { display:flex; justify-content:center; align-items:center; gap:10px; }
+  .team-pick { background:#1f2937; padding:6px 10px; border:1px solid #374151; border-radius:4px; cursor:pointer; }
+  .team-pick.picked { background:#10b981; border-color:#059669; color:#000; }
+  .team-pick img { width:40px; height:40px; }
+</style>
 </head>
 <body>
-  <header>
-    <h1>2026 NFL Pick'em</h1>
-    <div id="winner-banner" class="hidden"></div>
-    <div id="week-nav">
-      <button id="prev-week">Prev Week</button>
-      <span id="week-label"></span>
-      <button id="next-week">Next Week</button>
-    </div>
-  </header>
 
-  <main>
-    <section id="games"></section>
-    <section id="bye-teams"></section>
+<header>
+  <h1>2026 NFL Pick'em</h1>
+  <div id="winner-banner" class="hidden"></div>
+</header>
 
-    <section id="leaderboard">
-      <h2>Leaderboard</h2>
-      <div id="leaderboard-table"></div>
-    </section>
+<section id="leaderboard">
+  <h2>Leaderboard</h2>
+  <div id="leaderboard-table"></div>
+</section>
 
-    <section id="standings">
-      <h2>Standings</h2>
-      <div id="standings-table"></div>
-    </section>
-  </main>
+<section id="standings">
+  <h2>Standings</h2>
+  <div id="standings-table"></div>
+</section>
 
-  <script>
-    const TEAM_LOGOS = {
-      "Patriots": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/NE",
-      "Bills": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/BUF",
-      "Jets": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/NYJ",
-      "Dolphins": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/MIA",
-      "Chiefs": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/KC",
-      "Broncos": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/DEN",
-      "Raiders": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/LV",
-      "Chargers": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/LAC",
-      "Texans": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/HOU",
-      "Colts": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/IND",
-      "Jaguars": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/JAX",
-      "Titans": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/TEN",
-      "Ravens": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/BAL",
-      "Bengals": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/CIN",
-      "Browns": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/CLE",
-      "Steelers": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/PIT",
-      "Cowboys": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/DAL",
-      "Giants": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/NYG",
-      "Eagles": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/PHI",
-      "Commanders": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/WAS",
-      "Packers": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/GB",
-      "Bears": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/CHI",
-      "Lions": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/DET",
-      "Vikings": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/MIN",
-      "Buccaneers": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/TB",
-      "Saints": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/NO",
-      "Falcons": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/ATL",
-      "Panthers": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/CAR",
-      "49ers": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/SF",
-      "Seahawks": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/SEA",
-      "Rams": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/LA",
-      "Cardinals": "https://static.www.nfl.com/t_q-best/league/api/clubs/logos/ARI"
-    };
+<div id="week-nav">
+  <button id="prev-week">Prev Week</button>
+  <span id="week-label"></span>
+  <button id="next-week">Next Week</button>
+</div>
 
-    let scheduleData = null;
-    let currentWeek = 1;
-    const TOTAL_WEEKS = 18;
+<section id="games"></section>
+<section id="bye-teams"></section>
 
-    const WEEK_STARTS = {
-      1: new Date("2026-09-09"),
-      2: new Date("2026-09-16"),
-      3: new Date("2026-09-23"),
-      4: new Date("2026-09-30"),
-      5: new Date("2026-10-07"),
-      6: new Date("2026-10-14"),
-      7: new Date("2026-10-21"),
-      8: new Date("2026-10-28"),
-      9: new Date("2026-11-04"),
-      10: new Date("2026-11-11"),
-      11: new Date("2026-11-18"),
-      12: new Date("2026-11-25"),
-      13: new Date("2026-12-02"),
-      14: new Date("2026-12-09"),
-      15: new Date("2026-12-16"),
-      16: new Date("2026-12-23"),
-      17: new Date("2026-12-30"),
-      18: new Date("2027-01-06")
-    };
+<script>
+const TEAM_LOGOS = {
+  "Patriots":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/NE",
+  "Bills":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/BUF",
+  "Jets":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/NYJ",
+  "Dolphins":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/MIA",
+  "Chiefs":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/KC",
+  "Broncos":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/DEN",
+  "Raiders":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/LV",
+  "Chargers":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/LAC",
+  "Texans":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/HOU",
+  "Colts":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/IND",
+  "Jaguars":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/JAX",
+  "Titans":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/TEN",
+  "Ravens":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/BAL",
+  "Bengals":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/CIN",
+  "Browns":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/CLE",
+  "Steelers":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/PIT",
+  "Cowboys":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/DAL",
+  "Giants":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/NYG",
+  "Eagles":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/PHI",
+  "Commanders":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/WAS",
+  "Packers":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/GB",
+  "Bears":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/CHI",
+  "Lions":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/DET",
+  "Vikings":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/MIN",
+  "Buccaneers":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/TB",
+  "Saints":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/NO",
+  "Falcons":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/ATL",
+  "Panthers":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/CAR",
+  "49ers":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/SF",
+  "Seahawks":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/SEA",
+  "Rams":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/LA",
+  "Cardinals":"https://static.www.nfl.com/t_q-best/league/api/clubs/logos/ARI"
+};
 
-    const STORAGE_KEY_PICKS = "nfl2026_picks";
-    const STORAGE_KEY_RESULTS = "nfl2026_results";
-    const STORAGE_KEY_LAST_WINNER = "nfl2026_last_week_winner";
+let scheduleData = null;
+let currentWeek = 1;
+const TOTAL_WEEKS = 18;
 
-    function detectCurrentWeek() {
-      const today = new Date();
-      let week = 1;
-      for (let w = 1; w <= TOTAL_WEEKS; w++) {
-        const start = WEEK_STARTS[w];
-        const next = WEEK_STARTS[w + 1] || new Date("2027-02-01");
-        if (today >= start && today < next) {
-          week = w;
-          break;
-        }
+const WEEK_STARTS = {
+  1:new Date("2026-09-09"),
+  2:new Date("2026-09-16"),
+  3:new Date("2026-09-23"),
+  4:new Date("2026-09-30"),
+  5:new Date("2026-10-07"),
+  6:new Date("2026-10-14"),
+  7:new Date("2026-10-21"),
+  8:new Date("2026-10-28"),
+  9:new Date("2026-11-04"),
+  10:new Date("2026-11-11"),
+  11:new Date("2026-11-18"),
+  12:new Date("2026-11-25"),
+  13:new Date("2026-12-02"),
+  14:new Date("2026-12-09"),
+  15:new Date("2026-12-16"),
+  16:new Date("2026-12-23"),
+  17:new Date("2026-12-30"),
+  18:new Date("2027-01-06")
+};
+
+const STORAGE_KEY_PICKS = "nfl2026_picks";
+const STORAGE_KEY_RESULTS = "nfl2026_results";
+const STORAGE_KEY_LAST_WINNER = "nfl2026_last_week_winner";
+
+function detectCurrentWeek(){
+  const today=new Date();
+  for(let w=1;w<=TOTAL_WEEKS;w++){
+    const start=WEEK_STARTS[w];
+    const next=WEEK_STARTS[w+1]||new Date("2027-02-01");
+    if(today>=start && today<next) return w;
+  }
+  return 1;
+}
+
+function getPicks(){ return JSON.parse(localStorage.getItem(STORAGE_KEY_PICKS)||"{}"); }
+function savePicks(p){ localStorage.setItem(STORAGE_KEY_PICKS,JSON.stringify(p)); }
+function getResults(){ return JSON.parse(localStorage.getItem(STORAGE_KEY_RESULTS)||"{}"); }
+
+function renderWeek(week){
+  const weekObj=scheduleData.weeks[String(week)];
+  const gamesDiv=document.getElementById("games");
+  const byeDiv=document.getElementById("bye-teams");
+  const label=document.getElementById("week-label");
+
+  label.textContent="Week "+week;
+  gamesDiv.innerHTML="";
+  byeDiv.innerHTML="";
+
+  weekObj.games.forEach((g,i)=>{
+    const card=document.createElement("div");
+    card.className="game-card";
+    card.innerHTML=`
+      <div class="game-meta">${g.date} • ${g.time} • ${g.tv}</div>
+      <div class="teams">
+        <button class="team-pick" data-week="${week}" data-game="${i}" data-team="${g.away}">
+          <img src="${TEAM_LOGOS[g.away]||''}" onerror="this.style.display='none'">
+          <span>${g.away}</span>
+        </button>
+        <span class="vs">@</span>
+        <button class="team-pick" data-week="${week}" data-game="${i}" data-team="${g.home}">
+          <img src="${TEAM_LOGOS[g.home]||''}" onerror="this.style.display='none'">
+          <span>${g.home}</span>
+        </button>
+      </div>`;
+    gamesDiv.appendChild(card);
+  });
+
+  if(weekObj.bye.length){
+    byeDiv.innerHTML="<h3>Bye Week Teams</h3><ul>"+weekObj.bye.map(t=>`<li>${t}</li>`).join("")+"</ul>";
+  }
+
+  attachPickHandlers();
+  updateNavButtons();
+}
+
+function updateNavButtons(){
+  document.getElementById("prev-week").disabled=currentWeek<=1;
+  document.getElementById("next-week").disabled=currentWeek>=TOTAL_WEEKS;
+}
+
+function attachPickHandlers(){
+  const picks=getPicks();
+  document.querySelectorAll(".team-pick").forEach(btn=>{
+    const w=btn.dataset.week, g=btn.dataset.game, t=btn.dataset.team;
+    if(picks[w] && picks[w][g]===t) btn.classList.add("picked");
+    btn.onclick=()=>{
+      if(!picks[w]) picks[w]={};
+      if(picks[w][g]===t){
+        delete picks[w][g];
+        btn.classList.remove("picked");
+      } else {
+        picks[w][g]=t;
+        document.querySelectorAll(`.team-pick[data-week="${w}"][data-game="${g}"]`)
+          .forEach(b=>b.classList.remove("picked"));
+        btn.classList.add("picked");
       }
-      return week;
-    }
-
-    function getPicks() {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY_PICKS) || "{}");
-    }
-
-    function savePicks(picks) {
-      localStorage.setItem(STORAGE_KEY_PICKS, JSON.stringify(picks));
-    }
-
-    function getResults() {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY_RESULTS) || "{}");
-    }
-
-    function renderWeek(weekNumber) {
-      const weekObj = scheduleData[String(weekNumber)];
-      const gamesContainer = document.getElementById("games");
-      const byeContainer = document.getElementById("bye-teams");
-      const weekLabel = document.getElementById("week-label");
-
-      if (!weekObj) {
-        gamesContainer.innerHTML = "<p>No data for this week.</p>";
-        byeContainer.innerHTML = "";
-        weekLabel.textContent = `Week ${weekNumber}`;
-        return;
-      }
-
-      weekLabel.textContent = `Week ${weekNumber}`;
-      gamesContainer.innerHTML = "";
-      byeContainer.innerHTML = "";
-
-      weekObj.games.forEach((game, index) => {
-        const card = document.createElement("div");
-        card.className = "game-card";
-
-        const awayLogo = TEAM_LOGOS[game.away] || "";
-        const homeLogo = TEAM_LOGOS[game.home] || "";
-
-        card.innerHTML = `
-          <div class="game-meta">
-            <span>${game.date} • ${game.time} • ${game.tv}</span>
-          </div>
-          <div class="teams">
-            <button class="team-pick" data-week="${weekNumber}" data-game="${index}" data-team="${game.away}">
-              ${awayLogo ? `<img src="${awayLogo}" alt="${game.away}" onerror="this.style.display='none'">` : ""}
-              <span>${game.away}</span>
-            </button>
-            <span class="vs">@</span>
-            <button class="team-pick" data-week="${weekNumber}" data-game="${index}" data-team="${game.home}">
-              ${homeLogo ? `<img src="${homeLogo}" alt="${game.home}" onerror="this.style.display='none'">` : ""}
-              <span>${game.home}</span>
-            </button>
-          </div>
-        `;
-        gamesContainer.appendChild(card);
-      });
-
-      if (weekObj.bye && weekObj.bye.length) {
-        const title = document.createElement("h3");
-        title.textContent = "Bye Week Teams";
-        byeContainer.appendChild(title);
-
-        const list = document.createElement("ul");
-        weekObj.bye.forEach(team => {
-          const li = document.createElement("li");
-          li.textContent = team;
-          list.appendChild(li);
-        });
-        byeContainer.appendChild(list);
-      }
-
-      attachPickHandlers();
-      updateNavButtons();
-    }
-
-    function setupWeekNav() {
-      document.getElementById("prev-week").addEventListener("click", () => {
-        if (currentWeek > 1) {
-          currentWeek--;
-          renderWeek(currentWeek);
-        }
-      });
-      document.getElementById("next-week").addEventListener("click", () => {
-        if (currentWeek < TOTAL_WEEKS) {
-          currentWeek++;
-          renderWeek(currentWeek);
-        }
-      });
-    }
-
-    function updateNavButtons() {
-      document.getElementById("prev-week").disabled = currentWeek <= 1;
-      document.getElementById("next-week").disabled = currentWeek >= TOTAL_WEEKS;
-    }
-
-    function attachPickHandlers() {
-      const buttons = document.querySelectorAll(".team-pick");
-      const picks = getPicks();
-
-      buttons.forEach(btn => {
-        const week = btn.dataset.week;
-        const game = btn.dataset.game;
-        const team = btn.dataset.team;
-        if (picks[week] && picks[week][game] === team) {
-          btn.classList.add("picked");
-        }
-      });
-
-      buttons.forEach(btn => {
-        btn.onclick = () => {
-          const week = btn.dataset.week;
-          const game = btn.dataset.game;
-          const team = btn.dataset.team;
-          const picks = getPicks();
-
-          if (!picks[week]) picks[week] = {};
-
-          if (picks[week][game] === team) {
-            delete picks[week][game];
-            btn.classList.remove("picked");
-          } else {
-            picks[week][game] = team;
-            document.querySelectorAll(`.team-pick[data-week="${week}"][data-game="${game}"]`)
-              .forEach(b => b.classList.remove("picked"));
-            btn.classList.add("picked");
-          }
-
-          savePicks(picks);
-          updateLeaderboard();
-          updateStandings();
-        };
-      });
-    }
-
-    function updateLeaderboard() {
-      const picks = getPicks();
-      const results = getResults();
-      let totalCorrect = 0;
-      let totalGames = 0;
-
-      Object.keys(results).forEach(week => {
-        Object.keys(results[week]).forEach(gameIndex => {
-          totalGames++;
-          const winner = results[week][gameIndex];
-          const pick = picks[week] && picks[week][gameIndex];
-          if (pick && pick === winner) totalCorrect++;
-        });
-      });
-
-      const lb = document.getElementById("leaderboard-table");
-      lb.innerHTML = `
-        <table>
-          <thead>
-            <tr><th>Player</th><th>Correct</th><th>Games</th><th>%</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>You</td>
-              <td>${totalCorrect}</td>
-              <td>${totalGames}</td>
-              <td>${totalGames ? ((totalCorrect / totalGames) * 100).toFixed(1) : "0.0"}%</td>
-            </tr>
-          </tbody>
-        </table>
-      `;
-    }
-
-    function loadLeaderboard() {
+      savePicks(picks);
       updateLeaderboard();
-    }
-
-    function updateStandings() {
-      const picks = getPicks();
-      const results = getResults();
-      const teamStats = {};
-
-      Object.keys(results).forEach(week => {
-        const weekGames = scheduleData[week].games;
-        Object.keys(results[week]).forEach(gameIndex => {
-          const idx = Number(gameIndex);
-          const game = weekGames[idx];
-          const winner = results[week][gameIndex];
-          const pick = picks[week] && picks[week][gameIndex];
-
-          [game.away, game.home].forEach(team => {
-            if (!teamStats[team]) teamStats[team] = { correct: 0, total: 0 };
-            teamStats[team].total++;
-            if (pick === winner && pick === team) {
-              teamStats[team].correct++;
-            }
-          });
-        });
-      });
-
-      const standingsDiv = document.getElementById("standings-table");
-      const rows = Object.entries(teamStats)
-        .sort((a, b) => b[1].correct - a[1].correct);
-
-      let html = `
-        <table>
-          <thead>
-            <tr><th>Team</th><th>Correct Picks</th><th>Games</th><th>%</th></tr>
-          </thead>
-          <tbody>
-      `;
-      rows.forEach(([team, stat]) => {
-        const pct = stat.total ? ((stat.correct / stat.total) * 100).toFixed(1) : "0.0";
-        html += `<tr><td>${team}</td><td>${stat.correct}</td><td>${stat.total}</td><td>${pct}%</td></tr>`;
-      });
-      html += `</tbody></table>`;
-      standingsDiv.innerHTML = html;
-    }
-
-    function loadStandings() {
       updateStandings();
-    }
+    };
+  });
+}
 
-    function showLastWeekWinnerBanner() {
-      const winner = localStorage.getItem(STORAGE_KEY_LAST_WINNER);
-      if (!winner) return;
+function updateLeaderboard(){
+  const picks=getPicks(), results=getResults();
+  let correct=0, total=0;
+  Object.keys(results).forEach(w=>{
+    Object.keys(results[w]).forEach(g=>{
+      total++;
+      if(picks[w] && picks[w][g]===results[w][g]) correct++;
+    });
+  });
+  document.getElementById("leaderboard-table").innerHTML=`
+    <table>
+      <thead><tr><th>Player</th><th>Correct</th><th>Games</th><th>%</th></tr></thead>
+      <tbody><tr>
+        <td>You</td>
+        <td>${correct}</td>
+        <td>${total}</td>
+        <td>${total?((correct/total)*100).toFixed(1):"0.0"}%</td>
+      </tr></tbody>
+    </table>`;
+}
 
-      const banner = document.getElementById("winner-banner");
-      banner.textContent = `Last Week's Winner: ${winner}!`;
-      banner.classList.remove("hidden");
-      banner.classList.add("flash-banner");
-
-      setTimeout(() => {
-        banner.classList.remove("flash-banner");
-      }, 5000);
-    }
-
-    function setLastWeekWinner(playerName) {
-      localStorage.setItem(STORAGE_KEY_LAST_WINNER, playerName);
-    }
-
-    fetch("2026_NFL_schedule.json")
-      .then(res => res.json())
-      .then(data => {
-        scheduleData = data;
-        currentWeek = detectCurrentWeek();
-        renderWeek(currentWeek);
-        setupWeekNav();
-        loadLeaderboard();
-        loadStandings();
-        showLastWeekWinnerBanner();
-      })
-      .catch(err => {
-        console.error("Error loading schedule:", err);
+function updateStandings(){
+  const picks=getPicks(), results=getResults();
+  const stats={};
+  Object.keys(results).forEach(w=>{
+    const games=scheduleData.weeks[w].games;
+    Object.keys(results[w]).forEach(g=>{
+      const game=games[g], winner=results[w][g], pick=picks[w]&&picks[w][g];
+      [game.away,game.home].forEach(team=>{
+        if(!stats[team]) stats[team]={correct:0,total:0};
+        stats[team].total++;
+        if(pick===winner && pick===team) stats[team].correct++;
       });
-  </script>
+    });
+  });
+  const rows=Object.entries(stats).sort((a,b)=>b[1].correct-a[1].correct);
+  let html="<table><thead><tr><th>Team</th><th>Correct</th><th>Games</th><th>%</th></tr></thead><tbody>";
+  rows.forEach(([team,s])=>{
+    html+=`<tr><td>${team}</td><td>${s.correct}</td><td>${s.total}</td><td>${((s.correct/s.total)*100).toFixed(1)}</td></tr>`;
+  });
+  html+="</tbody></table>";
+  document.getElementById("standings-table").innerHTML=html;
+}
+
+function showLastWeekWinnerBanner(){
+  const w=localStorage.getItem(STORAGE_KEY_LAST_WINNER);
+  if(!w) return;
+  const b=document.getElementById("winner-banner");
+  b.textContent="Last Week's Winner: "+w+"!";
+  b.classList.remove("hidden");
+  b.classList.add("flash-banner");
+  setTimeout(()=>b.classList.remove("flash-banner"),5000);
+}
+
+fetch("2026_NFL_schedule.json")
+  .then(r=>r.json())
+  .then(data=>{
+    scheduleData=data;
+    currentWeek=detectCurrentWeek();
+    renderWeek(currentWeek);
+    updateLeaderboard();
+    updateStandings();
+    showLastWeekWinnerBanner();
+    document.getElementById("prev-week").onclick=()=>{currentWeek--;renderWeek(currentWeek);};
+    document.getElementById("next-week").onclick=()=>{currentWeek++;renderWeek(currentWeek);};
+  });
+</script>
+
 </body>
 </html>
