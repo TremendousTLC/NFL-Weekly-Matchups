@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>NFL Weekly Matchup 02</title>
+  <title>NFL Weekly Matchup</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -257,7 +257,7 @@ function showFullLeaderboard() {
   alert("Full leaderboard coming soon.");
 }
 
-fetch("2026_NFL_schedule_v2.json")
+fetch("2026_NFL_Schedule.json")
   .then(r => r.json())
   .then(data => {
     schedule = data;
