@@ -7,7 +7,7 @@ body {
 
 #app {
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
+  grid-template-columns: 1fr 1fr 1fr; /* LEFT | CENTER | RIGHT */
   gap: 16px;
   padding: 16px;
 }
@@ -77,12 +77,33 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  max-width: 480px; /* FIX: prevents right panel from being too wide */
 }
 
 .nfl-buttons {
   display: flex;
   gap: 8px;
   margin-top: 8px;
+}
+
+/* --- FIXED CONFERENCE LAYOUT --- */
+#nfl-standings {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.conference-block {
+  display: flex;
+  gap: 12px;
+}
+
+.conference-left {
+  flex: 2;
+}
+
+.conference-right {
+  flex: 1;
 }
 
 /* Standings layout */
@@ -94,17 +115,20 @@ button:hover {
   margin: 4px 0;
 }
 
+/* --- FIXED TIGHT GRID --- */
 .team-row {
   display: grid;
-  grid-template-columns: 1.5fr 50px 50px 50px 50px 50px;
-  gap: 6px;
+  grid-template-columns: 1fr 40px 40px 40px 40px 40px;
+  gap: 4px;
   align-items: center;
-  padding: 2px 0;
+  padding: 4px 6px;
   cursor: pointer;
+  border-radius: 4px;
+  background: #1a2135;
 }
 
 .team-row:hover {
-  background: #20263a;
+  background: #222a40;
 }
 
 .team-name {
@@ -120,7 +144,7 @@ button:hover {
 
 /* Conference best list */
 .best-list .team-row {
-  grid-template-columns: 1.5fr 50px;
+  grid-template-columns: 1fr 40px;
 }
 
 /* Teams list */
@@ -165,25 +189,4 @@ button:hover {
   margin-top: 8px;
   display: flex;
   gap: 8px;
-  
-  
-/* Tighter NFL standings grid */
-.team-row {
-  display: grid;
-  grid-template-columns: 1fr 40px 40px 40px 40px 40px;
-  gap: 4px;
-  align-items: center;
-  padding: 2px 0;
-  cursor: pointer;
-}
-
-.best-list .team-row {
-  grid-template-columns: 1fr 40px;
-}
-
-/* Shrink NFL panel width */
-#nfl-panel {
-  max-width: 480px;   /* ← THIS fixes the “too wide” problem */
-}
-
 }

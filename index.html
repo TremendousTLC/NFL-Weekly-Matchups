@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>NFL Weekly Matchups - Pick'em League</title>
+  <title>NFL Weekly Matchup 26</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -37,6 +37,24 @@
         <h3>Player Picks</h3>
         <div id="player-picks-content"></div>
       </div>
+    </section>
+
+    <!-- CENTER: WEEKLY PICKS -->
+    <section id="picks-panel">
+      <h2>Weekly Picks</h2>
+
+      <div id="picks-week-display">
+        <strong>Week:</strong> <span id="picks-week">-</span>
+      </div>
+
+      <div id="picks-table"></div>
+
+      <div class="picks-actions">
+        <button id="submit-picks-btn">Submit Picks</button>
+        <button id="edit-picks-btn">Edit Picks</button>
+      </div>
+
+      <div id="picks-notification" class="notification hidden"></div>
     </section>
 
     <!-- RIGHT: NFL PANEL -->
@@ -101,27 +119,9 @@
       </div>
 
     </section>
+
   </div>
-
-  <!-- BOTTOM: WEEKLY PICKS -->
-  <section id="picks-panel">
-    <h2>Weekly Picks</h2>
-
-    <div id="picks-week-display">
-      <strong>Week:</strong> <span id="picks-week">-</span>
-    </div>
-
-    <div id="picks-table"></div>
-
-    <div class="picks-actions">
-      <button id="submit-picks-btn">Submit Picks</button>
-      <button id="edit-picks-btn">Edit Picks</button>
-    </div>
-
-    <div id="picks-notification" class="notification hidden"></div>
-  </section>
 
   <script src="script.js"></script>
 </body>
 </html>
-
