@@ -165,4 +165,25 @@ button:hover {
   margin-top: 8px;
   display: flex;
   gap: 8px;
+  
+  
+/* Tighter NFL standings grid */
+.team-row {
+  display: grid;
+  grid-template-columns: 1fr 40px 40px 40px 40px 40px;
+  gap: 4px;
+  align-items: center;
+  padding: 2px 0;
+  cursor: pointer;
+}
+
+.best-list .team-row {
+  grid-template-columns: 1fr 40px;
+}
+
+/* Shrink NFL panel width */
+#nfl-panel {
+  max-width: 480px;   /* ← THIS fixes the “too wide” problem */
+}
+
 }

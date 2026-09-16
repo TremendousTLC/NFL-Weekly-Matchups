@@ -179,6 +179,7 @@ function renderConferenceStandings(conf, divisions, records, standingsId, bestId
 
   const teamsInConf = [];
 
+  // --- Division Standings ---
   divisions.forEach(div => {
     const divBlock = document.createElement("div");
     divBlock.className = "standings-division";
@@ -187,10 +188,14 @@ function renderConferenceStandings(conf, divisions, records, standingsId, bestId
     h.textContent = `${conf} ${div}`;
     divBlock.appendChild(h);
 
+    // Teams in this division
     const divTeams = Object.keys(teamInfo).filter(t => {
       const info = teamInfo[t];
       return info.conference === conf && info.division === div;
     });
+
+    // Sort division teams alphabetically by fullName
+    divTeams.sort((a, b) => teamInfo[a].fullName.localeCompare(teamInfo[b].fullName));
 
     divTeams.forEach(team => {
       teamsInConf.push(team);
@@ -201,32 +206,42 @@ function renderConferenceStandings(conf, divisions, records, standingsId, bestId
     container.appendChild(divBlock);
   });
 
-  // Conference best list
+  // --- Conference Best Teams ---
   const bestContainer = document.getElementById(bestId);
   bestContainer.innerHTML = "";
   bestContainer.classList.add("best-list");
 
+  // Sort by record, ties alphabetical
   const sorted = teamsInConf.sort((a, b) => {
     const ra = records[a];
     const rb = records[b];
+
     if (ra.wins !== rb.wins) return rb.wins - ra.wins;
     if (ra.losses !== rb.losses) return ra.losses - rb.losses;
-    return a.localeCompare(b);
+
+    // Alphabetical tiebreaker
+    return teamInfo[a].fullName.localeCompare(teamInfo[b].fullName);
   });
 
   sorted.forEach(team => {
     const row = document.createElement("div");
     row.className = "team-row";
+
+    // Team name + logo
     const nameCell = document.createElement("div");
     nameCell.className = "team-name";
+
     const logo = document.createElement("img");
     logo.className = "team-logo";
     logo.src = getTeamLogo(team);
+
     const nameText = document.createElement("span");
     nameText.textContent = team;
+
     nameCell.appendChild(logo);
     nameCell.appendChild(nameText);
 
+    // W/L column
     const wlCell = document.createElement("div");
     wlCell.textContent = `${records[team].wins}-${records[team].losses}`;
 
@@ -245,11 +260,14 @@ function createStandingsRow(team, rec) {
 
   const nameCell = document.createElement("div");
   nameCell.className = "team-name";
+
   const logo = document.createElement("img");
   logo.className = "team-logo";
   logo.src = getTeamLogo(team);
+
   const nameText = document.createElement("span");
   nameText.textContent = team;
+
   nameCell.appendChild(logo);
   nameCell.appendChild(nameText);
 
@@ -279,6 +297,7 @@ function createStandingsRow(team, rec) {
 
   return row;
 }
+
 
 // --- TEAM LOGOS ---
 
