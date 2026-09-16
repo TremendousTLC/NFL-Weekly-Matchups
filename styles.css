@@ -5,6 +5,20 @@ body {
   color: #f5f5f5;
 }
 
+/* Top helmet banner */
+#helmet-banner {
+  height: 60px;
+  background: #0d1328;
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 6px;
+}
+
+#helmet-banner img {
+  height: 48px;
+}
+
 #app {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr; /* LEFT | CENTER | RIGHT */
@@ -72,12 +86,20 @@ button:hover {
   margin: 2px 0;
 }
 
+/* Submissions window */
+#submissions-window {
+  margin-top: 10px;
+  background: #101528;
+  padding: 10px;
+  border-radius: 6px;
+}
+
 /* NFL panel */
 #nfl-panel {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  max-width: 480px; /* FIX: prevents right panel from being too wide */
+  max-width: 480px;
 }
 
 .nfl-buttons {
@@ -86,16 +108,17 @@ button:hover {
   margin-top: 8px;
 }
 
-/* --- FIXED CONFERENCE LAYOUT --- */
+/* Standings layout container */
 #nfl-standings {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
+/* Conference layout: divisions left, best right */
 .conference-block {
   display: grid;
-  grid-template-columns: 1fr 0.7fr; /* left = divisions, right = best teams */
+  grid-template-columns: 1fr 0.7fr;
   gap: 12px;
 }
 
@@ -116,10 +139,10 @@ button:hover {
   margin: 4px 0;
 }
 
-/* --- FIXED TIGHT GRID --- */
+/* Tight standings grid */
 .team-row {
   display: grid;
-  grid-template-columns: 1fr 32px 32px 32px 32px 32px; /* tighter */
+  grid-template-columns: 1fr 32px 32px 32px 32px 32px;
   gap: 2px;
   align-items: center;
   padding: 3px 4px;
@@ -139,12 +162,12 @@ button:hover {
 }
 
 .team-name span {
-  font-size: 13px; /* NEW: scrunch name column */
+  font-size: 13px;
 }
 
 .team-logo {
   width: 16px;
-  height: 16px; /* NEW: smaller logos */
+  height: 16px;
 }
 
 /* Conference best list */
@@ -169,12 +192,32 @@ button:hover {
 
 /* Picks panel */
 #picks-panel {
-  margin: 16px;
+  display: flex;
+  flex-direction: column;
+  max-height: 600px;
+  overflow: hidden;
+  margin: 16px 0;
   background: #151a2c;
 }
 
+#week-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+#week-nav button {
+  background: #1f6feb;
+  padding: 4px 10px;
+}
+
 #picks-table {
+  flex: 1;
+  overflow-y: auto;
   margin-top: 8px;
+  padding-right: 6px;
 }
 
 .pick-row {
@@ -194,4 +237,19 @@ button:hover {
   margin-top: 8px;
   display: flex;
   gap: 8px;
+}
+
+/* Selected pick highlight */
+.pick-selected {
+  background: #2a3b6a !important;
+  border: 2px solid #4a6cff;
+}
+
+/* Detail window under picks */
+#picks-detail-window {
+  margin-top: 10px;
+  background: #101528;
+  padding: 10px;
+  border-radius: 6px;
+  min-height: 80px;
 }

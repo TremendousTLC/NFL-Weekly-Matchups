@@ -7,6 +7,9 @@
 </head>
 
 <body>
+  <!-- TOP: HELMET BANNER -->
+  <div id="helmet-banner"></div>
+
   <div id="app">
 
     <!-- LEFT: LEAGUE PANEL -->
@@ -26,6 +29,7 @@
 
       <div class="league-actions">
         <button id="leaderboard-btn">View Leaderboard</button>
+        <button id="view-submissions-btn">View Submissions</button>
       </div>
 
       <div id="leaderboard-panel" class="panel hidden">
@@ -37,14 +41,25 @@
         <h3>Player Picks</h3>
         <div id="player-picks-content"></div>
       </div>
+
+      <div id="submissions-window" class="panel hidden">
+        <h3>Weekly Submissions</h3>
+        <div id="submissions-list"></div>
+      </div>
     </section>
 
     <!-- CENTER: WEEKLY PICKS -->
     <section id="picks-panel">
       <h2>Weekly Picks</h2>
 
+      <div id="week-nav">
+        <button id="prev-week">◀</button>
+        <span id="picks-week">-</span>
+        <button id="next-week">▶</button>
+      </div>
+
       <div id="picks-week-display">
-        <strong>Week:</strong> <span id="picks-week">-</span>
+        <strong>Week:</strong> <span id="picks-week-label">-</span>
       </div>
 
       <div id="picks-table"></div>
@@ -55,6 +70,10 @@
       </div>
 
       <div id="picks-notification" class="notification hidden"></div>
+
+      <div id="picks-detail-window">
+        <!-- Team / matchup / bye info goes here -->
+      </div>
     </section>
 
     <!-- RIGHT: NFL PANEL -->

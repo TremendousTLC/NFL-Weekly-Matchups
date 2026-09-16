@@ -20,6 +20,7 @@ let picks = {};
 // --- INIT ---
 
 document.addEventListener("DOMContentLoaded", () => {
+  loadHelmetBanner();
   loadLocalStorage();
   setupUIHandlers();
   Promise.all([
@@ -140,6 +141,100 @@ function renderCurrentWeek() {
   document.getElementById("picks-week").textContent = currentWeek;
 }
 
+document.getElementById("prev-week").onclick = () => changeWeek(-1);
+document.getElementById("next-week").onclick = () => changeWeek(1);
+
+function changeWeek(delta) {
+  currentWeek += delta;
+  if (currentWeek < 1) currentWeek = 1;
+  if (currentWeek > 18) currentWeek = 18;
+
+  loadWeeklyPicks(currentWeek);
+}
+
+function loadWeeklyPicks(week) {
+  currentWeek = week;
+
+  // Update week labels
+  document.getElementById("picks-week").textContent = `Week ${week}`;
+  document.getElementById("picks-week-label").textContent = week;
+
+  const table = document.getElementById("picks-table");
+  table.innerHTML = "";
+
+  // Ensure picks object exists
+  if (!picks[currentPlayer]) picks[currentPlayer] = {};
+  if (!picks[currentPlayer][week]) picks[currentPlayer][week] = {};
+
+  // Get matchups for this week
+  const games = schedule[week]; // your schedule[week] JSON
+
+  games.forEach((game, index) => {
+    const gameId = index; // or game.gameId if you have one
+
+    const row = document.createElement("div");
+    row.className = "pick-row";
+    row.id = `game-${gameId}`;
+
+    // Game label
+    const label = document.createElement("div");
+    label.textContent = `${game.away} @ ${game.home}`;
+    row.appendChild(label);
+
+    // Away button
+    const awayBtn = document.createElement("button");
+    awayBtn.textContent = game.away;
+    awayBtn.className = `btn-${game.away}`;
+    awayBtn.addEventListener("click", () => selectPick(gameId, game.away));
+    row.appendChild(awayBtn);
+
+    // Home button
+    const homeBtn = document.createElement("button");
+    homeBtn.textContent = game.home;
+    homeBtn.className = `btn-${game.home}`;
+    homeBtn.addEventListener("click", () => selectPick(gameId, game.home));
+    row.appendChild(homeBtn);
+
+    table.appendChild(row);
+
+    // If already picked, highlight it
+    const savedPick = picks[currentPlayer][week][gameId];
+    if (savedPick) {
+      const btn = row.querySelector(`.btn-${savedPick}`);
+      if (btn) btn.classList.add("pick-selected");
+    }
+  });
+
+  // Clear detail window
+  document.getElementById("picks-detail-window").innerHTML = "";
+}
+
+function selectPick(gameId, team) {
+  if (!picks[currentPlayer]) picks[currentPlayer] = {};
+  if (!picks[currentPlayer][currentWeek]) picks[currentPlayer][currentWeek] = {};
+
+  picks[currentPlayer][currentWeek][gameId] = team;
+
+  // Remove highlight from both buttons
+  document.querySelectorAll(`#game-${gameId} button`).forEach(b => {
+    b.classList.remove("pick-selected");
+  });
+
+  // Highlight selected
+  const selectedBtn = document.querySelector(`#game-${gameId} .btn-${team}`);
+  if (selectedBtn) selectedBtn.classList.add("pick-selected");
+
+  // Show detail window info
+  showPickDetail(gameId, team);
+}
+
+function showPickDetail(gameId, team) {
+  const detail = document.getElementById("picks-detail-window");
+  detail.innerHTML = `
+    <strong>Selected:</strong> Game ${gameId}, Team: ${team}
+  `;
+}
+
 // --- STANDINGS ENGINE (simplified: based on results you’ll add later) ---
 
 function computeTeamRecords() {
@@ -252,6 +347,22 @@ function renderConferenceStandings(conf, divisions, records, standingsId, bestId
 
     bestContainer.appendChild(row);
   });
+}
+
+function getTeamHelmet(team) {
+  return getTeamLogo(team); // reuse logos for now
+}
+
+function loadHelmetBanner() {
+  const banner = document.getElementById("helmet-banner");
+  Object.keys(teamInfo)
+    .sort((a, b) => teamInfo[a].fullName.localeCompare(teamInfo[b].fullName))
+    .forEach(team => {
+      const img = document.createElement("img");
+      img.src = getTeamHelmet(team);
+      img.alt = teamInfo[team].fullName;
+      banner.appendChild(img);
+    });
 }
 
 function createStandingsRow(team, rec) {
