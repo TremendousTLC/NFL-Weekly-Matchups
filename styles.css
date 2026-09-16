@@ -1,0 +1,168 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b1020;
+  color: #f5f5f5;
+}
+
+#app {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 16px;
+  padding: 16px;
+}
+
+section {
+  background: #151a2c;
+  border-radius: 8px;
+  padding: 12px 16px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.4);
+}
+
+h2, h3, h4 {
+  margin-top: 0;
+}
+
+input, select, button {
+  font-size: 14px;
+}
+
+button {
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: none;
+  background: #1f6feb;
+  color: #fff;
+}
+
+button:hover {
+  background: #1450a3;
+}
+
+.panel.hidden {
+  display: none;
+}
+
+.notification {
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: #1f6feb;
+}
+
+.notification.hidden {
+  display: none;
+}
+
+/* League panel */
+#league-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.league-current-player {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.league-stats p {
+  margin: 2px 0;
+}
+
+/* NFL panel */
+#nfl-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nfl-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* Standings layout */
+.standings-division {
+  margin-bottom: 8px;
+}
+
+.standings-division h5 {
+  margin: 4px 0;
+}
+
+.team-row {
+  display: grid;
+  grid-template-columns: 1.5fr 50px 50px 50px 50px 50px;
+  gap: 6px;
+  align-items: center;
+  padding: 2px 0;
+  cursor: pointer;
+}
+
+.team-row:hover {
+  background: #20263a;
+}
+
+.team-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.team-logo {
+  width: 20px;
+  height: 20px;
+}
+
+/* Conference best list */
+.best-list .team-row {
+  grid-template-columns: 1.5fr 50px;
+}
+
+/* Teams list */
+#teams-list .team-row {
+  grid-template-columns: 1.5fr 1fr;
+}
+
+/* Team detail */
+#team-info {
+  margin-bottom: 8px;
+}
+
+#team-info img {
+  width: 40px;
+  height: 40px;
+}
+
+/* Picks panel */
+#picks-panel {
+  margin: 16px;
+  background: #151a2c;
+}
+
+#picks-table {
+  margin-top: 8px;
+}
+
+.pick-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 6px;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.pick-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.picks-actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+}

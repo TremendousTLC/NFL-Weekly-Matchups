@@ -1,0 +1,258 @@
+{
+  "Cardinals": {
+    "fullName": "Arizona Cardinals",
+    "stadium": "State Farm Stadium",
+    "city": "Glendale, AZ",
+    "coach": "Jonathan Gannon",
+    "conference": "NFC",
+    "division": "West"
+  },
+  "Falcons": {
+    "fullName": "Atlanta Falcons",
+    "stadium": "Mercedes-Benz Stadium",
+    "city": "Atlanta, GA",
+    "coach": "Raheem Morris",
+    "conference": "NFC",
+    "division": "South"
+  },
+  "Ravens": {
+    "fullName": "Baltimore Ravens",
+    "stadium": "M&T Bank Stadium",
+    "city": "Baltimore, MD",
+    "coach": "John Harbaugh",
+    "conference": "AFC",
+    "division": "North"
+  },
+  "Bills": {
+    "fullName": "Buffalo Bills",
+    "stadium": "Highmark Stadium",
+    "city": "Orchard Park, NY",
+    "coach": "Sean McDermott",
+    "conference": "AFC",
+    "division": "East"
+  },
+  "Panthers": {
+    "fullName": "Carolina Panthers",
+    "stadium": "Bank of America Stadium",
+    "city": "Charlotte, NC",
+    "coach": "Dave Canales",
+    "conference": "NFC",
+    "division": "South"
+  },
+  "Bears": {
+    "fullName": "Chicago Bears",
+    "stadium": "Soldier Field",
+    "city": "Chicago, IL",
+    "coach": "Matt Eberflus",
+    "conference": "NFC",
+    "division": "North"
+  },
+  "Bengals": {
+    "fullName": "Cincinnati Bengals",
+    "stadium": "Paycor Stadium",
+    "city": "Cincinnati, OH",
+    "coach": "Zac Taylor",
+    "conference": "AFC",
+    "division": "North"
+  },
+  "Browns": {
+    "fullName": "Cleveland Browns",
+    "stadium": "Cleveland Browns Stadium",
+    "city": "Cleveland, OH",
+    "coach": "Kevin Stefanski",
+    "conference": "AFC",
+    "division": "North"
+  },
+  "Cowboys": {
+    "fullName": "Dallas Cowboys",
+    "stadium": "AT&T Stadium",
+    "city": "Arlington, TX",
+    "coach": "Brian Schottenheimer",
+    "conference": "NFC",
+    "division": "East"
+  },
+  "Broncos": {
+    "fullName": "Denver Broncos",
+    "stadium": "Empower Field at Mile High",
+    "city": "Denver, CO",
+    "coach": "Sean Payton",
+    "conference": "AFC",
+    "division": "West"
+  },
+  "Lions": {
+    "fullName": "Detroit Lions",
+    "stadium": "Ford Field",
+    "city": "Detroit, MI",
+    "coach": "Dan Campbell",
+    "conference": "NFC",
+    "division": "North"
+  },
+  "Packers": {
+    "fullName": "Green Bay Packers",
+    "stadium": "Lambeau Field",
+    "city": "Green Bay, WI",
+    "coach": "Matt LaFleur",
+    "conference": "NFC",
+    "division": "North"
+  },
+  "Texans": {
+    "fullName": "Houston Texans",
+    "stadium": "NRG Stadium",
+    "city": "Houston, TX",
+    "coach": "DeMeco Ryans",
+    "conference": "AFC",
+    "division": "South"
+  },
+  "Colts": {
+    "fullName": "Indianapolis Colts",
+    "stadium": "Lucas Oil Stadium",
+    "city": "Indianapolis, IN",
+    "coach": "Shane Steichen",
+    "conference": "AFC",
+    "division": "South"
+  },
+  "Jaguars": {
+    "fullName": "Jacksonville Jaguars",
+    "stadium": "EverBank Stadium",
+    "city": "Jacksonville, FL",
+    "coach": "Doug Pederson",
+    "conference": "AFC",
+    "division": "South"
+  },
+  "Chiefs": {
+    "fullName": "Kansas City Chiefs",
+    "stadium": "Arrowhead Stadium",
+    "city": "Kansas City, MO",
+    "coach": "Andy Reid",
+    "conference": "AFC",
+    "division": "West"
+  },
+  "Raiders": {
+    "fullName": "Las Vegas Raiders",
+    "stadium": "Allegiant Stadium",
+    "city": "Las Vegas, NV",
+    "coach": "Antonio Pierce",
+    "conference": "AFC",
+    "division": "West"
+  },
+  "Chargers": {
+    "fullName": "Los Angeles Chargers",
+    "stadium": "SoFi Stadium",
+    "city": "Inglewood, CA",
+    "coach": "Jim Harbaugh",
+    "conference": "AFC",
+    "division": "West"
+  },
+  "Rams": {
+    "fullName": "Los Angeles Rams",
+    "stadium": "SoFi Stadium",
+    "city": "Inglewood, CA",
+    "coach": "Sean McVay",
+    "conference": "NFC",
+    "division": "West"
+  },
+  "Dolphins": {
+    "fullName": "Miami Dolphins",
+    "stadium": "Hard Rock Stadium",
+    "city": "Miami Gardens, FL",
+    "coach": "Mike McDaniel",
+    "conference": "AFC",
+    "division": "East"
+  },
+  "Vikings": {
+    "fullName": "Minnesota Vikings",
+    "stadium": "U.S. Bank Stadium",
+    "city": "Minneapolis, MN",
+    "coach": "Kevin O'Connell",
+    "conference": "NFC",
+    "division": "North"
+  },
+  "Patriots": {
+    "fullName": "New England Patriots",
+    "stadium": "Gillette Stadium",
+    "city": "Foxborough, MA",
+    "coach": "Jerod Mayo",
+    "conference": "AFC",
+    "division": "East"
+  },
+  "Saints": {
+    "fullName": "New Orleans Saints",
+    "stadium": "Caesars Superdome",
+    "city": "New Orleans, LA",
+    "coach": "Dennis Allen",
+    "conference": "NFC",
+    "division": "South"
+  },
+  "Giants": {
+    "fullName": "New York Giants",
+    "stadium": "MetLife Stadium",
+    "city": "East Rutherford, NJ",
+    "coach": "Brian Daboll",
+    "conference": "NFC",
+    "division": "East"
+  },
+  "Jets": {
+    "fullName": "New York Jets",
+    "stadium": "MetLife Stadium",
+    "city": "East Rutherford, NJ",
+    "coach": "Robert Saleh",
+    "conference": "AFC",
+    "division": "East"
+  },
+  "Eagles": {
+    "fullName": "Philadelphia Eagles",
+    "stadium": "Lincoln Financial Field",
+    "city": "Philadelphia, PA",
+    "coach": "Nick Sirianni",
+    "conference": "NFC",
+    "division": "East"
+  },
+  "Steelers": {
+    "fullName": "Pittsburgh Steelers",
+    "stadium": "Acrisure Stadium",
+    "city": "Pittsburgh, PA",
+    "coach": "Mike Tomlin",
+    "conference": "AFC",
+    "division": "North"
+  },
+  "49ers": {
+    "fullName": "San Francisco 49ers",
+    "stadium": "Levi's Stadium",
+    "city": "Santa Clara, CA",
+    "coach": "Kyle Shanahan",
+    "conference": "NFC",
+    "division": "West"
+  },
+  "Seahawks": {
+    "fullName": "Seattle Seahawks",
+    "stadium": "Lumen Field",
+    "city": "Seattle, WA",
+    "coach": "Mike Macdonald",
+    "conference": "NFC",
+    "division": "West"
+  },
+  "Buccaneers": {
+    "fullName": "Tampa Bay Buccaneers",
+    "stadium": "Raymond James Stadium",
+    "city": "Tampa, FL",
+    "coach": "Todd Bowles",
+    "conference": "NFC",
+    "division": "South"
+  },
+  "Titans": {
+    "fullName": "Tennessee Titans",
+    "stadium": "Nissan Stadium",
+    "city": "Nashville, TN",
+    "coach": "Brian Callahan",
+    "conference": "AFC",
+    "division": "South"
+  },
+  "Commanders": {
+    "fullName": "Washington Commanders",
+    "stadium": "FedExField",
+    "city": "Landover, MD",
+    "coach": "Dan Quinn",
+    "conference": "NFC",
+    "division": "East"
+  }
+}

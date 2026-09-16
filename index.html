@@ -2,269 +2,104 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>NFL Weekly Matchup</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0b162a;
-      color: #f5f5f5;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #101820;
-      padding: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid #c8102e;
-    }
-    .app-title {
-      font-size: 24px;
-      font-weight: bold;
-    }
-    .nfl-menu button {
-      margin-left: 8px;
-      padding: 6px 10px;
-      background: #c8102e;
-      border: none;
-      color: #fff;
-      cursor: pointer;
-      border-radius: 4px;
-      font-size: 12px;
-    }
-    main {
-      padding: 16px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    .top-panel {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-      gap: 16px;
-    }
-    .leaderboard, .user-panel {
-      background: #1c2b3a;
-      padding: 12px;
-      border-radius: 6px;
-      flex: 1 1 300px;
-    }
-    .leaderboard h2, .user-panel h2 {
-      margin-top: 0;
-      font-size: 18px;
-      border-bottom: 1px solid #c8102e;
-      padding-bottom: 4px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 12px;
-      background: #1c2b3a;
-    }
-    th, td {
-      padding: 8px;
-      border-bottom: 1px solid #2f3f4f;
-      text-align: left;
-      font-size: 14px;
-    }
-    th {
-      background: #101820;
-    }
-    .team-button {
-      padding: 4px 8px;
-      border-radius: 4px;
-      border: none;
-      cursor: pointer;
-      font-size: 13px;
-      margin-right: 4px;
-    }
-    .team-button.away {
-      background: #3b82f6;
-      color: #fff;
-    }
-    .team-button.home {
-      background: #22c55e;
-      color: #fff;
-    }
-    .team-button.selected {
-      box-shadow: 0 0 0 2px #facc15;
-    }
-    #weekNav {
-      margin-top: 20px;
-      text-align: center;
-    }
-    #weekNav button {
-      padding: 6px 12px;
-      background: #c8102e;
-      border: none;
-      color: #fff;
-      cursor: pointer;
-      border-radius: 4px;
-      font-size: 14px;
-      margin: 0 10px;
-    }
-  </style>
+  <title>NFL Weekly Matchups - Pick'em League</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div id="app">
+    <!-- LEFT: LEAGUE PANEL -->
+    <section id="league-panel">
+      <h2>League</h2>
 
-<header>
-  <div class="app-title" id="appTitle">NFL Weekly Matchup</div>
-  <div class="nfl-menu">
-    <button>Standings</button>
-    <button>Schedule</button>
-    <button>Injury Report</button>
-  </div>
-</header>
-
-<main>
-
-  <div class="top-panel">
-    <section class="leaderboard">
-      <h2>Leaderboard</h2>
-      <div id="leaderboardShort">
-        <div>Season Leader: <strong id="seasonLeader">TBD</strong></div>
-        <div>Last Week Winner: <strong id="lastWeekWinner">TBD</strong></div>
+      <div class="league-current-player">
+        <label for="player-name">Player / Team Name:</label>
+        <input type="text" id="player-name" placeholder="e.g. Terry, Bowling Legends">
+        <button id="set-player-btn">Set Player</button>
       </div>
-      <button onclick="showFullLeaderboard()">Show Full Leaderboard</button>
+
+      <div class="league-stats">
+        <p><strong>Total Participants:</strong> <span id="total-participants">0</span></p>
+        <p><strong>Participants This Week:</strong> <span id="week-participants">0</span></p>
+      </div>
+
+      <div class="league-actions">
+        <button id="leaderboard-btn">View Leaderboard</button>
+      </div>
+
+      <div id="leaderboard-panel" class="panel hidden">
+        <h3>Season Leaderboard</h3>
+        <div id="leaderboard-list"></div>
+      </div>
+
+      <div id="player-picks-panel" class="panel hidden">
+        <h3>Player Picks</h3>
+        <div id="player-picks-content"></div>
+      </div>
     </section>
 
-    <section class="user-panel">
-      <h2>Your Info</h2>
-      <label for="userName">Enter your name:</label>
-      <input type="text" id="userName" placeholder="e.g., Terry">
-      <button onclick="setCurrentUser()">Set Player</button>
-      <div id="currentUserDisplay" style="margin-top:8px;font-size:14px;">
-        Current Player: <strong id="currentUserName">None</strong>
+    <!-- RIGHT: NFL PANEL -->
+    <section id="nfl-panel">
+      <h2>NFL Dashboard</h2>
+
+      <div id="current-week-display">
+        <strong>Current NFL Week:</strong> <span id="current-week">-</span>
+      </div>
+
+      <div id="nfl-standings">
+        <h3>AFC Standings</h3>
+        <div id="afc-standings"></div>
+
+        <h4>AFC Best Teams</h4>
+        <div id="afc-best"></div>
+
+        <h3>NFC Standings</h3>
+        <div id="nfc-standings"></div>
+
+        <h4>NFC Best Teams</h4>
+        <div id="nfc-best"></div>
+      </div>
+
+      <div class="nfl-buttons">
+        <button id="teams-btn">Teams</button>
+        <button id="schedule-btn">NFL Schedule</button>
+      </div>
+
+      <div id="teams-panel" class="panel hidden">
+        <h3>Teams</h3>
+        <div id="teams-list"></div>
+      </div>
+
+      <div id="team-detail-panel" class="panel hidden">
+        <h3>Team Info & Schedule</h3>
+        <div id="team-info"></div>
+        <div id="team-schedule"></div>
+      </div>
+
+      <div id="nfl-schedule-panel" class="panel hidden">
+        <h3>NFL Schedule</h3>
+        <label for="schedule-week-select">Week:</label>
+        <select id="schedule-week-select"></select>
+        <div id="nfl-schedule-week"></div>
       </div>
     </section>
   </div>
 
-  <div id="weekNav">
-    <button onclick="prevWeek()">Prev Week</button>
-    <span id="weekLabel" style="font-size:18px;font-weight:bold;"></span>
-    <button onclick="nextWeek()">Next Week</button>
-  </div>
+  <!-- BOTTOM: WEEKLY PICKS -->
+  <section id="picks-panel">
+    <h2>Weekly Picks</h2>
+    <div id="picks-week-display">
+      <strong>Week:</strong> <span id="picks-week">-</span>
+    </div>
+    <div id="picks-table"></div>
 
-  <section>
-    <table id="matchupTable">
-      <thead>
-        <tr>
-          <th>Game</th>
-          <th>Date</th>
-          <th>Time</th>
-          <th>TV</th>
-          <th>Away</th>
-          <th>Home</th>
-          <th>Your Pick</th>
-        </tr>
-      </thead>
-      <tbody id="matchupBody"></tbody>
-    </table>
+    <div class="picks-actions">
+      <button id="submit-picks-btn">Submit Picks</button>
+      <button id="edit-picks-btn">Edit Picks</button>
+    </div>
+
+    <div id="picks-notification" class="notification hidden"></div>
   </section>
 
-</main>
-
-<script>
-let schedule = null;
-let currentWeek = 1;
-let currentUser = null;
-const picksByUser = JSON.parse(localStorage.getItem("picksByUser") || "{}");
-
-function setCurrentUser() {
-  const name = document.getElementById("userName").value.trim();
-  if (!name) return alert("Enter a name first.");
-  currentUser = name;
-  document.getElementById("currentUserName").textContent = currentUser;
-  if (!picksByUser[currentUser]) picksByUser[currentUser] = {};
-  savePicks();
-}
-
-function savePicks() {
-  localStorage.setItem("picksByUser", JSON.stringify(picksByUser));
-}
-
-function selectPick(gameId, teamName) {
-  if (!currentUser) return alert("Set your name first.");
-  picksByUser[currentUser][gameId] = teamName;
-  savePicks();
-  document.getElementById("pick-" + gameId).textContent = teamName;
-  highlightButtons(gameId, teamName);
-}
-
-function highlightButtons(gameId, teamName) {
-  const row = document.querySelector(`tr[data-game-id="${gameId}"]`);
-  row.querySelectorAll(".team-button").forEach(btn => btn.classList.remove("selected"));
-  const btn = row.querySelector(`button[data-team="${teamName}"]`);
-  if (btn) btn.classList.add("selected");
-}
-
-function renderWeek(week) {
-  const weekData = schedule.weeks[String(week)];
-  document.getElementById("weekLabel").textContent = "Week " + week;
-  document.getElementById("appTitle").textContent = "NFL Weekly Matchup – Week " + week;
-
-  const tbody = document.getElementById("matchupBody");
-  tbody.innerHTML = "";
-
-  weekData.games.forEach((g, index) => {
-    const gameId = index + 1;
-    const pick = currentUser && picksByUser[currentUser] ? picksByUser[currentUser][gameId] || "–" : "–";
-
-    const row = document.createElement("tr");
-    row.dataset.gameId = gameId;
-
-    row.innerHTML = `
-      <td>Game ${gameId}</td>
-      <td>${g.date}</td>
-      <td>${g.time}</td>
-      <td>${g.tv}</td>
-      <td>
-        <button class="team-button away" data-team="${g.away}" onclick="selectPick(${gameId}, '${g.away}')">${g.away}</button>
-      </td>
-      <td>
-        <button class="team-button home" data-team="${g.home}" onclick="selectPick(${gameId}, '${g.home}')">${g.home}</button>
-      </td>
-      <td id="pick-${gameId}">${pick}</td>
-    `;
-
-    tbody.appendChild(row);
-
-    if (pick !== "–") highlightButtons(gameId, pick);
-  });
-}
-
-function prevWeek() {
-  if (currentWeek > 1) {
-    currentWeek--;
-    renderWeek(currentWeek);
-  }
-}
-
-function nextWeek() {
-  if (currentWeek < 18) {
-    currentWeek++;
-    renderWeek(currentWeek);
-  }
-}
-
-function detectCurrentWeek() {
-  return 2; // You can replace this with real date logic later
-}
-
-function showFullLeaderboard() {
-  alert("Full leaderboard coming soon.");
-}
-
-fetch("2026_NFL_schedule.json")
-  .then(r => r.json())
-  .then(data => {
-    schedule = data;
-    currentWeek = detectCurrentWeek();
-    renderWeek(currentWeek);
-  });
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>
