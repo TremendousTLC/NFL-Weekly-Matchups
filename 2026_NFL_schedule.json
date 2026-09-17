@@ -117,7 +117,7 @@
     }
   ],
   "bye": []
-}
+},
 
 "2": {
   "games": [
@@ -256,7 +256,7 @@
     }
   ],
   "bye": []
-}
+},
 
 "3": {
   "games": [
@@ -395,7 +395,7 @@
     }
   ],
   "bye": []
-}
+},
 
 "4": {
   "games": [
@@ -535,7 +535,7 @@
     }
   ],
   "bye": []
-}
+},
 
 "5": {
   "games": [
@@ -667,7 +667,7 @@
     }
   ],
   "bye": ["Panthers", "Chiefs"]
-}
+},
 
 "6": {
   "games": [
@@ -792,7 +792,7 @@
     }
   ],
   "bye": ["Bengals", "Lions", "Dolphins", "Vikings"]
-}
+},
 
 "7": {
   "games": [
@@ -916,7 +916,7 @@
     }
   ],
   "bye": ["Bills", "Jaguars", "Chargers", "Commanders"]
-}
+},
 
 "8": {
   "games": [
@@ -1040,7 +1040,7 @@
     }
   ],
   "bye": ["Texans", "Saints", "Giants", "49ers"]
-}
+},
 
 "9": {
   "games": [
@@ -1172,7 +1172,7 @@
     }
   ],
   "bye": ["Steelers", "Titans"]
-}
+},
 
 "10": {
   "games": [
@@ -1297,7 +1297,7 @@
     }
   ],
   "bye": ["Bears", "Broncos", "Eagles", "Buccaneers"]
-}
+},
 
 "11": {
   "games": [
@@ -1413,7 +1413,7 @@
     }
   ],
   "bye": ["Falcons", "Browns", "Packers", "Rams", "Patriots", "Seahawks"]
-}
+},
 
 "12": {
   "games": [
@@ -1554,7 +1554,7 @@
     }
   ],
   "bye": []
-}
+},
 
 "13": {
   "games": [
@@ -1678,7 +1678,7 @@
     }
   ],
   "bye": ["Ravens", "Colts", "Raiders", "Jets"]
-}
+},
 
 "14": {
   "games": [
@@ -1810,7 +1810,7 @@
     }
   ],
   "bye": ["Cardinals", "Cowboys"]
-}
+},
 
 "15": {
   "games": [
@@ -1950,7 +1950,7 @@
     }
   ],
   "bye": []
-}
+},
 
 "16": {
   "games": [
@@ -2090,7 +2090,7 @@
     }
   ],
   "bye": []
-}
+},
 
 "17": {
   "games": [
@@ -2231,7 +2231,7 @@
     }
   ],
   "bye": []
-}
+},
 
 "18": {
   "games": [
