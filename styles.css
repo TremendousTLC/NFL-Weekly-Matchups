@@ -226,7 +226,7 @@ button:hover {
 #picks-panel {
   display: flex;
   flex-direction: column;
-  max-height: 600px;
+  max-height: 900px;
   overflow: hidden;
   margin: 16px 0;
   background: #151a2c;
@@ -254,10 +254,10 @@ button:hover {
 
 .pick-row {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 6px;
+  grid-template-columns: 2fr 2fr 1fr;
+  gap: 4px;
   align-items: center;
-  padding: 4px 0;
+  padding: 2px 0;
 }
 
 .pick-actions {
@@ -275,6 +275,16 @@ button:hover {
 .pick-selected {
   background: #2a3b6a !important;
   border: 2px solid #4a6cff;
+}
+
+.pick-nfl-winner {
+  background: #1a3f1a !important;
+  border: 2px solid #2a7 !important;
+}
+
+.pick-league-winner {
+  background: #3a2a6a !important;
+  border: 2px solid #b28cff !important;
 }
 
 /* Detail window */
