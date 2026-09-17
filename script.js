@@ -629,14 +629,40 @@ function renderNFLWeekSchedule() {
   });
 }
 
+// --- GAME DATA ---
+
+function parseGameDate(game) {
+  return new Date(`${game.date} ${game.time} 2026`);
+}
+
+  // EARLIEST GAME cutoff
+function getWeekCutoff(week) {
+  const games = scheduleData.weeks[String(week)].games;
+  const times = games.map(g => parseGameDate(g));
+  return new Date(Math.min(...times));
+}
+
+function isWeekLocked(week) {
+  const now = new Date();
+  const cutoff = getWeekCutoff(week);
+  return now >= cutoff;
+}
+
 // --- PICKS SYSTEM ---
 
+  // --- MERGED RENDER FUNCTION WITH LOCKING ---
 function renderPicksForWeek(week) {
   const container = document.getElementById("picks-table");
   container.innerHTML = "";
 
   const weekKey = String(week);
   const games = scheduleData.weeks[weekKey].games;
+
+  const locked =
+    (picks[currentPlayer] &&
+     picks[currentPlayer][weekKey] &&
+     picks[currentPlayer][weekKey].locked) ||
+    isWeekLocked(week);
 
   games.forEach((g, idx) => {
     const row = document.createElement("div");
@@ -654,8 +680,13 @@ function renderPicksForWeek(week) {
     const homeBtn = document.createElement("button");
     homeBtn.textContent = g.home;
 
-    awayBtn.addEventListener("click", () => setPick(weekKey, idx, g.away));
-    homeBtn.addEventListener("click", () => setPick(weekKey, idx, g.home));
+    if (locked) {
+      awayBtn.disabled = true;
+      homeBtn.disabled = true;
+    } else {
+      awayBtn.addEventListener("click", () => setPick(weekKey, idx, g.away));
+      homeBtn.addEventListener("click", () => setPick(weekKey, idx, g.home));
+    }
 
     actions.appendChild(awayBtn);
     actions.appendChild(homeBtn);
@@ -677,8 +708,8 @@ function renderPicksForWeek(week) {
 function getPick(weekKey, gameIndex) {
   if (!currentPlayer) return null;
   const playerPicks = picks[currentPlayer] || {};
-  const weekPicks = playerPicks[weekKey] || {};
-  return weekPicks[gameIndex] || null;
+  const weekObj = playerPicks[weekKey] || {};
+  return weekObj.games ? weekObj.games[gameIndex] : null;
 }
 
 function setPick(weekKey, gameIndex, team) {
@@ -686,16 +717,24 @@ function setPick(weekKey, gameIndex, team) {
     showNotification("Set your player name first.");
     return;
   }
+
   if (!picks[currentPlayer]) picks[currentPlayer] = {};
-  if (!picks[currentPlayer][weekKey]) picks[currentPlayer][weekKey] = { picks: {}, submittedAt: null, locked: false };
+  if (!picks[currentPlayer][weekKey]) {
+    picks[currentPlayer][weekKey] = {
+      games: {},
+      submittedAt: null,
+      locked: false
+    };
+  }
 
   const weekObj = picks[currentPlayer][weekKey];
-  if (weekObj.locked) {
+
+  if (weekObj.locked || isWeekLocked(weekKey)) {
     showNotification("Picks are locked for this week.");
     return;
   }
 
-  weekObj.picks[gameIndex] = team;
+  weekObj.games[gameIndex] = team;
   saveLocalStorage();
 
   const cell = document.getElementById(`pick-${weekKey}-${gameIndex}`);
@@ -707,21 +746,27 @@ function submitCurrentWeekPicks() {
     showNotification("Set your player name first.");
     return;
   }
+
   const weekKey = String(currentWeek);
+
   if (!picks[currentPlayer] || !picks[currentPlayer][weekKey]) {
     showNotification("No picks to submit for this week.");
     return;
   }
+
   const weekObj = picks[currentPlayer][weekKey];
-  if (weekObj.locked) {
+
+  if (weekObj.locked || isWeekLocked(currentWeek)) {
     showNotification("Picks already locked for this week.");
     return;
   }
 
+  weekObj.locked = true;
   weekObj.submittedAt = new Date().toISOString();
+
   saveLocalStorage();
   updateLeagueStats();
-  showNotification("Picks submitted successfully.");
+  showNotification(`Week ${weekKey} picks submitted and locked.`);
   updateEditLockState();
 }
 
