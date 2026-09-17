@@ -476,7 +476,6 @@ const teamLogos = {
 function getTeamLogo(team) {
   return teamLogos[team] || "";
 }
-a zip file with
 
 // --- TEAMS LIST / TEAM DETAIL ---
 
