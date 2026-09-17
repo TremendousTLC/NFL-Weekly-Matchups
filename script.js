@@ -143,7 +143,6 @@ function renderCurrentWeek() {
   document.getElementById("picks-week").textContent = `Week ${currentWeek}`;
 }
 
-
 // --- WEEK NAVIGATION ---
 
 document.getElementById("prev-week").onclick = () => changeWeek(-1);
