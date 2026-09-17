@@ -8,9 +8,6 @@ body {
   color: #f5f5f5;
 }
 
-/* --------------------------------------------------
-   FIXED TOP LOGO BANNER
--------------------------------------------------- */
 #logo-banner {
   position: fixed;
   top: 0;
@@ -20,7 +17,7 @@ body {
   height: 60px;
   background: #0d1328;
   display: flex;
-  overflow-x: auto;
+  justify-content: center;   /* <-- THIS CENTERS */
   gap: 10px;
   padding: 6px;
   align-items: center;
