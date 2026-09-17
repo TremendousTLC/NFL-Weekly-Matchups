@@ -20,20 +20,12 @@ let picks = {};
 // --- API FETCH ---
 
 async function loadNFLScores() {
-  const url = "https://api-football-v1.p.rapidapi.com/v3/fixtures?league=210&season=2026";
-
-  const options = {
-    method: "GET",
-    headers: {
-      "X-RapidAPI-Key": "YOUR_API_KEY_HERE",
-      "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
-    }
-  };
+  const url = "https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4391&s=2026";
 
   try {
-    const response = await fetch(url, options);
+    const response = await fetch(url);
     const data = await response.json();
-    return data.response; // array of games
+    return data.events || [];
   } catch (err) {
     console.error("Error fetching NFL scores:", err);
     return [];
@@ -41,28 +33,33 @@ async function loadNFLScores() {
 }
 
 function mapScoresToSchedule(apiGames) {
-  const scoreMap = {}; // week → gameIndex → score
+  const scoreMap = {};
 
+  // initialize empty score map for all weeks
   Object.keys(scheduleData.weeks).forEach(weekKey => {
     scoreMap[weekKey] = {};
   });
 
   apiGames.forEach(apiGame => {
-    const week = apiGame.league.round.replace("Regular Season - ", "");
-    const weekKey = String(week);
+    // TheSportsDB uses intRound for week number
+    const round = Number(apiGame.intRound);
 
-    const awayName = apiGame.teams.away.name;
-    const homeName = apiGame.teams.home.name;
+    // Ignore preseason (round 500)
+    if (round < 1 || round > 18) return;
 
-    const awayScore = apiGame.goals.away;
-    const homeScore = apiGame.goals.home;
+    const weekKey = String(round);
+
+    const awayName = apiGame.strAwayTeam;
+    const homeName = apiGame.strHomeTeam;
+
+    const awayScore = apiGame.intAwayScore;
+    const homeScore = apiGame.intHomeScore;
 
     const scoreString = `${awayScore}-${homeScore}`;
 
     const games = scheduleData.weeks[weekKey].games;
 
     games.forEach((g, idx) => {
-      // match by fullName from teamInfo
       if (teamInfo[g.away].fullName === awayName ||
           teamInfo[g.home].fullName === homeName) {
         scoreMap[weekKey][idx] = scoreString;
@@ -123,19 +120,22 @@ Promise.all([
   teamInfo = teams;
   currentWeek = detectCurrentNFLWeek(scheduleData);
 
-  // ⭐ Load scores from API-Football
   const apiGames = await loadNFLScores();
-  scores = mapScoresToSchedule(apiGames);
 
-  // ⭐ Now render everything WITH scores
+  if (!Array.isArray(apiGames)) {
+    console.warn("Scores unavailable — API returned nothing.");
+    scores = {};
+  } else {
+    scores = mapScoresToSchedule(apiGames);
+  }
+
   renderCurrentWeek();
   renderStandings();
   renderTeamsList();
   renderNFLWeekScheduleSelector();
-  renderPicksForWeek(currentWeek);   // scores now appear here
+  renderPicksForWeek(currentWeek);
   updateLeagueStats();
 });
-
 
 // --- LOCAL STORAGE ---
 
@@ -632,8 +632,11 @@ function renderPicksForWeek(week) {
     const awayScoreCell = document.createElement("div");
     const homeScoreCell = document.createElement("div");
 
-    if (g.score) {
-      const [awayScore, homeScore] = g.score.split("-").map(Number);
+    // Pull score from TheSportsDB mapping
+    const score = scores?.[weekKey]?.[idx] || null;
+
+    if (score) {
+      const [awayScore, homeScore] = score.split("-").map(Number);
       awayScoreCell.textContent = awayScore;
       homeScoreCell.textContent = homeScore;
 
