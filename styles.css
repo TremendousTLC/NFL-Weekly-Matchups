@@ -288,3 +288,8 @@ button:hover {
   border-radius: 6px;
   min-height: 80px;
 }
+
+.winner-score {
+  font-weight: bold;
+  color: #2a7;
+}

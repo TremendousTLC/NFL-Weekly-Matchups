@@ -658,6 +658,7 @@ function renderPicksForWeek(week) {
   const weekKey = String(week);
   const games = scheduleData.weeks[weekKey].games;
 
+  // Determine if week is locked (submitted OR cutoff passed)
   const locked =
     (picks[currentPlayer] &&
      picks[currentPlayer][weekKey] &&
@@ -668,9 +669,31 @@ function renderPicksForWeek(week) {
     const row = document.createElement("div");
     row.className = "pick-row";
 
+    // --- SCOREBOARD CELLS ---
+    const awayScoreCell = document.createElement("div");
+    const homeScoreCell = document.createElement("div");
+
+    if (g.score) {
+      const [awayScore, homeScore] = g.score.split("-").map(Number);
+      awayScoreCell.textContent = awayScore;
+      homeScoreCell.textContent = homeScore;
+
+      // highlight winner
+      if (awayScore > homeScore) {
+        awayScoreCell.classList.add("winner-score");
+      } else if (homeScore > awayScore) {
+        homeScoreCell.classList.add("winner-score");
+      }
+    } else {
+      awayScoreCell.textContent = "-";
+      homeScoreCell.textContent = "-";
+    }
+
+    // --- MATCHUP ---
     const matchup = document.createElement("div");
     matchup.textContent = `${g.away} @ ${g.home}`;
 
+    // --- PICK BUTTONS ---
     const actions = document.createElement("div");
     actions.className = "pick-actions";
 
@@ -691,13 +714,17 @@ function renderPicksForWeek(week) {
     actions.appendChild(awayBtn);
     actions.appendChild(homeBtn);
 
+    // --- CURRENT PICK CELL ---
     const currentPickCell = document.createElement("div");
     currentPickCell.id = `pick-${weekKey}-${idx}`;
     currentPickCell.textContent = getPick(weekKey, idx) || "";
 
-    row.appendChild(matchup);
-    row.appendChild(actions);
-    row.appendChild(currentPickCell);
+    // --- BUILD ROW IN SCOREBOARD ORDER ---
+    row.appendChild(awayScoreCell);   // LEFT SCORE
+    row.appendChild(matchup);         // AWAY @ HOME
+    row.appendChild(homeScoreCell);   // RIGHT SCORE
+    row.appendChild(actions);         // PICK BUTTONS
+    row.appendChild(currentPickCell); // YOUR PICK
 
     container.appendChild(row);
   });
