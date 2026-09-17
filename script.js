@@ -238,7 +238,6 @@ function detectCurrentNFLWeek(schedule) {
 
 function renderCurrentWeek() {
   document.getElementById("current-week").textContent = `Week ${currentWeek}`;
-  document.getElementById("picks-week").textContent = `Week ${currentWeek}`;
 }
 
 // --- WEEK NAVIGATION ---
