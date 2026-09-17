@@ -175,7 +175,7 @@ button:hover {
   grid-template-columns: 1fr 32px 32px 32px 32px 32px;
   gap: 2px;
   align-items: center;
-  padding: 3px 4px;
+  padding: 4px 3px;
   cursor: pointer;
   border-radius: 4px;
   background: #1a2135;
@@ -218,6 +218,27 @@ button:hover {
 #team-info img {
   width: 40px;
   height: 40px;
+}
+
+/* --------------------------------------------------
+   NFL SCORES PANEL
+-------------------------------------------------- */
+
+#nfl-scores-panel {
+  padding: 10px;
+  border-left: 2px solid #ccc;
+}
+
+.score-row {
+  display: grid;
+  grid-template-columns: 1fr 80px 80px;
+  padding: 6px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.score-row .winner {
+  font-weight: bold;
+  color: #2a7;
 }
 
 /* --------------------------------------------------

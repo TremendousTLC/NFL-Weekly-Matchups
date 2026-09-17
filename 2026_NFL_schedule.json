@@ -7,131 +7,174 @@
       "date": "Thu Sept 10",
       "time": "7:20 PM",
       "tv": "NBC",
-      "away": "Chiefs",
-      "home": "Ravens",
-      "location": "Baltimore, MD"
-    },
-
-    {
-      "date": "Sun Sept 13",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Patriots",
-      "home": "Bills",
-      "location": "Orchard Park, NY"
+      "away": "Seahawks",
+      "home": "Patriots",
+      "location": "Foxborough, MA"
     },
     {
       "date": "Sun Sept 13",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Packers",
-      "home": "Bears",
-      "location": "Chicago, IL"
+      "away": "49ers",
+      "home": "Rams",
+      "location": "Inglewood, CA"
     },
     {
       "date": "Sun Sept 13",
       "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Texans",
-      "home": "Colts",
-      "location": "Indianapolis, IN"
+      "away": "Jets",
+      "home": "Titans",
+      "location": "Nashville, TN"
     },
-
+    {
+      "date": "Sun Sept 13",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Bills",
+      "home": "Texans",
+      "location": "Houston, TX"
+    },
     {
       "date": "Sun Sept 13",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Saints",
+      "away": "Bears",
+      "home": "Panthers",
+      "location": "Charlotte, NC"
+    },
+    {
+      "date": "Sun Sept 13",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Jaguars",
+      "home": "Browns",
+      "location": "Cleveland, OH"
+    },
+    {
+      "date": "Sun Sept 13",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Steelers",
       "home": "Falcons",
       "location": "Atlanta, GA"
     },
     {
       "date": "Sun Sept 13",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Dolphins",
-      "home": "Jets",
-      "location": "East Rutherford, NJ"
-    },
-    {
-      "date": "Sun Sept 13",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Panthers",
-      "home": "Buccaneers",
-      "location": "Tampa, FL"
-    },
-
-    {
-      "date": "Sun Sept 13",
       "time": "3:05 PM",
-      "tv": "CBS",
-      "away": "Broncos",
-      "home": "Raiders",
-      "location": "Las Vegas, NV"
+      "tv": "FOX",
+      "away": "Lions",
+      "home": "Saints",
+      "location": "New Orleans, LA"
     },
     {
       "date": "Sun Sept 13",
       "time": "3:25 PM",
       "tv": "FOX",
+      "away": "Eagles",
+      "home": "Commanders",
+      "location": "Landover, MD"
+    },
+    {
+      "date": "Sun Sept 13",
+      "time": "3:25 PM",
+      "tv": "CBS",
+      "away": "Chargers",
+      "home": "Cardinals",
+      "location": "Glendale, AZ"
+    },
+    {
+      "date": "Sun Sept 13",
+      "time": "7:20 PM",
+      "tv": "NBC",
+      "away": "Vikings",
+      "home": "Packers",
+      "location": "Green Bay, WI"
+    },
+    {
+      "date": "Mon Sept 14",
+      "time": "6:00 PM",
+      "tv": "ESPN",
+      "away": "Raiders",
+      "home": "Dolphins",
+      "location": "Miami Gardens, FL"
+    },
+    {
+      "date": "Mon Sept 14",
+      "time": "8:30 PM",
+      "tv": "ESPN",
       "away": "Giants",
       "home": "Cowboys",
       "location": "Arlington, TX"
     },
     {
-      "date": "Sun Sept 13",
-      "time": "3:25 PM",
-      "tv": "CBS",
-      "away": "Steelers",
-      "home": "Bengals",
-      "location": "Cincinnati, OH"
-    },
-
-    {
-      "date": "Sun Sept 13",
-      "time": "7:20 PM",
-      "tv": "NBC",
-      "away": "Seahawks",
-      "home": "49ers",
-      "location": "Santa Clara, CA"
-    },
-
-    {
-      "date": "Mon Sept 14",
+      "date": "Tue Sept 15",
       "time": "7:15 PM",
       "tv": "ESPN",
-      "away": "Titans",
-      "home": "Jaguars",
-      "location": "Jacksonville, FL"
+      "away": "Chiefs",
+      "home": "Broncos",
+      "location": "Denver, CO"
     }
   ],
   "bye": []
-},
+}
 
 "2": {
   "games": [
     {
       "date": "Thu Sept 17",
-      "time": "7:20 PM",
-      "tv": "Prime",
-      "away": "Bengals",
-      "home": "Browns",
-      "location": "Cleveland, OH"
+      "time": "7:15 PM",
+      "tv": "PRIME",
+      "away": "Lions",
+      "home": "Bills",
+      "location": "Orchard Park, NY"
     },
 
     {
       "date": "Sun Sept 20",
       "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Panthers",
+      "home": "Falcons",
+      "location": "Atlanta, GA"
+    },
+    {
+      "date": "Sun Sept 20",
+      "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Bills",
-      "home": "Dolphins",
-      "location": "Miami Gardens, FL"
+      "away": "Saints",
+      "home": "Ravens",
+      "location": "Baltimore, MD"
     },
     {
       "date": "Sun Sept 20",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "49ers",
+      "away": "Vikings",
+      "home": "Bears",
+      "location": "Chicago, IL"
+    },
+    {
+      "date": "Sun Sept 20",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Bengals",
+      "home": "Texans",
+      "location": "Houston, TX"
+    },
+    {
+      "date": "Sun Sept 20",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Steelers",
+      "home": "Patriots",
+      "location": "Foxborough, MA"
+    },
+    {
+      "date": "Sun Sept 20",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Packers",
       "home": "Jets",
       "location": "East Rutherford, NJ"
     },
@@ -139,41 +182,41 @@
       "date": "Sun Sept 20",
       "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Broncos",
-      "home": "Steelers",
-      "location": "Pittsburgh, PA"
-    },
-
-    {
-      "date": "Sun Sept 20",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Rams",
-      "home": "Eagles",
-      "location": "Philadelphia, PA"
-    },
-    {
-      "date": "Sun Sept 20",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Vikings",
-      "home": "Colts",
-      "location": "Indianapolis, IN"
-    },
-    {
-      "date": "Sun Sept 20",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Panthers",
+      "away": "Browns",
       "home": "Buccaneers",
       "location": "Tampa, FL"
+    },
+    {
+      "date": "Sun Sept 20",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Eagles",
+      "home": "Titans",
+      "location": "Nashville, TN"
     },
 
     {
       "date": "Sun Sept 20",
       "time": "3:05 PM",
       "tv": "CBS",
-      "away": "Washington",
+      "away": "Jaguars",
+      "home": "Broncos",
+      "location": "Denver, CO"
+    },
+    {
+      "date": "Sun Sept 20",
+      "time": "3:05 PM",
+      "tv": "CBS",
+      "away": "Raiders",
+      "home": "Chargers",
+      "location": "Inglewood, CA"
+    },
+
+    {
+      "date": "Sun Sept 20",
+      "time": "3:25 PM",
+      "tv": "FOX",
+      "away": "Seahawks",
       "home": "Cardinals",
       "location": "Glendale, AZ"
     },
@@ -181,64 +224,104 @@
       "date": "Sun Sept 20",
       "time": "3:25 PM",
       "tv": "FOX",
-      "away": "Chiefs",
-      "home": "Chargers",
-      "location": "Inglewood, CA"
+      "away": "Commanders",
+      "home": "Cowboys",
+      "location": "Arlington, TX"
     },
     {
       "date": "Sun Sept 20",
       "time": "3:25 PM",
-      "tv": "CBS",
-      "away": "Ravens",
-      "home": "Texans",
-      "location": "Houston, TX"
+      "tv": "FOX",
+      "away": "Dolphins",
+      "home": "49ers",
+      "location": "Santa Clara, CA"
     },
 
     {
       "date": "Sun Sept 20",
       "time": "7:20 PM",
       "tv": "NBC",
-      "away": "Patriots",
-      "home": "Seahawks",
-      "location": "Seattle, WA"
+      "away": "Colts",
+      "home": "Chiefs",
+      "location": "Kansas City, MO"
     },
 
     {
       "date": "Mon Sept 21",
       "time": "7:15 PM",
       "tv": "ESPN",
-      "away": "Saints",
-      "home": "Raiders",
-      "location": "Las Vegas, NV"
+      "away": "Giants",
+      "home": "Rams",
+      "location": "Inglewood, CA"
     }
   ],
   "bye": []
-},
+}
 
 "3": {
   "games": [
     {
       "date": "Thu Sept 24",
-      "time": "7:20 PM",
-      "tv": "NFLN",
-      "away": "Dolphins",
-      "home": "Jaguars",
-      "location": "Jacksonville, FL"
+      "time": "7:15 PM",
+      "tv": "PRIME",
+      "away": "Falcons",
+      "home": "Packers",
+      "location": "Green Bay, WI"
     },
 
     {
       "date": "Sun Sept 27",
       "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Texans",
-      "home": "Steelers",
-      "location": "Pittsburgh, PA"
+      "tv": "FOX",
+      "away": "Chargers",
+      "home": "Bills",
+      "location": "Orchard Park, NY"
     },
     {
       "date": "Sun Sept 27",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "49ers",
+      "away": "Panthers",
+      "home": "Browns",
+      "location": "Cleveland, OH"
+    },
+    {
+      "date": "Sun Sept 27",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Jets",
+      "home": "Lions",
+      "location": "Detroit, MI"
+    },
+    {
+      "date": "Sun Sept 27",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Texans",
+      "home": "Colts",
+      "location": "Indianapolis, IN"
+    },
+    {
+      "date": "Sun Sept 27",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Patriots",
+      "home": "Jaguars",
+      "location": "Jacksonville, FL"
+    },
+    {
+      "date": "Sun Sept 27",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Chiefs",
+      "home": "Dolphins",
+      "location": "Miami Gardens, FL"
+    },
+    {
+      "date": "Sun Sept 27",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Titans",
       "home": "Giants",
       "location": "East Rutherford, NJ"
     },
@@ -247,107 +330,116 @@
       "time": "12:00 PM",
       "tv": "CBS",
       "away": "Bengals",
-      "home": "Eagles",
-      "location": "Philadelphia, PA"
-    },
-
-    {
-      "date": "Sun Sept 27",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Raiders",
-      "home": "Patriots",
-      "location": "Foxborough, MA"
-    },
-    {
-      "date": "Sun Sept 27",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Titans",
-      "home": "Vikings",
-      "location": "Minneapolis, MN"
+      "home": "Steelers",
+      "location": "Pittsburgh, PA"
     },
     {
       "date": "Sun Sept 27",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Bears",
-      "home": "Falcons",
-      "location": "Atlanta, GA"
+      "away": "Seahawks",
+      "home": "Commanders",
+      "location": "Landover, MD"
     },
 
     {
       "date": "Sun Sept 27",
       "time": "3:05 PM",
-      "tv": "CBS",
-      "away": "Jets",
-      "home": "Colts",
-      "location": "Indianapolis, IN"
-    },
-    {
-      "date": "Sun Sept 27",
-      "time": "3:25 PM",
       "tv": "FOX",
-      "away": "Cowboys",
-      "home": "Seahawks",
-      "location": "Seattle, WA"
+      "away": "Cardinals",
+      "home": "49ers",
+      "location": "Santa Clara, CA"
+    },
+    {
+      "date": "Sun Sept 27",
+      "time": "3:05 PM",
+      "tv": "FOX",
+      "away": "Vikings",
+      "home": "Buccaneers",
+      "location": "Tampa, FL"
+    },
+
+    {
+      "date": "Sun Sept 27",
+      "time": "3:25 PM",
+      "tv": "CBS",
+      "away": "Raiders",
+      "home": "Saints",
+      "location": "New Orleans, LA"
     },
     {
       "date": "Sun Sept 27",
       "time": "3:25 PM",
       "tv": "CBS",
-      "away": "Buccaneers",
-      "home": "Broncos",
-      "location": "Denver, CO"
+      "away": "Ravens",
+      "home": "Cowboys",
+      "location": "Arlington, TX"
     },
 
     {
       "date": "Sun Sept 27",
       "time": "7:20 PM",
       "tv": "NBC",
-      "away": "Packers",
-      "home": "Saints",
-      "location": "New Orleans, LA"
+      "away": "Rams",
+      "home": "Broncos",
+      "location": "Denver, CO"
     },
 
     {
       "date": "Mon Sept 28",
       "time": "7:15 PM",
       "tv": "ESPN",
-      "away": "Chiefs",
-      "home": "Ravens",
-      "location": "Baltimore, MD"
+      "away": "Eagles",
+      "home": "Bears",
+      "location": "Chicago, IL"
     }
   ],
   "bye": []
-},
+}
 
 "4": {
   "games": [
     {
       "date": "Thu Oct 1",
-      "time": "7:20 PM",
+      "time": "7:15 PM",
+      "tv": "PRIME",
+      "away": "Steelers",
+      "home": "Browns",
+      "location": "Cleveland, OH"
+    },
+
+    {
+      "date": "Sun Oct 4",
+      "time": "8:30 AM",
       "tv": "NFLN",
-      "away": "Broncos",
-      "home": "Jets",
-      "location": "East Rutherford, NJ"
+      "away": "Colts",
+      "home": "Commanders",
+      "location": "London, UK"
     },
 
     {
       "date": "Sun Oct 4",
       "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Saints",
-      "home": "Lions",
-      "location": "Detroit, MI"
+      "away": "Titans",
+      "home": "Ravens",
+      "location": "Baltimore, MD"
+    },
+    {
+      "date": "Sun Oct 4",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Patriots",
+      "home": "Bills",
+      "location": "Orchard Park, NY"
     },
     {
       "date": "Sun Oct 4",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Chargers",
-      "home": "Buccaneers",
-      "location": "Tampa, FL"
+      "away": "Jets",
+      "home": "Bears",
+      "location": "Chicago, IL"
     },
     {
       "date": "Sun Oct 4",
@@ -357,12 +449,11 @@
       "home": "Bengals",
       "location": "Cincinnati, OH"
     },
-
     {
       "date": "Sun Oct 4",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Vikings",
+      "away": "Cowboys",
       "home": "Texans",
       "location": "Houston, TX"
     },
@@ -370,51 +461,68 @@
       "date": "Sun Oct 4",
       "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Seahawks",
-      "home": "Dolphins",
-      "location": "Miami Gardens, FL"
+      "away": "Cardinals",
+      "home": "Giants",
+      "location": "East Rutherford, NJ"
     },
     {
       "date": "Sun Oct 4",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Browns",
-      "home": "Cowboys",
-      "location": "Arlington, TX"
+      "away": "Rams",
+      "home": "Eagles",
+      "location": "Philadelphia, PA"
+    },
+    {
+      "date": "Sun Oct 4",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Packers",
+      "home": "Buccaneers",
+      "location": "Tampa, FL"
     },
 
     {
       "date": "Sun Oct 4",
       "time": "3:05 PM",
-      "tv": "CBS",
-      "away": "Cardinals",
-      "home": "Panthers",
-      "location": "Charlotte, NC"
-    },
-    {
-      "date": "Sun Oct 4",
-      "time": "3:25 PM",
       "tv": "FOX",
-      "away": "Giants",
-      "home": "Rams",
-      "location": "Inglewood, CA"
+      "away": "Dolphins",
+      "home": "Vikings",
+      "location": "Minneapolis, MN"
+    },
+
+    {
+      "date": "Sun Oct 4",
+      "time": "3:25 PM",
+      "tv": "CBS",
+      "away": "Chiefs",
+      "home": "Raiders",
+      "location": "Las Vegas, NV"
     },
     {
       "date": "Sun Oct 4",
       "time": "3:25 PM",
       "tv": "CBS",
-      "away": "Patriots",
-      "home": "Chiefs",
-      "location": "Kansas City, MO"
+      "away": "Chargers",
+      "home": "Seahawks",
+      "location": "Seattle, WA"
+    },
+    {
+      "date": "Sun Oct 4",
+      "time": "3:25 PM",
+      "tv": "CBS",
+      "away": "Broncos",
+      "home": "49ers",
+      "location": "Santa Clara, CA"
     },
 
     {
       "date": "Sun Oct 4",
       "time": "7:20 PM",
       "tv": "NBC",
-      "away": "Eagles",
-      "home": "49ers",
-      "location": "Santa Clara, CA"
+      "away": "Lions",
+      "home": "Panthers",
+      "location": "Charlotte, NC"
     },
 
     {
@@ -422,54 +530,62 @@
       "time": "7:15 PM",
       "tv": "ESPN",
       "away": "Falcons",
-      "home": "Packers",
-      "location": "Green Bay, WI"
+      "home": "Saints",
+      "location": "New Orleans, LA"
     }
   ],
   "bye": []
-},
+}
 
 "5": {
   "games": [
     {
       "date": "Thu Oct 8",
-      "time": "7:20 PM",
-      "tv": "FOX",
+      "time": "7:15 PM",
+      "tv": "PRIME",
       "away": "Buccaneers",
-      "home": "Bears",
-      "location": "Chicago, IL"
+      "home": "Cowboys",
+      "location": "Arlington, TX"
+    },
+
+    {
+      "date": "Sun Oct 11",
+      "time": "8:30 AM",
+      "tv": "NFLN",
+      "away": "Eagles",
+      "home": "Jaguars",
+      "location": "London, UK"
     },
 
     {
       "date": "Sun Oct 11",
       "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Panthers",
-      "home": "Falcons",
-      "location": "Atlanta, GA"
-    },
-    {
-      "date": "Sun Oct 11",
-      "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Bills",
-      "home": "Titans",
-      "location": "Nashville, TN"
+      "away": "Bengals",
+      "home": "Dolphins",
+      "location": "Miami Gardens, FL"
     },
     {
       "date": "Sun Oct 11",
       "time": "12:00 PM",
       "tv": "CBS",
       "away": "Raiders",
-      "home": "Chiefs",
-      "location": "Kansas City, MO"
+      "home": "Patriots",
+      "location": "Foxborough, MA"
     },
-
     {
       "date": "Sun Oct 11",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Cardinals",
+      "away": "Vikings",
+      "home": "Saints",
+      "location": "New Orleans, LA"
+    },
+    {
+      "date": "Sun Oct 11",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Browns",
       "home": "Jets",
       "location": "East Rutherford, NJ"
     },
@@ -477,16 +593,24 @@
       "date": "Sun Oct 11",
       "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Eagles",
+      "away": "Colts",
       "home": "Steelers",
       "location": "Pittsburgh, PA"
     },
     {
       "date": "Sun Oct 11",
       "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Texans",
+      "home": "Titans",
+      "location": "Nashville, TN"
+    },
+    {
+      "date": "Sun Oct 11",
+      "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Rams",
-      "home": "Washington",
+      "away": "Giants",
+      "home": "Commanders",
       "location": "Landover, MD"
     },
 
@@ -494,132 +618,159 @@
       "date": "Sun Oct 11",
       "time": "3:05 PM",
       "tv": "CBS",
-      "away": "Dolphins",
-      "home": "49ers",
-      "location": "Santa Clara, CA"
+      "away": "Broncos",
+      "home": "Chargers",
+      "location": "Inglewood, CA"
+    },
+
+    {
+      "date": "Sun Oct 11",
+      "time": "3:25 PM",
+      "tv": "FOX",
+      "away": "Lions",
+      "home": "Cardinals",
+      "location": "Glendale, AZ"
     },
     {
       "date": "Sun Oct 11",
       "time": "3:25 PM",
       "tv": "FOX",
-      "away": "Giants",
-      "home": "Cowboys",
-      "location": "Arlington, TX"
+      "away": "Bears",
+      "home": "Packers",
+      "location": "Green Bay, WI"
     },
     {
       "date": "Sun Oct 11",
       "time": "3:25 PM",
-      "tv": "CBS",
-      "away": "Broncos",
-      "home": "Patriots",
-      "location": "Foxborough, MA"
+      "tv": "FOX",
+      "away": "49ers",
+      "home": "Seahawks",
+      "location": "Seattle, WA"
     },
 
     {
       "date": "Sun Oct 11",
       "time": "7:20 PM",
       "tv": "NBC",
-      "away": "Vikings",
-      "home": "Seahawks",
-      "location": "Seattle, WA"
+      "away": "Ravens",
+      "home": "Falcons",
+      "location": "Atlanta, GA"
     },
 
     {
       "date": "Mon Oct 12",
       "time": "7:15 PM",
       "tv": "ESPN",
-      "away": "Chargers",
-      "home": "Saints",
-      "location": "New Orleans, LA"
+      "away": "Bills",
+      "home": "Rams",
+      "location": "Inglewood, CA"
     }
   ],
-  "bye": ["Packers", "Lions"]
-},
+  "bye": ["Panthers", "Chiefs"]
+}
 
 "6": {
   "games": [
     {
       "date": "Thu Oct 15",
-      "time": "7:20 PM",
-      "tv": "FOX",
-      "away": "Chiefs",
-      "home": "Bills",
-      "location": "Orchard Park, NY"
+      "time": "7:15 PM",
+      "tv": "PRIME",
+      "away": "Seahawks",
+      "home": "Broncos",
+      "location": "Denver, CO"
     },
 
     {
       "date": "Sun Oct 18",
-      "time": "12:00 PM",
-      "tv": "CBS",
+      "time": "8:30 AM",
+      "tv": "NFLN",
       "away": "Texans",
-      "home": "Titans",
-      "location": "Nashville, TN"
-    },
-    {
-      "date": "Sun Oct 18",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Falcons",
-      "home": "Vikings",
-      "location": "Minneapolis, MN"
-    },
-    {
-      "date": "Sun Oct 18",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Browns",
-      "home": "Steelers",
-      "location": "Pittsburgh, PA"
+      "home": "Jaguars",
+      "location": "London, UK"
     },
 
     {
       "date": "Sun Oct 18",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Bengals",
+      "away": "Bears",
+      "home": "Falcons",
+      "location": "Atlanta, GA"
+    },
+    {
+      "date": "Sun Oct 18",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Ravens",
+      "home": "Browns",
+      "location": "Cleveland, OH"
+    },
+    {
+      "date": "Sun Oct 18",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Titans",
       "home": "Colts",
       "location": "Indianapolis, IN"
     },
+
     {
       "date": "Sun Oct 18",
       "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Lions",
-      "home": "Jaguars",
-      "location": "Jacksonville, FL"
+      "away": "Jets",
+      "home": "Patriots",
+      "location": "Foxborough, MA"
     },
     {
       "date": "Sun Oct 18",
       "time": "12:00 PM",
       "tv": "FOX",
+      "away": "Saints",
+      "home": "Giants",
+      "location": "East Rutherford, NJ"
+    },
+    {
+      "date": "Sun Oct 18",
+      "time": "12:00 PM",
+      "tv": "CBS",
       "away": "Panthers",
-      "home": "Bears",
-      "location": "Chicago, IL"
+      "home": "Eagles",
+      "location": "Philadelphia, PA"
+    },
+    {
+      "date": "Sun Oct 18",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Steelers",
+      "home": "Buccaneers",
+      "location": "Tampa, FL"
     },
 
     {
       "date": "Sun Oct 18",
       "time": "3:05 PM",
-      "tv": "CBS",
-      "away": "Jets",
-      "home": "Dolphins",
-      "location": "Miami Gardens, FL"
-    },
-    {
-      "date": "Sun Oct 18",
-      "time": "3:25 PM",
       "tv": "FOX",
-      "away": "Raiders",
-      "home": "Broncos",
-      "location": "Denver, CO"
+      "away": "Cardinals",
+      "home": "Rams",
+      "location": "Inglewood, CA"
+    },
+
+    {
+      "date": "Sun Oct 18",
+      "time": "3:25 PM",
+      "tv": "CBS",
+      "away": "Chargers",
+      "home": "Chiefs",
+      "location": "Kansas City, MO"
     },
     {
       "date": "Sun Oct 18",
       "time": "3:25 PM",
       "tv": "CBS",
-      "away": "Cardinals",
-      "home": "49ers",
-      "location": "Santa Clara, CA"
+      "away": "Bills",
+      "home": "Raiders",
+      "location": "Las Vegas, NV"
     },
 
     {
@@ -627,152 +778,169 @@
       "time": "7:20 PM",
       "tv": "NBC",
       "away": "Cowboys",
-      "home": "Giants",
-      "location": "East Rutherford, NJ"
+      "home": "Packers",
+      "location": "Green Bay, WI"
     },
 
     {
       "date": "Mon Oct 19",
       "time": "7:15 PM",
       "tv": "ESPN",
-      "away": "Rams",
-      "home": "Seahawks",
-      "location": "Seattle, WA"
+      "away": "Commanders",
+      "home": "49ers",
+      "location": "Santa Clara, CA"
     }
   ],
-  "bye": ["Patriots", "Ravens"]
-},
+  "bye": ["Bengals", "Lions", "Dolphins", "Vikings"]
+}
 
 "7": {
   "games": [
     {
       "date": "Thu Oct 22",
-      "time": "7:20 PM",
-      "tv": "FOX",
-      "away": "Giants",
-      "home": "Eagles",
-      "location": "Philadelphia, PA"
+      "time": "7:15 PM",
+      "tv": "PRIME",
+      "away": "Patriots",
+      "home": "Bears",
+      "location": "Chicago, IL"
+    },
+
+    {
+      "date": "Sun Oct 25",
+      "time": "8:30 AM",
+      "tv": "NFLN",
+      "away": "Steelers",
+      "home": "Saints",
+      "location": "Saint-Denis, France"
     },
 
     {
       "date": "Sun Oct 25",
       "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "49ers",
+      "home": "Falcons",
+      "location": "Atlanta, GA"
+    },
+    {
+      "date": "Sun Oct 25",
+      "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Bills",
-      "home": "Jets",
-      "location": "East Rutherford, NJ"
+      "away": "Bengals",
+      "home": "Ravens",
+      "location": "Baltimore, MD"
     },
     {
       "date": "Sun Oct 25",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Panthers",
-      "home": "Saints",
-      "location": "New Orleans, LA"
+      "away": "Buccaneers",
+      "home": "Panthers",
+      "location": "Charlotte, NC"
+    },
+    {
+      "date": "Sun Oct 25",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Giants",
+      "home": "Texans",
+      "location": "Houston, TX"
+    },
+    {
+      "date": "Sun Oct 25",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Colts",
+      "home": "Vikings",
+      "location": "Minneapolis, MN"
+    },
+    {
+      "date": "Sun Oct 25",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Dolphins",
+      "home": "Jets",
+      "location": "East Rutherford, NJ"
     },
     {
       "date": "Sun Oct 25",
       "time": "12:00 PM",
       "tv": "CBS",
       "away": "Browns",
-      "home": "Bengals",
-      "location": "Cincinnati, OH"
-    },
-
-    {
-      "date": "Sun Oct 25",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Cowboys",
-      "home": "Washington",
-      "location": "Landover, MD"
-    },
-    {
-      "date": "Sun Oct 25",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Packers",
-      "home": "Texans",
-      "location": "Houston, TX"
-    },
-    {
-      "date": "Sun Oct 25",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Lions",
-      "home": "Falcons",
-      "location": "Atlanta, GA"
+      "home": "Titans",
+      "location": "Nashville, TN"
     },
 
     {
       "date": "Sun Oct 25",
       "time": "3:05 PM",
       "tv": "CBS",
-      "away": "Steelers",
-      "home": "Titans",
-      "location": "Nashville, TN"
+      "away": "Broncos",
+      "home": "Cardinals",
+      "location": "Glendale, AZ"
+    },
+
+    {
+      "date": "Sun Oct 25",
+      "time": "3:25 PM",
+      "tv": "FOX",
+      "away": "Packers",
+      "home": "Lions",
+      "location": "Detroit, MI"
     },
     {
       "date": "Sun Oct 25",
       "time": "3:25 PM",
       "tv": "FOX",
-      "away": "Buccaneers",
+      "away": "Rams",
       "home": "Raiders",
       "location": "Las Vegas, NV"
-    },
-    {
-      "date": "Sun Oct 25",
-      "time": "3:25 PM",
-      "tv": "CBS",
-      "away": "Jaguars",
-      "home": "Chargers",
-      "location": "Inglewood, CA"
     },
 
     {
       "date": "Sun Oct 25",
       "time": "7:20 PM",
       "tv": "NBC",
-      "away": "Seahawks",
-      "home": "Cardinals",
-      "location": "Glendale, AZ"
+      "away": "Chiefs",
+      "home": "Seahawks",
+      "location": "Seattle, WA"
     },
 
     {
       "date": "Mon Oct 26",
       "time": "7:15 PM",
       "tv": "ESPN",
-      "away": "Bears",
-      "home": "Rams",
-      "location": "Inglewood, CA"
+      "away": "Cowboys",
+      "home": "Eagles",
+      "location": "Philadelphia, PA"
     }
   ],
-  "bye": ["Ravens", "Colts", "Dolphins", "Vikings"]
-},
+  "bye": ["Bills", "Jaguars", "Chargers", "Commanders"]
+}
 
 "8": {
   "games": [
     {
       "date": "Thu Oct 29",
-      "time": "7:20 PM",
-      "tv": "FOX",
-      "away": "Falcons",
-      "home": "Panthers",
-      "location": "Charlotte, NC"
+      "time": "7:15 PM",
+      "tv": "PRIME",
+      "away": "Panthers",
+      "home": "Packers",
+      "location": "Green Bay, WI"
     },
 
     {
       "date": "Sun Nov 1",
       "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Patriots",
+      "away": "Ravens",
       "home": "Bills",
       "location": "Orchard Park, NY"
     },
     {
       "date": "Sun Nov 1",
       "time": "12:00 PM",
-      "tv": "FOX",
+      "tv": "CBS",
       "away": "Titans",
       "home": "Bengals",
       "location": "Cincinnati, OH"
@@ -780,92 +948,118 @@
     {
       "date": "Sun Nov 1",
       "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Raiders",
-      "home": "Browns",
-      "location": "Cleveland, OH"
+      "tv": "FOX",
+      "away": "Cardinals",
+      "home": "Cowboys",
+      "location": "Arlington, TX"
+    },
+    {
+      "date": "Sun Nov 1",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Vikings",
+      "home": "Lions",
+      "location": "Detroit, MI"
     },
 
     {
       "date": "Sun Nov 1",
       "time": "12:00 PM",
-      "tv": "FOX",
+      "tv": "CBS",
       "away": "Colts",
-      "home": "Lions",
-      "location": "Detroit, MI"
+      "home": "Jaguars",
+      "location": "Jacksonville, FL"
+    },
+    {
+      "date": "Sun Nov 1",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Raiders",
+      "home": "Jets",
+      "location": "East Rutherford, NJ"
     },
     {
       "date": "Sun Nov 1",
       "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Vikings",
-      "home": "Packers",
-      "location": "Green Bay, WI"
+      "away": "Browns",
+      "home": "Steelers",
+      "location": "Pittsburgh, PA"
     },
     {
       "date": "Sun Nov 1",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Jets",
-      "home": "Chiefs",
-      "location": "Kansas City, MO"
+      "away": "Falcons",
+      "home": "Buccaneers",
+      "location": "Tampa, FL"
     },
 
     {
       "date": "Sun Nov 1",
       "time": "3:05 PM",
-      "tv": "CBS",
-      "away": "Rams",
-      "home": "Dolphins",
-      "location": "Miami Gardens, FL"
-    },
-    {
-      "date": "Sun Nov 1",
-      "time": "3:25 PM",
       "tv": "FOX",
-      "away": "Steelers",
-      "home": "Ravens",
-      "location": "Baltimore, MD"
+      "away": "Chargers",
+      "home": "Rams",
+      "location": "Inglewood, CA"
     },
+
     {
       "date": "Sun Nov 1",
       "time": "3:25 PM",
       "tv": "CBS",
-      "away": "Chargers",
+      "away": "Chiefs",
       "home": "Broncos",
       "location": "Denver, CO"
+    },
+    {
+      "date": "Sun Nov 1",
+      "time": "3:25 PM",
+      "tv": "CBS",
+      "away": "Patriots",
+      "home": "Dolphins",
+      "location": "Miami Gardens, FL"
     },
 
     {
       "date": "Sun Nov 1",
       "time": "7:20 PM",
       "tv": "NBC",
-      "away": "49ers",
-      "home": "Seahawks",
-      "location": "Seattle, WA"
+      "away": "Eagles",
+      "home": "Commanders",
+      "location": "Landover, MD"
     },
 
     {
       "date": "Mon Nov 2",
       "time": "7:15 PM",
       "tv": "ESPN",
-      "away": "Cowboys",
-      "home": "Eagles",
-      "location": "Philadelphia, PA"
+      "away": "Bears",
+      "home": "Seahawks",
+      "location": "Seattle, WA"
     }
   ],
-  "bye": ["Cardinals", "Texans", "Jaguars", "Washington"]
-},
+  "bye": ["Texans", "Saints", "Giants", "49ers"]
+}
 
 "9": {
   "games": [
     {
       "date": "Thu Nov 5",
-      "time": "7:20 PM",
-      "tv": "FOX",
-      "away": "Packers",
-      "home": "49ers",
-      "location": "Santa Clara, CA"
+      "time": "7:15 PM",
+      "tv": "PRIME",
+      "away": "Jaguars",
+      "home": "Ravens",
+      "location": "Baltimore, MD"
+    },
+
+    {
+      "date": "Sun Nov 8",
+      "time": "8:30 AM",
+      "tv": "NFLN",
+      "away": "Bengals",
+      "home": "Falcons",
+      "location": "Madrid, Spain"
     },
 
     {
@@ -873,49 +1067,56 @@
       "time": "12:00 PM",
       "tv": "CBS",
       "away": "Broncos",
-      "home": "Falcons",
-      "location": "Atlanta, GA"
+      "home": "Panthers",
+      "location": "Charlotte, NC"
     },
     {
       "date": "Sun Nov 8",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Seahawks",
-      "home": "Bills",
-      "location": "Orchard Park, NY"
-    },
-    {
-      "date": "Sun Nov 8",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Bears",
-      "home": "Titans",
-      "location": "Nashville, TN"
-    },
-
-    {
-      "date": "Sun Nov 8",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Lions",
-      "home": "Vikings",
-      "location": "Minneapolis, MN"
-    },
-    {
-      "date": "Sun Nov 8",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Ravens",
+      "away": "Cowboys",
       "home": "Colts",
       "location": "Indianapolis, IN"
     },
     {
       "date": "Sun Nov 8",
       "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Panthers",
+      "tv": "CBS",
+      "away": "Jets",
       "home": "Chiefs",
       "location": "Kansas City, MO"
+    },
+    {
+      "date": "Sun Nov 8",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Lions",
+      "home": "Dolphins",
+      "location": "Miami Gardens, FL"
+    },
+    {
+      "date": "Sun Nov 8",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Browns",
+      "home": "Saints",
+      "location": "New Orleans, LA"
+    },
+    {
+      "date": "Sun Nov 8",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Giants",
+      "home": "Eagles",
+      "location": "Philadelphia, PA"
+    },
+    {
+      "date": "Sun Nov 8",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Rams",
+      "home": "Commanders",
+      "location": "Landover, MD"
     },
 
     {
@@ -923,62 +1124,88 @@
       "time": "3:05 PM",
       "tv": "CBS",
       "away": "Texans",
-      "home": "Jaguars",
-      "location": "Jacksonville, FL"
+      "home": "Chargers",
+      "location": "Inglewood, CA"
+    },
+    {
+      "date": "Sun Nov 8",
+      "time": "3:05 PM",
+      "tv": "CBS",
+      "away": "Raiders",
+      "home": "49ers",
+      "location": "Santa Clara, CA"
+    },
+
+    {
+      "date": "Sun Nov 8",
+      "time": "3:25 PM",
+      "tv": "FOX",
+      "away": "Packers",
+      "home": "Patriots",
+      "location": "Foxborough, MA"
     },
     {
       "date": "Sun Nov 8",
       "time": "3:25 PM",
       "tv": "FOX",
-      "away": "Steelers",
-      "home": "Cowboys",
-      "location": "Arlington, TX"
-    },
-    {
-      "date": "Sun Nov 8",
-      "time": "3:25 PM",
-      "tv": "CBS",
-      "away": "Dolphins",
-      "home": "Cardinals",
-      "location": "Glendale, AZ"
+      "away": "Cardinals",
+      "home": "Seahawks",
+      "location": "Seattle, WA"
     },
 
     {
       "date": "Sun Nov 8",
       "time": "7:20 PM",
       "tv": "NBC",
-      "away": "Saints",
-      "home": "Buccaneers",
-      "location": "Tampa, FL"
+      "away": "Buccaneers",
+      "home": "Bears",
+      "location": "Chicago, IL"
     },
 
     {
       "date": "Mon Nov 9",
       "time": "7:15 PM",
       "tv": "ESPN",
-      "away": "Patriots",
-      "home": "Jets",
-      "location": "East Rutherford, NJ"
+      "away": "Bills",
+      "home": "Vikings",
+      "location": "Minneapolis, MN"
     }
   ],
-  "bye": ["Bengals", "Browns", "Rams", "Eagles"]
-},
+  "bye": ["Steelers", "Titans"]
+}
 
 "10": {
   "games": [
     {
       "date": "Thu Nov 12",
-      "time": "7:20 PM",
+      "time": "7:15 PM",
+      "tv": "PRIME",
+      "away": "Commanders",
+      "home": "Giants",
+      "location": "East Rutherford, NJ"
+    },
+
+    {
+      "date": "Sun Nov 15",
+      "time": "8:30 AM",
       "tv": "FOX",
-      "away": "Colts",
-      "home": "Titans",
-      "location": "Nashville, TN"
+      "away": "Patriots",
+      "home": "Lions",
+      "location": "Munich, Germany"
     },
 
     {
       "date": "Sun Nov 15",
       "time": "12:00 PM",
       "tv": "CBS",
+      "away": "Chiefs",
+      "home": "Falcons",
+      "location": "Atlanta, GA"
+    },
+    {
+      "date": "Sun Nov 15",
+      "time": "12:00 PM",
+      "tv": "FOX",
       "away": "Texans",
       "home": "Browns",
       "location": "Cleveland, OH"
@@ -987,15 +1214,7 @@
       "date": "Sun Nov 15",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Washington",
-      "home": "Lions",
-      "location": "Detroit, MI"
-    },
-    {
-      "date": "Sun Nov 15",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Jaguars",
+      "away": "Vikings",
       "home": "Packers",
       "location": "Green Bay, WI"
     },
@@ -1003,80 +1222,89 @@
     {
       "date": "Sun Nov 15",
       "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Dolphins",
+      "home": "Colts",
+      "location": "Indianapolis, IN"
+    },
+    {
+      "date": "Sun Nov 15",
+      "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Eagles",
-      "home": "Giants",
-      "location": "East Rutherford, NJ"
+      "away": "Panthers",
+      "home": "Saints",
+      "location": "New Orleans, LA"
     },
     {
       "date": "Sun Nov 15",
       "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Buccaneers",
-      "home": "Panthers",
-      "location": "Charlotte, NC"
+      "away": "Bills",
+      "home": "Jets",
+      "location": "East Rutherford, NJ"
     },
     {
       "date": "Sun Nov 15",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Bills",
-      "home": "Cardinals",
-      "location": "Glendale, AZ"
+      "away": "Jaguars",
+      "home": "Titans",
+      "location": "Nashville, TN"
     },
 
     {
       "date": "Sun Nov 15",
       "time": "3:05 PM",
       "tv": "CBS",
-      "away": "Broncos",
+      "away": "Rams",
+      "home": "Cardinals",
+      "location": "Glendale, AZ"
+    },
+    {
+      "date": "Sun Nov 15",
+      "time": "3:05 PM",
+      "tv": "CBS",
+      "away": "Seahawks",
       "home": "Raiders",
       "location": "Las Vegas, NV"
     },
+
     {
       "date": "Sun Nov 15",
       "time": "3:25 PM",
       "tv": "FOX",
-      "away": "Seahawks",
-      "home": "Rams",
-      "location": "Inglewood, CA"
-    },
-    {
-      "date": "Sun Nov 15",
-      "time": "3:25 PM",
-      "tv": "CBS",
       "away": "49ers",
-      "home": "Saints",
-      "location": "New Orleans, LA"
+      "home": "Cowboys",
+      "location": "Arlington, TX"
     },
 
     {
       "date": "Sun Nov 15",
       "time": "7:20 PM",
       "tv": "NBC",
-      "away": "Ravens",
-      "home": "Patriots",
-      "location": "Foxborough, MA"
+      "away": "Steelers",
+      "home": "Bengals",
+      "location": "Cincinnati, OH"
     },
 
     {
       "date": "Mon Nov 16",
       "time": "7:15 PM",
       "tv": "ESPN",
-      "away": "Vikings",
-      "home": "Bears",
-      "location": "Chicago, IL"
+      "away": "Chargers",
+      "home": "Ravens",
+      "location": "Baltimore, MD"
     }
   ],
-  "bye": ["Chiefs", "Cowboys", "Falcons", "Chargers"]
-},
+  "bye": ["Bears", "Broncos", "Eagles", "Buccaneers"]
+}
 
 "11": {
   "games": [
     {
       "date": "Thu Nov 19",
-      "time": "7:20 PM",
-      "tv": "Prime",
+      "time": "7:15 PM",
+      "tv": "PRIME",
       "away": "Colts",
       "home": "Texans",
       "location": "Houston, TX"
@@ -1085,8 +1313,16 @@
     {
       "date": "Sun Nov 22",
       "time": "12:00 PM",
-      "tv": "CBS",
+      "tv": "FOX",
       "away": "Dolphins",
+      "home": "Bills",
+      "location": "Orchard Park, NY"
+    },
+    {
+      "date": "Sun Nov 22",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Ravens",
       "home": "Panthers",
       "location": "Charlotte, NC"
     },
@@ -1094,7 +1330,7 @@
       "date": "Sun Nov 22",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Ravens",
+      "away": "Saints",
       "home": "Bears",
       "location": "Chicago, IL"
     },
@@ -1102,23 +1338,15 @@
       "date": "Sun Nov 22",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Saints",
-      "home": "Eagles",
-      "location": "Philadelphia, PA"
+      "away": "Titans",
+      "home": "Cowboys",
+      "location": "Arlington, TX"
     },
 
     {
       "date": "Sun Nov 22",
       "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Titans",
-      "home": "Cowboys",
-      "location": "Arlington, TX"
-    },
-    {
-      "date": "Sun Nov 22",
-      "time": "12:00 PM",
-      "tv": "FOX",
       "away": "Buccaneers",
       "home": "Lions",
       "location": "Detroit, MI"
@@ -1131,47 +1359,48 @@
       "home": "Chiefs",
       "location": "Kansas City, MO"
     },
-
     {
       "date": "Sun Nov 22",
       "time": "12:00 PM",
-      "tv": "FOX",
+      "tv": "CBS",
       "away": "Jaguars",
       "home": "Giants",
       "location": "East Rutherford, NJ"
     },
+
     {
       "date": "Sun Nov 22",
       "time": "3:05 PM",
-      "tv": "CBS",
+      "tv": "FOX",
       "away": "Jets",
       "home": "Chargers",
       "location": "Inglewood, CA"
     },
+
     {
       "date": "Sun Nov 22",
       "time": "3:25 PM",
-      "tv": "FOX",
+      "tv": "CBS",
       "away": "Raiders",
       "home": "Broncos",
       "location": "Denver, CO"
     },
-
     {
       "date": "Sun Nov 22",
       "time": "3:25 PM",
       "tv": "CBS",
       "away": "Steelers",
-      "home": "Seahawks",
-      "location": "Seattle, WA"
+      "home": "Eagles",
+      "location": "Philadelphia, PA"
     },
+
     {
       "date": "Sun Nov 22",
       "time": "7:20 PM",
       "tv": "NBC",
       "away": "Vikings",
-      "home": "Eagles",
-      "location": "Philadelphia, PA"
+      "home": "49ers",
+      "location": "Mexico City, Mexico"
     },
 
     {
@@ -1184,15 +1413,24 @@
     }
   ],
   "bye": ["Falcons", "Browns", "Packers", "Rams", "Patriots", "Seahawks"]
-},
+}
 
 "12": {
   "games": [
     {
+      "date": "Wed Nov 25",
+      "time": "7:00 PM",
+      "tv": "NETFLIX",
+      "away": "Packers",
+      "home": "Rams",
+      "location": "Inglewood, CA"
+    },
+
+    {
       "date": "Thu Nov 26",
-      "time": "11:30 AM",
+      "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Texans",
+      "away": "Bears",
       "home": "Lions",
       "location": "Detroit, MI"
     },
@@ -1200,65 +1438,73 @@
       "date": "Thu Nov 26",
       "time": "3:30 PM",
       "tv": "FOX",
-      "away": "Cowboys",
-      "home": "Commanders",
+      "away": "Eagles",
+      "home": "Cowboys",
       "location": "Arlington, TX"
     },
     {
       "date": "Thu Nov 26",
       "time": "7:20 PM",
       "tv": "NBC",
-      "away": "Patriots",
-      "home": "Vikings",
-      "location": "Minneapolis, MN"
+      "away": "Chiefs",
+      "home": "Bills",
+      "location": "Orchard Park, NY"
+    },
+
+    {
+      "date": "Fri Nov 27",
+      "time": "2:00 PM",
+      "tv": "PRIME",
+      "away": "Broncos",
+      "home": "Steelers",
+      "location": "Pittsburgh, PA"
     },
 
     {
       "date": "Sun Nov 29",
       "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Titans",
-      "home": "Colts",
-      "location": "Indianapolis, IN"
+      "away": "Saints",
+      "home": "Bengals",
+      "location": "Cincinnati, OH"
     },
     {
       "date": "Sun Nov 29",
       "time": "12:00 PM",
       "tv": "FOX",
       "away": "Raiders",
-      "home": "Falcons",
-      "location": "Atlanta, GA"
+      "home": "Browns",
+      "location": "Cleveland, OH"
     },
     {
       "date": "Sun Nov 29",
       "time": "12:00 PM",
       "tv": "CBS",
+      "away": "Ravens",
+      "home": "Texans",
+      "location": "Houston, TX"
+    },
+    {
+      "date": "Sun Nov 29",
+      "time": "12:00 PM",
+      "tv": "FOX",
       "away": "Giants",
-      "home": "Bengals",
-      "location": "Cincinnati, OH"
-    },
-
-    {
-      "date": "Sun Nov 29",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Chargers",
-      "home": "Bills",
-      "location": "Orchard Park, NY"
+      "home": "Colts",
+      "location": "Indianapolis, IN"
     },
     {
       "date": "Sun Nov 29",
       "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Browns",
-      "home": "Jaguars",
-      "location": "Jacksonville, FL"
+      "away": "Jets",
+      "home": "Dolphins",
+      "location": "Miami Gardens, FL"
     },
     {
       "date": "Sun Nov 29",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Panthers",
+      "away": "Falcons",
       "home": "Vikings",
       "location": "Minneapolis, MN"
     },
@@ -1267,64 +1513,65 @@
       "date": "Sun Nov 29",
       "time": "3:05 PM",
       "tv": "CBS",
-      "away": "Cardinals",
-      "home": "Patriots",
-      "location": "Foxborough, MA"
+      "away": "Titans",
+      "home": "Jaguars",
+      "location": "Jacksonville, FL"
+    },
+
+    {
+      "date": "Sun Nov 29",
+      "time": "3:25 PM",
+      "tv": "FOX",
+      "away": "Commanders",
+      "home": "Cardinals",
+      "location": "Glendale, AZ"
     },
     {
       "date": "Sun Nov 29",
       "time": "3:25 PM",
       "tv": "FOX",
-      "away": "Saints",
-      "home": "Broncos",
-      "location": "Denver, CO"
-    },
-    {
-      "date": "Sun Nov 29",
-      "time": "3:25 PM",
-      "tv": "CBS",
-      "away": "49ers",
-      "home": "Rams",
-      "location": "Inglewood, CA"
+      "away": "Seahawks",
+      "home": "49ers",
+      "location": "Santa Clara, CA"
     },
 
     {
       "date": "Sun Nov 29",
       "time": "7:20 PM",
       "tv": "NBC",
-      "away": "Chiefs",
-      "home": "Buccaneers",
-      "location": "Tampa, FL"
+      "away": "Patriots",
+      "home": "Chargers",
+      "location": "Inglewood, CA"
     },
 
     {
       "date": "Mon Nov 30",
       "time": "7:15 PM",
       "tv": "ESPN",
-      "away": "Seahawks",
-      "home": "Eagles",
-      "location": "Philadelphia, PA"
+      "away": "Panthers",
+      "home": "Buccaneers",
+      "location": "Tampa, FL"
     }
   ],
-  "bye": ["Ravens", "Steelers"]
-},
+  "bye": []
+}
 
 "13": {
   "games": [
     {
       "date": "Thu Dec 3",
-      "time": "7:20 PM",
-      "tv": "Prime",
-      "away": "Cowboys",
-      "home": "Ravens",
-      "location": "Baltimore, MD"
+      "time": "7:15 PM",
+      "tv": "PRIME",
+      "away": "Chiefs",
+      "home": "Rams",
+      "location": "Inglewood, CA"
     },
 
     {
       "date": "Sun Dec 6",
       "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Saints",
+      "away": "Lions",
       "home": "Falcons",
       "location": "Atlanta, GA"
     },
@@ -1332,7 +1579,7 @@
       "date": "Sun Dec 6",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Lions",
+      "away": "Jaguars",
       "home": "Bears",
       "location": "Chicago, IL"
     },
@@ -1340,148 +1587,198 @@
       "date": "Sun Dec 6",
       "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Browns",
+      "away": "Bengals",
+      "home": "Browns",
+      "location": "Cleveland, OH"
+    },
+    {
+      "date": "Sun Dec 6",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Packers",
+      "home": "Saints",
+      "location": "New Orleans, LA"
+    },
+
+    {
+      "date": "Sun Dec 6",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "49ers",
+      "home": "Giants",
+      "location": "East Rutherford, NJ"
+    },
+    {
+      "date": "Sun Dec 6",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Chargers",
+      "home": "Buccaneers",
+      "location": "Tampa, FL"
+    },
+    {
+      "date": "Sun Dec 6",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Commanders",
       "home": "Titans",
       "location": "Nashville, TN"
     },
 
     {
       "date": "Sun Dec 6",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Bengals",
-      "home": "Dolphins",
-      "location": "Miami Gardens, FL"
-    },
-    {
-      "date": "Sun Dec 6",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Jaguars",
-      "home": "Vikings",
-      "location": "Minneapolis, MN"
-    },
-    {
-      "date": "Sun Dec 6",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Raiders",
-      "home": "Jets",
-      "location": "East Rutherford, NJ"
-    },
-
-    {
-      "date": "Sun Dec 6",
       "time": "3:05 PM",
-      "tv": "CBS",
-      "away": "Giants",
-      "home": "Seahawks",
-      "location": "Seattle, WA"
-    },
-    {
-      "date": "Sun Dec 6",
-      "time": "3:25 PM",
       "tv": "FOX",
-      "away": "Rams",
+      "away": "Eagles",
       "home": "Cardinals",
       "location": "Glendale, AZ"
     },
     {
       "date": "Sun Dec 6",
+      "time": "3:05 PM",
+      "tv": "FOX",
+      "away": "Dolphins",
+      "home": "Broncos",
+      "location": "Denver, CO"
+    },
+
+    {
+      "date": "Sun Dec 6",
       "time": "3:25 PM",
       "tv": "CBS",
-      "away": "Patriots",
-      "home": "Chargers",
-      "location": "Inglewood, CA"
+      "away": "Panthers",
+      "home": "Vikings",
+      "location": "Minneapolis, MN"
+    },
+    {
+      "date": "Sun Dec 6",
+      "time": "3:25 PM",
+      "tv": "CBS",
+      "away": "Bills",
+      "home": "Patriots",
+      "location": "Foxborough, MA"
     },
 
     {
       "date": "Sun Dec 6",
       "time": "7:20 PM",
       "tv": "NBC",
-      "away": "Broncos",
-      "home": "Chiefs",
-      "location": "Kansas City, MO"
+      "away": "Texans",
+      "home": "Steelers",
+      "location": "Pittsburgh, PA"
     },
 
     {
       "date": "Mon Dec 7",
       "time": "7:15 PM",
       "tv": "ESPN",
-      "away": "Washington",
-      "home": "Steelers",
-      "location": "Pittsburgh, PA"
+      "away": "Cowboys",
+      "home": "Seahawks",
+      "location": "Seattle, WA"
     }
   ],
-  "bye": ["Colts", "Packers", "Texans", "Buccaneers"]
-},
+  "bye": ["Ravens", "Colts", "Raiders", "Jets"]
+}
 
 "14": {
   "games": [
     {
       "date": "Thu Dec 10",
-      "time": "7:20 PM",
+      "time": "7:15 PM",
+      "tv": "PRIME",
+      "away": "Vikings",
+      "home": "Patriots",
+      "location": "Foxborough, MA"
+    },
+
+    {
+      "date": "Sun Dec 13",
+      "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Patriots",
-      "home": "Rams",
-      "location": "Inglewood, CA"
+      "away": "Buccaneers",
+      "home": "Ravens",
+      "location": "Baltimore, MD"
+    },
+    {
+      "date": "Sun Dec 13",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Saints",
+      "home": "Panthers",
+      "location": "Charlotte, NC"
+    },
+    {
+      "date": "Sun Dec 13",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Falcons",
+      "home": "Browns",
+      "location": "Cleveland, OH"
+    },
+    {
+      "date": "Sun Dec 13",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Titans",
+      "home": "Lions",
+      "location": "Detroit, MI"
     },
 
     {
       "date": "Sun Dec 13",
       "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Texans",
-      "home": "Bears",
-      "location": "Chicago, IL"
-    },
-    {
-      "date": "Sun Dec 13",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Cowboys",
-      "home": "Bengals",
-      "location": "Cincinnati, OH"
-    },
-    {
-      "date": "Sun Dec 13",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Chiefs",
+      "away": "Bears",
       "home": "Dolphins",
       "location": "Miami Gardens, FL"
     },
-
     {
       "date": "Sun Dec 13",
       "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Cardinals",
-      "home": "Giants",
+      "tv": "CBS",
+      "away": "Broncos",
+      "home": "Jets",
       "location": "East Rutherford, NJ"
     },
     {
       "date": "Sun Dec 13",
       "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Titans",
-      "home": "Jaguars",
-      "location": "Jacksonville, FL"
+      "tv": "FOX",
+      "away": "Colts",
+      "home": "Eagles",
+      "location": "Philadelphia, PA"
     },
     {
       "date": "Sun Dec 13",
       "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Broncos",
-      "home": "Panthers",
-      "location": "Charlotte, NC"
+      "tv": "CBS",
+      "away": "Texans",
+      "home": "Commanders",
+      "location": "Landover, MD"
     },
 
     {
       "date": "Sun Dec 13",
       "time": "3:05 PM",
       "tv": "CBS",
-      "away": "Jets",
+      "away": "Chargers",
+      "home": "Raiders",
+      "location": "Las Vegas, NV"
+    },
+
+    {
+      "date": "Sun Dec 13",
+      "time": "3:25 PM",
+      "tv": "FOX",
+      "away": "Chiefs",
+      "home": "Bengals",
+      "location": "Cincinnati, OH"
+    },
+    {
+      "date": "Sun Dec 13",
+      "time": "3:25 PM",
+      "tv": "FOX",
+      "away": "Giants",
       "home": "Seahawks",
       "location": "Seattle, WA"
     },
@@ -1489,447 +1786,358 @@
       "date": "Sun Dec 13",
       "time": "3:25 PM",
       "tv": "FOX",
-      "away": "Packers",
-      "home": "Lions",
-      "location": "Detroit, MI"
-    },
-    {
-      "date": "Sun Dec 13",
-      "time": "3:25 PM",
-      "tv": "CBS",
-      "away": "Steelers",
-      "home": "Bills",
-      "location": "Orchard Park, NY"
+      "away": "Rams",
+      "home": "49ers",
+      "location": "Santa Clara, CA"
     },
 
     {
       "date": "Sun Dec 13",
       "time": "7:20 PM",
       "tv": "NBC",
-      "away": "Ravens",
-      "home": "Browns",
-      "location": "Cleveland, OH"
+      "away": "Bills",
+      "home": "Packers",
+      "location": "Green Bay, WI"
     },
 
     {
       "date": "Mon Dec 14",
       "time": "7:15 PM",
       "tv": "ESPN",
-      "away": "Washington",
-      "home": "49ers",
-      "location": "Santa Clara, CA"
+      "away": "Steelers",
+      "home": "Jaguars",
+      "location": "Jacksonville, FL"
     }
   ],
-  "bye": ["Falcons", "Bills", "Bears", "Packers"]
-},
+  "bye": ["Cardinals", "Cowboys"]
+}
 
 "15": {
   "games": [
     {
       "date": "Thu Dec 17",
-      "time": "7:20 PM",
-      "tv": "FOX",
-      "away": "Chargers",
-      "home": "Raiders",
-      "location": "Las Vegas, NV"
+      "time": "7:15 PM",
+      "tv": "PRIME",
+      "away": "49ers",
+      "home": "Chargers",
+      "location": "Inglewood, CA"
     },
 
     {
       "date": "Sat Dec 19",
-      "time": "3:30 PM",
-      "tv": "NFLN",
-      "away": "Bills",
-      "home": "Broncos",
-      "location": "Denver, CO"
+      "time": "4:00 PM",
+      "tv": "FOX",
+      "away": "Seahawks",
+      "home": "Eagles",
+      "location": "Philadelphia, PA"
     },
     {
       "date": "Sat Dec 19",
-      "time": "7:15 PM",
-      "tv": "NFLN",
-      "away": "Panthers",
+      "time": "7:20 PM",
+      "tv": "CBS",
+      "away": "Bears",
+      "home": "Bills",
+      "location": "Orchard Park, NY"
+    },
+
+    {
+      "date": "Sun Dec 20",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Bengals",
+      "home": "Panthers",
+      "location": "Charlotte, NC"
+    },
+    {
+      "date": "Sun Dec 20",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Dolphins",
       "home": "Packers",
       "location": "Green Bay, WI"
     },
-
     {
       "date": "Sun Dec 20",
       "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Texans",
-      "home": "Colts",
-      "location": "Indianapolis, IN"
+      "away": "Jaguars",
+      "home": "Texans",
+      "location": "Houston, TX"
+    },
+    {
+      "date": "Sun Dec 20",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Browns",
+      "home": "Giants",
+      "location": "East Rutherford, NJ"
+    },
+    {
+      "date": "Sun Dec 20",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Ravens",
+      "home": "Steelers",
+      "location": "Pittsburgh, PA"
     },
     {
       "date": "Sun Dec 20",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Lions",
+      "away": "Saints",
+      "home": "Buccaneers",
+      "location": "Tampa, FL"
+    },
+    {
+      "date": "Sun Dec 20",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Colts",
       "home": "Titans",
       "location": "Nashville, TN"
     },
     {
       "date": "Sun Dec 20",
       "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Buccaneers",
-      "home": "Falcons",
-      "location": "Atlanta, GA"
-    },
-
-    {
-      "date": "Sun Dec 20",
-      "time": "12:00 PM",
       "tv": "FOX",
-      "away": "49ers",
-      "home": "Cowboys",
-      "location": "Arlington, TX"
-    },
-    {
-      "date": "Sun Dec 20",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Jets",
-      "home": "Rams",
-      "location": "Inglewood, CA"
-    },
-    {
-      "date": "Sun Dec 20",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Bears",
-      "home": "Vikings",
-      "location": "Minneapolis, MN"
+      "away": "Falcons",
+      "home": "Commanders",
+      "location": "Landover, MD"
     },
 
     {
       "date": "Sun Dec 20",
       "time": "3:05 PM",
-      "tv": "CBS",
-      "away": "Dolphins",
-      "home": "Patriots",
-      "location": "Foxborough, MA"
-    },
-    {
-      "date": "Sun Dec 20",
-      "time": "3:25 PM",
       "tv": "FOX",
-      "away": "Seahawks",
-      "home": "Washington",
-      "location": "Landover, MD"
-    },
-    {
-      "date": "Sun Dec 20",
-      "time": "3:25 PM",
-      "tv": "CBS",
-      "away": "Eagles",
+      "away": "Jets",
       "home": "Cardinals",
       "location": "Glendale, AZ"
     },
 
     {
       "date": "Sun Dec 20",
+      "time": "3:25 PM",
+      "tv": "CBS",
+      "away": "Cowboys",
+      "home": "Rams",
+      "location": "Inglewood, CA"
+    },
+    {
+      "date": "Sun Dec 20",
+      "time": "3:25 PM",
+      "tv": "CBS",
+      "away": "Broncos",
+      "home": "Raiders",
+      "location": "Las Vegas, NV"
+    },
+
+    {
+      "date": "Sun Dec 20",
       "time": "7:20 PM",
       "tv": "NBC",
-      "away": "Chiefs",
-      "home": "Saints",
-      "location": "New Orleans, LA"
+      "away": "Lions",
+      "home": "Vikings",
+      "location": "Minneapolis, MN"
     },
 
     {
       "date": "Mon Dec 21",
       "time": "7:15 PM",
       "tv": "ESPN",
-      "away": "Steelers",
-      "home": "Bengals",
-      "location": "Cincinnati, OH"
+      "away": "Patriots",
+      "home": "Chiefs",
+      "location": "Kansas City, MO"
     }
   ],
-  "bye": ["Giants"]
-},
+  "bye": []
+}
 
 "16": {
   "games": [
     {
+      "date": "Thu Dec 24",
+      "time": "7:15 PM",
+      "tv": "PRIME",
+      "away": "Texans",
+      "home": "Eagles",
+      "location": "Philadelphia, PA"
+    },
+
+    {
+      "date": "Fri Dec 25",
+      "time": "12:00 PM",
+      "tv": "NETFLIX",
+      "away": "Packers",
+      "home": "Bears",
+      "location": "Chicago, IL"
+    },
+    {
       "date": "Fri Dec 25",
       "time": "3:30 PM",
-      "tv": "FOX",
-      "away": "Vikings",
-      "home": "Saints",
-      "location": "New Orleans, LA"
-    },
-
-    {
-      "date": "Sat Dec 26",
-      "time": "12:00 PM",
-      "tv": "NFLN",
-      "away": "Buccaneers",
-      "home": "Lions",
-      "location": "Detroit, MI"
+      "tv": "NETFLIX",
+      "away": "Bills",
+      "home": "Broncos",
+      "location": "Denver, CO"
     },
     {
-      "date": "Sat Dec 26",
-      "time": "3:30 PM",
-      "tv": "NFLN",
-      "away": "49ers",
-      "home": "Cardinals",
-      "location": "Glendale, AZ"
-    },
-    {
-      "date": "Sat Dec 26",
+      "date": "Fri Dec 25",
       "time": "7:15 PM",
-      "tv": "NFLN",
-      "away": "Dolphins",
-      "home": "Raiders",
-      "location": "Las Vegas, NV"
+      "tv": "FOX",
+      "away": "Rams",
+      "home": "Seahawks",
+      "location": "Seattle, WA"
     },
 
     {
       "date": "Sun Dec 27",
       "time": "12:00 PM",
       "tv": "CBS",
-      "away": "Falcons",
-      "home": "Chiefs",
-      "location": "Kansas City, MO"
-    },
-    {
-      "date": "Sun Dec 27",
-      "time": "12:00 PM",
-      "tv": "FOX",
       "away": "Browns",
-      "home": "Jets",
-      "location": "East Rutherford, NJ"
-    },
-    {
-      "date": "Sun Dec 27",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Bears",
-      "home": "Jaguars",
-      "location": "Jacksonville, FL"
-    },
-
-    {
-      "date": "Sun Dec 27",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Giants",
       "home": "Ravens",
       "location": "Baltimore, MD"
     },
     {
       "date": "Sun Dec 27",
       "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Bengals",
-      "home": "Texans",
-      "location": "Houston, TX"
+      "tv": "FOX",
+      "away": "Chargers",
+      "home": "Dolphins",
+      "location": "Miami Gardens, FL"
     },
     {
       "date": "Sun Dec 27",
       "time": "12:00 PM",
       "tv": "FOX",
-      "away": "Colts",
-      "home": "Steelers",
-      "location": "Pittsburgh, PA"
+      "away": "Cardinals",
+      "home": "Saints",
+      "location": "New Orleans, LA"
+    },
+    {
+      "date": "Sun Dec 27",
+      "time": "12:00 PM",
+      "tv": "CBS",
+      "away": "Patriots",
+      "home": "Jets",
+      "location": "East Rutherford, NJ"
     },
 
     {
       "date": "Sun Dec 27",
       "time": "3:05 PM",
-      "tv": "CBS",
-      "away": "Broncos",
-      "home": "Chargers",
-      "location": "Inglewood, CA"
-    },
-    {
-      "date": "Sun Dec 27",
-      "time": "3:25 PM",
       "tv": "FOX",
-      "away": "Panthers",
-      "home": "Washington",
-      "location": "Landover, MD"
+      "away": "Titans",
+      "home": "Raiders",
+      "location": "Las Vegas, NV"
     },
     {
       "date": "Sun Dec 27",
       "time": "3:25 PM",
       "tv": "CBS",
-      "away": "Eagles",
-      "home": "Cowboys",
-      "location": "Arlington, TX"
+      "away": "49ers",
+      "home": "Chiefs",
+      "location": "Kansas City, MO"
     },
 
     {
       "date": "Sun Dec 27",
       "time": "7:20 PM",
       "tv": "NBC",
-      "away": "Titans",
-      "home": "Packers",
-      "location": "Green Bay, WI"
+      "away": "Jaguars",
+      "home": "Cowboys",
+      "location": "Arlington, TX"
     },
 
     {
       "date": "Mon Dec 28",
       "time": "7:15 PM",
       "tv": "ESPN",
-      "away": "Bills",
-      "home": "Patriots",
-      "location": "Foxborough, MA"
-    }
-  ],
-  "bye": []
-},
-
-"17": {
-  "games": [
-    {
-      "date": "Sun Jan 3",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Dolphins",
-      "home": "Bills",
-      "location": "Orchard Park, NY"
-    },
-    {
-      "date": "Sun Jan 3",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Vikings",
+      "away": "Giants",
       "home": "Lions",
       "location": "Detroit, MI"
     },
-    {
-      "date": "Sun Jan 3",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Steelers",
-      "home": "Browns",
-      "location": "Cleveland, OH"
-    },
 
     {
-      "date": "Sun Jan 3",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Ravens",
-      "home": "Bengals",
-      "location": "Cincinnati, OH"
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Buccaneers",
+      "home": "Falcons",
+      "location": "Atlanta, GA"
     },
     {
-      "date": "Sun Jan 3",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Jets",
-      "home": "Patriots",
-      "location": "Foxborough, MA"
-    },
-    {
-      "date": "Sun Jan 3",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Cowboys",
-      "home": "Giants",
-      "location": "East Rutherford, NJ"
-    },
-
-    {
-      "date": "Sun Jan 3",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Falcons",
-      "home": "Buccaneers",
-      "location": "Tampa, FL"
-    },
-    {
-      "date": "Sun Jan 3",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Packers",
-      "home": "Bears",
-      "location": "Chicago, IL"
-    },
-    {
-      "date": "Sun Jan 3",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Raiders",
-      "home": "Broncos",
-      "location": "Denver, CO"
-    },
-
-    {
-      "date": "Sun Jan 3",
-      "time": "3:25 PM",
-      "tv": "FOX",
-      "away": "Cardinals",
-      "home": "Rams",
-      "location": "Inglewood, CA"
-    },
-    {
-      "date": "Sun Jan 3",
-      "time": "3:25 PM",
-      "tv": "CBS",
-      "away": "Jaguars",
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Bengals",
       "home": "Colts",
       "location": "Indianapolis, IN"
     },
     {
-      "date": "Sun Jan 3",
-      "time": "3:25 PM",
-      "tv": "FOX",
-      "away": "Chargers",
-      "home": "Chiefs",
-      "location": "Kansas City, MO"
-    },
-
-    {
-      "date": "Sun Jan 3",
-      "time": "3:25 PM",
-      "tv": "CBS",
-      "away": "Titans",
-      "home": "Texans",
-      "location": "Houston, TX"
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Commanders",
+      "home": "Vikings",
+      "location": "Minneapolis, MN"
     },
     {
-      "date": "Sun Jan 3",
-      "time": "3:25 PM",
-      "tv": "FOX",
-      "away": "Seahawks",
-      "home": "49ers",
-      "location": "Santa Clara, CA"
-    },
-    {
-      "date": "Sun Jan 3",
-      "time": "3:25 PM",
-      "tv": "CBS",
-      "away": "Washington",
-      "home": "Eagles",
-      "location": "Philadelphia, PA"
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Panthers",
+      "home": "Steelers",
+      "location": "Pittsburgh, PA"
     }
   ],
   "bye": []
-},
+}
 
-"18": {
+"17": {
   "games": [
     {
-      "date": "Sat Jan 9",
-      "time": "3:30 PM",
-      "tv": "ABC",
-      "away": "Colts",
-      "home": "Texans",
-      "location": "Houston, TX"
-    },
-    {
-      "date": "Sat Jan 9",
+      "date": "Thu Dec 31",
       "time": "7:15 PM",
-      "tv": "NBC",
-      "away": "Steelers",
-      "home": "Ravens",
-      "location": "Baltimore, MD"
+      "tv": "PRIME",
+      "away": "Ravens",
+      "home": "Bengals",
+      "location": "Cincinnati, OH"
     },
 
     {
-      "date": "Sun Jan 10",
+      "date": "Sun Jan 3",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Saints",
+      "home": "Falcons",
+      "location": "Atlanta, GA"
+    },
+    {
+      "date": "Sun Jan 3",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Seahawks",
+      "home": "Panthers",
+      "location": "Charlotte, NC"
+    },
+    {
+      "date": "Sun Jan 3",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Colts",
+      "home": "Browns",
+      "location": "Cleveland, OH"
+    },
+    {
+      "date": "Sun Jan 3",
+      "time": "12:00 PM",
+      "tv": "FOX",
+      "away": "Giants",
+      "home": "Cowboys",
+      "location": "Arlington, TX"
+    },
+
+    {
+      "date": "Sun Jan 3",
       "time": "12:00 PM",
       "tv": "CBS",
       "away": "Bills",
@@ -1937,100 +2145,229 @@
       "location": "Miami Gardens, FL"
     },
     {
-      "date": "Sun Jan 10",
+      "date": "Sun Jan 3",
       "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Patriots",
+      "tv": "CBS",
+      "away": "Vikings",
       "home": "Jets",
       "location": "East Rutherford, NJ"
     },
     {
-      "date": "Sun Jan 10",
+      "date": "Sun Jan 3",
       "time": "12:00 PM",
       "tv": "CBS",
+      "away": "Steelers",
+      "home": "Titans",
+      "location": "Nashville, TN"
+    },
+
+    {
+      "date": "Sun Jan 3",
+      "time": "3:05 PM",
+      "tv": "CBS",
+      "away": "Raiders",
+      "home": "Cardinals",
+      "location": "Glendale, AZ"
+    },
+
+    {
+      "date": "Sun Jan 3",
+      "time": "3:25 PM",
+      "tv": "FOX",
+      "away": "Lions",
+      "home": "Bears",
+      "location": "Chicago, IL"
+    },
+
+    {
+      "date": "Sun Jan 3",
+      "time": "7:20 PM",
+      "tv": "NBC",
+      "away": "Eagles",
+      "home": "49ers",
+      "location": "Santa Clara, CA"
+    },
+
+    {
+      "date": "Mon Jan 4",
+      "time": "7:15 PM",
+      "tv": "ESPN",
+      "away": "Texans",
+      "home": "Packers",
+      "location": "Green Bay, WI"
+    },
+
+    {
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Commanders",
+      "home": "Jaguars",
+      "location": "Jacksonville, FL"
+    },
+    {
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Chiefs",
+      "home": "Chargers",
+      "location": "Inglewood, CA"
+    },
+    {
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Broncos",
+      "home": "Patriots",
+      "location": "Foxborough, MA"
+    },
+    {
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Rams",
+      "home": "Buccaneers",
+      "location": "Tampa, FL"
+    }
+  ],
+  "bye": []
+}
+
+"18": {
+  "games": [
+    {
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "49ers",
+      "home": "Cardinals",
+      "location": "Glendale, AZ"
+    },
+    {
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Steelers",
+      "home": "Ravens",
+      "location": "Baltimore, MD"
+    },
+    {
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Jets",
+      "home": "Bills",
+      "location": "Orchard Park, NY"
+    },
+    {
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Falcons",
+      "home": "Panthers",
+      "location": "Charlotte, NC"
+    },
+    {
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
       "away": "Browns",
       "home": "Bengals",
       "location": "Cincinnati, OH"
     },
 
     {
-      "date": "Sun Jan 10",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Falcons",
-      "home": "Panthers",
-      "location": "Charlotte, NC"
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Chargers",
+      "home": "Broncos",
+      "location": "Denver, CO"
     },
     {
-      "date": "Sun Jan 10",
-      "time": "12:00 PM",
-      "tv": "CBS",
-      "away": "Packers",
-      "home": "Lions",
-      "location": "Detroit, MI"
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Lions",
+      "home": "Packers",
+      "location": "Green Bay, WI"
     },
     {
-      "date": "Sun Jan 10",
-      "time": "12:00 PM",
-      "tv": "FOX",
-      "away": "Giants",
-      "home": "Cowboys",
-      "location": "Arlington, TX"
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Titans",
+      "home": "Texans",
+      "location": "Houston, TX"
     },
-
     {
-      "date": "Sun Jan 10",
-      "time": "3:25 PM",
-      "tv": "CBS",
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Jaguars",
+      "home": "Colts",
+      "location": "Indianapolis, IN"
+    },
+    {
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
       "away": "Raiders",
       "home": "Chiefs",
       "location": "Kansas City, MO"
     },
+
     {
-      "date": "Sun Jan 10",
-      "time": "3:25 PM",
-      "tv": "FOX",
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
       "away": "Seahawks",
       "home": "Rams",
       "location": "Inglewood, CA"
     },
     {
-      "date": "Sun Jan 10",
-      "time": "3:25 PM",
-      "tv": "CBS",
-      "away": "Jaguars",
-      "home": "Titans",
-      "location": "Nashville, TN"
-    },
-
-    {
-      "date": "Sun Jan 10",
-      "time": "3:25 PM",
-      "tv": "FOX",
-      "away": "Cardinals",
-      "home": "49ers",
-      "location": "Santa Clara, CA"
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Bears",
+      "home": "Vikings",
+      "location": "Minneapolis, MN"
     },
     {
-      "date": "Sun Jan 10",
-      "time": "3:25 PM",
-      "tv": "CBS",
-      "away": "Broncos",
-      "home": "Chargers",
-      "location": "Inglewood, CA"
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Dolphins",
+      "home": "Patriots",
+      "location": "Foxborough, MA"
     },
     {
-      "date": "Sun Jan 10",
-      "time": "3:25 PM",
-      "tv": "FOX",
-      "away": "Washington",
-      "home": "Eagles",
-      "location": "Philadelphia, PA"
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Buccaneers",
+      "home": "Saints",
+      "location": "New Orleans, LA"
+    },
+    {
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Eagles",
+      "home": "Giants",
+      "location": "East Rutherford, NJ"
+    },
+    {
+      "date": "TBD",
+      "time": "TBD",
+      "tv": "TBD",
+      "away": "Cowboys",
+      "home": "Commanders",
+      "location": "Landover, MD"
     }
   ],
   "bye": []
 }
-
 
   }
 }
