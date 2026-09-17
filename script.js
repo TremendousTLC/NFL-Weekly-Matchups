@@ -20,7 +20,7 @@ let picks = {};
 // --- INIT ---
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadHelmetBanner();
+  loadLogoBanner();
   loadLocalStorage();
   setupUIHandlers();
   Promise.all([
@@ -379,17 +379,18 @@ function getTeamHelmet(team) {
   return getTeamLogo(team); // reuse logos for now
 }
 
-function loadHelmetBanner() {
-  const banner = document.getElementById("helmet-banner");
-  Object.keys(teamInfo)
-    .sort((a, b) => teamInfo[a].fullName.localeCompare(teamInfo[b].fullName))
-    .forEach(team => {
-      const img = document.createElement("img");
-      img.src = getTeamHelmet(team);
-      img.alt = teamInfo[team].fullName;
-      banner.appendChild(img);
-    });
+function loadLogoBanner() {
+  const banner = document.getElementById("logo-banner");
+  banner.innerHTML = "";
+
+  Object.keys(teamLogos).forEach(team => {
+    const img = document.createElement("img");
+    img.src = teamLogos[team];
+    img.className = "teamLogo"; // optional CSS class
+    banner.appendChild(img);
+  });
 }
+
 
 function createStandingsRow(team, rec) {
   const row = document.createElement("div");
