@@ -17,7 +17,7 @@ body {
   height: 60px;
   background: #0d1328;
   display: flex;
-  justify-content: center;   /* <-- THIS CENTERS */
+  justify-content: center;   /* <-- THIS IS THE FIX */
   gap: 10px;
   padding: 6px;
   align-items: center;
