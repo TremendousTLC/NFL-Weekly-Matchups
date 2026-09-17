@@ -17,29 +17,90 @@ const LS_PICKS = "pickem_picks";
 let players = {};
 let picks = {};
 
+// --- API FETCH ---
+
+async function loadNFLScores() {
+  const url = "https://api-football-v1.p.rapidapi.com/v3/fixtures?league=210&season=2026";
+
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "YOUR_API_KEY_HERE",
+      "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
+    }
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    return data.response; // array of games
+  } catch (err) {
+    console.error("Error fetching NFL scores:", err);
+    return [];
+  }
+}
+
+function mapScoresToSchedule(apiGames) {
+  const scoreMap = {}; // week → gameIndex → score
+
+  Object.keys(scheduleData.weeks).forEach(weekKey => {
+    scoreMap[weekKey] = {};
+  });
+
+  apiGames.forEach(apiGame => {
+    const week = apiGame.league.round.replace("Regular Season - ", "");
+    const weekKey = String(week);
+
+    const awayName = apiGame.teams.away.name;
+    const homeName = apiGame.teams.home.name;
+
+    const awayScore = apiGame.goals.away;
+    const homeScore = apiGame.goals.home;
+
+    const scoreString = `${awayScore}-${homeScore}`;
+
+    const games = scheduleData.weeks[weekKey].games;
+
+    games.forEach((g, idx) => {
+      // match by fullName from teamInfo
+      if (teamInfo[g.away].fullName === awayName ||
+          teamInfo[g.home].fullName === homeName) {
+        scoreMap[weekKey][idx] = scoreString;
+      }
+    });
+  });
+
+  return scoreMap;
+}
+
 // --- INIT ---
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadLogoBanner();
-  loadLocalStorage();
-  setupUIHandlers();
-  Promise.all([
-    fetch(SCHEDULE_URL).then(r => r.json()),
-    fetch(TEAMINFO_URL).then(r => r.json())
-  ]).then(([schedule, teams]) => {
-    scheduleData = schedule;
-    teamInfo = teams;
-    currentWeek = detectCurrentNFLWeek(scheduleData);
-    renderCurrentWeek();
-    renderStandings();
-    renderTeamsList();
-    renderNFLWeekScheduleSelector();
-    renderPicksForWeek(currentWeek);
-    updateLeagueStats();
-  }).catch(err => {
-    console.error("Error loading data:", err);
-  });
+// --- INIT ---
+loadLogoBanner();
+loadLocalStorage();
+setupUIHandlers();
+
+Promise.all([
+  fetch(SCHEDULE_URL).then(r => r.json()),
+  fetch(TEAMINFO_URL).then(r => r.json())
+]).then(async ([schedule, teams]) => {
+  scheduleData = schedule;
+  teamInfo = teams;
+  currentWeek = detectCurrentNFLWeek(scheduleData);
+
+  // ⭐ Load scores from API-Football
+  const apiGames = await loadNFLScores();
+  scores = mapScoresToSchedule(apiGames);
+
+  // ⭐ Now render everything WITH scores
+  renderCurrentWeek();
+  renderStandings();
+  renderTeamsList();
+  renderNFLWeekScheduleSelector();
+  renderPicksForWeek(currentWeek);   // scores now appear here
+  updateLeagueStats();
 });
+
 
 // --- LOCAL STORAGE ---
 
@@ -59,6 +120,8 @@ function saveLocalStorage() {
   localStorage.setItem(LS_PLAYERS, JSON.stringify(players));
   localStorage.setItem(LS_PICKS, JSON.stringify(picks));
 }
+
+
 
 // --- UI HANDLERS ---
 
@@ -155,107 +218,6 @@ function changeWeek(delta) {
 
   renderCurrentWeek();          // <-- THIS UPDATES THE LABEL
   renderPicksForWeek(currentWeek);
-}
-
-// --- WEEKLY PICKS WRAPPER (your init expects this) ---
-
-function renderPicksForWeek(week) {
-  loadWeeklyPicks(week);
-}
-
-
-
-// --- WEEKLY PICKS BUILDER ---
-
-function loadWeeklyPicks(week) {
-  currentWeek = week;
-
-  // Update week labels
-  document.getElementById("picks-week").textContent = `Week ${week}`;
-  document.getElementById("picks-week-label").textContent = week;
-
-  const table = document.getElementById("picks-table");
-  table.innerHTML = "";
-
-  // Ensure picks object exists
-  if (!picks[currentPlayer]) picks[currentPlayer] = {};
-  if (!picks[currentPlayer][week]) picks[currentPlayer][week] = {};
-
-  // Get matchups for this week
-  const games = scheduleData.weeks[String(week)].games;
-
-  games.forEach((game, index) => {
-    const gameId = index;
-
-    const row = document.createElement("div");
-    row.className = "pick-row";
-    row.id = `game-${gameId}`;
-
-    // Game label
-    const label = document.createElement("div");
-    label.textContent = `${game.away} @ ${game.home}`;
-    row.appendChild(label);
-
-    // Away button
-    const awayBtn = document.createElement("button");
-    awayBtn.textContent = game.away;
-    awayBtn.className = `btn-${game.away}`;
-    awayBtn.addEventListener("click", () => selectPick(gameId, game.away));
-    row.appendChild(awayBtn);
-
-    // Home button
-    const homeBtn = document.createElement("button");
-    homeBtn.textContent = game.home;
-    homeBtn.className = `btn-${game.home}`;
-    homeBtn.addEventListener("click", () => selectPick(gameId, game.home));
-    row.appendChild(homeBtn);
-
-    table.appendChild(row);
-
-    // If already picked, highlight it
-    const savedPick = picks[currentPlayer][week][gameId];
-    if (savedPick) {
-      const btn = row.querySelector(`.btn-${savedPick}`);
-      if (btn) btn.classList.add("pick-selected");
-    }
-  });
-
-  // Clear detail window
-  document.getElementById("picks-detail-window").innerHTML = "";
-}
-
-
-
-// --- PICK SELECTION ---
-
-function selectPick(gameId, team) {
-  if (!picks[currentPlayer]) picks[currentPlayer] = {};
-  if (!picks[currentPlayer][currentWeek]) picks[currentPlayer][currentWeek] = {};
-
-  picks[currentPlayer][currentWeek][gameId] = team;
-
-  // Remove highlight from both buttons
-  document.querySelectorAll(`#game-${gameId} button`).forEach(b => {
-    b.classList.remove("pick-selected");
-  });
-
-  // Highlight selected
-  const selectedBtn = document.querySelector(`#game-${gameId} .btn-${team}`);
-  if (selectedBtn) selectedBtn.classList.add("pick-selected");
-
-  // Show detail window info
-  showPickDetail(gameId, team);
-}
-
-
-
-// --- DETAIL WINDOW ---
-
-function showPickDetail(gameId, team) {
-  const detail = document.getElementById("picks-detail-window");
-  detail.innerHTML = `
-    <strong>Selected:</strong> Game ${gameId}, Team: ${team}
-  `;
 }
 
 // --- STANDINGS ENGINE (simplified: based on results you’ll add later) ---
@@ -432,7 +394,6 @@ function createStandingsRow(team, rec) {
 
   return row;
 }
-
 
 // --- TEAM LOGOS ---
 
@@ -921,7 +882,7 @@ function showPlayerPicks(player) {
     const games = scheduleData.weeks[weekKey].games;
     games.forEach((g, idx) => {
       const line = document.createElement("div");
-      const pick = weekObj.picks[idx];
+      const pick = weekObj.games ? weekObj.games[idx] : null;
       line.textContent = `${g.away} @ ${g.home} → ${pick || "No pick"}`;
       container.appendChild(line);
     });
