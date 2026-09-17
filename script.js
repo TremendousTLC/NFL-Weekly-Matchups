@@ -139,10 +139,9 @@ function detectCurrentNFLWeek(schedule) {
 // --- CURRENT WEEK DISPLAY ---
 
 function renderCurrentWeek() {
-  document.getElementById("current-week").textContent = currentWeek;
-  document.getElementById("picks-week").textContent = currentWeek;
+  document.getElementById("current-week").textContent = `Week ${currentWeek}`;
+  document.getElementById("picks-week").textContent = `Week ${currentWeek}`;
 }
-
 
 
 // --- WEEK NAVIGATION ---
@@ -155,10 +154,9 @@ function changeWeek(delta) {
   if (currentWeek < 1) currentWeek = 1;
   if (currentWeek > 18) currentWeek = 18;
 
+  renderCurrentWeek();          // <-- THIS UPDATES THE LABEL
   renderPicksForWeek(currentWeek);
 }
-
-
 
 // --- WEEKLY PICKS WRAPPER (your init expects this) ---
 
