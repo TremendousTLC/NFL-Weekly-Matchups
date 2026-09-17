@@ -136,10 +136,16 @@ function detectCurrentNFLWeek(schedule) {
   return 18;
 }
 
+// --- CURRENT WEEK DISPLAY ---
+
 function renderCurrentWeek() {
   document.getElementById("current-week").textContent = currentWeek;
   document.getElementById("picks-week").textContent = currentWeek;
 }
+
+
+
+// --- WEEK NAVIGATION ---
 
 document.getElementById("prev-week").onclick = () => changeWeek(-1);
 document.getElementById("next-week").onclick = () => changeWeek(1);
@@ -149,8 +155,20 @@ function changeWeek(delta) {
   if (currentWeek < 1) currentWeek = 1;
   if (currentWeek > 18) currentWeek = 18;
 
-  loadWeeklyPicks(currentWeek);
+  renderPicksForWeek(currentWeek);
 }
+
+
+
+// --- WEEKLY PICKS WRAPPER (your init expects this) ---
+
+function renderPicksForWeek(week) {
+  loadWeeklyPicks(week);
+}
+
+
+
+// --- WEEKLY PICKS BUILDER ---
 
 function loadWeeklyPicks(week) {
   currentWeek = week;
@@ -167,10 +185,10 @@ function loadWeeklyPicks(week) {
   if (!picks[currentPlayer][week]) picks[currentPlayer][week] = {};
 
   // Get matchups for this week
-  const games = schedule[week]; // your schedule[week] JSON
+  const games = scheduleData.weeks[String(week)].games;
 
   games.forEach((game, index) => {
-    const gameId = index; // or game.gameId if you have one
+    const gameId = index;
 
     const row = document.createElement("div");
     row.className = "pick-row";
@@ -209,6 +227,10 @@ function loadWeeklyPicks(week) {
   document.getElementById("picks-detail-window").innerHTML = "";
 }
 
+
+
+// --- PICK SELECTION ---
+
 function selectPick(gameId, team) {
   if (!picks[currentPlayer]) picks[currentPlayer] = {};
   if (!picks[currentPlayer][currentWeek]) picks[currentPlayer][currentWeek] = {};
@@ -227,6 +249,10 @@ function selectPick(gameId, team) {
   // Show detail window info
   showPickDetail(gameId, team);
 }
+
+
+
+// --- DETAIL WINDOW ---
 
 function showPickDetail(gameId, team) {
   const detail = document.getElementById("picks-detail-window");
@@ -413,17 +439,44 @@ function createStandingsRow(team, rec) {
 // --- TEAM LOGOS ---
 
 const teamLogos = {
-  "Cowboys": "logos/Cowboys.png",
-  "Texans": "logos/Texans.png",
-  "Chiefs": "logos/Chiefs.png",
-  "Eagles": "logos/Eagles.png",
-  "Giants": "logos/Giants.png"
-  // TODO: add all 32 teams
+  ARI: "LOGOS/ARI.PNG",
+  ATL: "LOGOS/ATL.PNG",
+  BAL: "LOGOS/BAL.PNG",
+  BUF: "LOGOS/BUF.PNG",
+  CAR: "LOGOS/CAR.PNG",
+  CHI: "LOGOS/CHI.PNG",
+  CIN: "LOGOS/CIN.PNG",
+  CLE: "LOGOS/CLE.PNG",
+  DAL: "LOGOS/DAL.PNG",
+  DEN: "LOGOS/DEN.PNG",
+  DET: "LOGOS/DET.PNG",
+  GB:  "LOGOS/GB.PNG",
+  HOU: "LOGOS/HOU.PNG",
+  IND: "LOGOS/IND.PNG",
+  JAX: "LOGOS/JAX.PNG",
+  KC:  "LOGOS/KC.PNG",
+  LV:  "LOGOS/LV.PNG",
+  LAC: "LOGOS/LAC.PNG",
+  LAR: "LOGOS/LAR.PNG",
+  MIA: "LOGOS/MIA.PNG",
+  MIN: "LOGOS/MIN.PNG",
+  NE:  "LOGOS/NE.PNG",
+  NO:  "LOGOS/NO.PNG",
+  NYG: "LOGOS/NYG.PNG",
+  NYJ: "LOGOS/NYJ.PNG",
+  PHI: "LOGOS/PHI.PNG",
+  PIT: "LOGOS/PIT.PNG",
+  SEA: "LOGOS/SEA.PNG",
+  SF:  "LOGOS/SF.PNG",
+  TB:  "LOGOS/TB.PNG",
+  TEN: "LOGOS/TEN.PNG",
+  WAS: "LOGOS/WAS.PNG"
 };
 
 function getTeamLogo(team) {
   return teamLogos[team] || "";
 }
+a zip file with
 
 // --- TEAMS LIST / TEAM DETAIL ---
 
