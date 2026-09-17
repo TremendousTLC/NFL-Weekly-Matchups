@@ -430,43 +430,6 @@ function createStandingsRow(team, rec) {
   return row;
 }
 
-// --- TEAM LOGOS ---
-
-const teamLogos = {
-  ARI: "LOGOS/ARI.PNG",
-  ATL: "LOGOS/ATL.PNG",
-  BAL: "LOGOS/BAL.PNG",
-  BUF: "LOGOS/BUF.PNG",
-  CAR: "LOGOS/CAR.PNG",
-  CHI: "LOGOS/CHI.PNG",
-  CIN: "LOGOS/CIN.PNG",
-  CLE: "LOGOS/CLE.PNG",
-  DAL: "LOGOS/DAL.PNG",
-  DEN: "LOGOS/DEN.PNG",
-  DET: "LOGOS/DET.PNG",
-  GB:  "LOGOS/GB.PNG",
-  HOU: "LOGOS/HOU.PNG",
-  IND: "LOGOS/IND.PNG",
-  JAX: "LOGOS/JAX.PNG",
-  KC:  "LOGOS/KC.PNG",
-  LV:  "LOGOS/LV.PNG",
-  LAC: "LOGOS/LAC.PNG",
-  LAR: "LOGOS/LAR.PNG",
-  MIA: "LOGOS/MIA.PNG",
-  MIN: "LOGOS/MIN.PNG",
-  NE:  "LOGOS/NE.PNG",
-  NO:  "LOGOS/NO.PNG",
-  NYG: "LOGOS/NYG.PNG",
-  NYJ: "LOGOS/NYJ.PNG",
-  PHI: "LOGOS/PHI.PNG",
-  PIT: "LOGOS/PIT.PNG",
-  SEA: "LOGOS/SEA.PNG",
-  SF:  "LOGOS/SF.PNG",
-  TB:  "LOGOS/TB.PNG",
-  TEN: "LOGOS/TEN.PNG",
-  WAS: "LOGOS/WAS.PNG"
-};
-
 function getTeamLogo(team) {
   return teamLogos[team] || "";
 }
