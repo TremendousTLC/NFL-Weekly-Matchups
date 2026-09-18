@@ -280,6 +280,9 @@ button:hover {
   background: #1f6feb;
   padding: 6px 14px;
   border-radius: 6px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
 }
 
 #picks-current-week {
@@ -361,6 +364,33 @@ button:hover {
   justify-content: center;
 }
 
+.picks-actions button {
+  background: #1f6feb;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.picks-actions button:hover {
+  background: #1450a3;
+}
+
+/* Notification */
+.notification {
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: #1f6feb;
+  color: #fff;
+}
+
+.notification.hidden {
+  display: none;
+}
+
 /* Detail window */
 #picks-detail-window {
   margin-top: 10px;
@@ -368,6 +398,7 @@ button:hover {
   padding: 10px;
   border-radius: 6px;
   min-height: 80px;
+  color: #fff;
 }
 
 /* Winner score highlight */
@@ -375,4 +406,3 @@ button:hover {
   font-weight: bold;
   color: #2a7;
 }
-

@@ -80,22 +80,23 @@ function mapScoresToSchedule(apiGames) {
 
 
 // --- FIX #1: MERGE scoreMap INTO scheduleData ---
-
 function mergeScoresIntoSchedule(scoreMap) {
   Object.keys(scoreMap).forEach(weekKey => {
-    const weekScores = scoreMap[weekKey];
+    const weekScores = scoreMap[weekKey].scores;
     const games = scheduleData.weeks[weekKey].games;
 
-    Object.keys(weekScores).forEach(idx => {
-      const scoreString = weekScores[idx];
+    weekScores.forEach(scoreObj => {
+      const game = games.find(
+        g => g.away === scoreObj.away && g.home === scoreObj.home
+      );
 
-      // FIX #2: Inject score into each game object
-      games[idx].score = scoreString;
+      if (game) {
+        game.score = scoreObj.score;
 
-      // Optional: split into numeric values
-      const [awayScore, homeScore] = scoreString.split("-").map(Number);
-      games[idx].awayScore = awayScore;
-      games[idx].homeScore = homeScore;
+        const [awayScore, homeScore] = scoreObj.score.split("-").map(Number);
+        game.awayScore = awayScore;
+        game.homeScore = homeScore;
+      }
     });
   });
 }
@@ -258,7 +259,6 @@ function lockWeek(weekKey) {
   renderPicksForWeek(weekKey);
 }
 
-
 // ---RENDER PICKS FOR THE WEEK
 
 function renderPicksForWeek(week) {
@@ -278,14 +278,12 @@ function renderPicksForWeek(week) {
     const row = document.createElement("div");
     row.className = "matchup-row";
 
-    // --- SCOREBOARD STYLE ---
+    // --- SCORE CELLS ---
     const awayScoreCell = document.createElement("div");
     const homeScoreCell = document.createElement("div");
 
-    const score = g.score || null;
-
-    if (score) {
-      const [awayScore, homeScore] = score.split("-").map(Number);
+    if (g.score) {
+      const [awayScore, homeScore] = g.score.split("-").map(Number);
       awayScoreCell.textContent = awayScore;
       homeScoreCell.textContent = homeScore;
 
@@ -310,7 +308,8 @@ function renderPicksForWeek(week) {
     dash.textContent = " - ";
 
     // --- Highlight saved pick ---
-    const savedPick = getPickBackend(currentPlayer, weekKey, idx);
+    const savedPick = picks[currentPlayer]?.[weekKey]?.[idx] || null;
+
     if (savedPick === g.away) awayBtn.classList.add("selected");
     if (savedPick === g.home) homeBtn.classList.add("selected");
 
