@@ -369,14 +369,13 @@ button:hover {
 }
 
 .matchup-row {
-  display: flex;
-  flex-direction: row;     /* <-- THIS forces horizontal layout */
+  display: flex !important;
+  flex-direction: row !important;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  width: 100%;
+  gap: 18px;
+  padding: 6px 0;
 }
-
 
 .team-btn {
   padding: 8px 16px;
@@ -385,7 +384,7 @@ button:hover {
   background: #f2f2f2;
   color: #000;
   cursor: pointer;
-  min-width: 110px;
+  min-width: 120px;
   text-align: center;
   font-weight: bold;
 }
@@ -404,7 +403,7 @@ button:hover {
   font-weight: bold;
   font-size: 20px;
   color: #fff;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 .picks-actions {
@@ -412,4 +411,10 @@ button:hover {
   display: flex;
   gap: 12px;
   justify-content: center;
+}
+
+.matchup-row div {
+  width: 40px;
+  text-align: center;
+  font-size: 18px;
 }

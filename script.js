@@ -268,7 +268,6 @@ function renderPicksForWeek(week) {
   const weekKey = String(week);
   const games = scheduleData.weeks[weekKey].games;
 
-  // Determine if week is locked (submitted OR cutoff passed)
   const locked =
     isWeekLockedBackend(currentPlayer, weekKey) ||
     (picks[currentPlayer] &&
@@ -277,13 +276,12 @@ function renderPicksForWeek(week) {
 
   games.forEach((g, idx) => {
     const row = document.createElement("div");
-    row.className = "pick-row";
+    row.className = "matchup-row";
 
-    // --- SCOREBOARD CELLS ---
+    // --- SCOREBOARD STYLE ---
     const awayScoreCell = document.createElement("div");
     const homeScoreCell = document.createElement("div");
 
-    // Pull score from scheduleData (after mergeScoresIntoSchedule)
     const score = g.score || null;
 
     if (score) {
@@ -291,64 +289,50 @@ function renderPicksForWeek(week) {
       awayScoreCell.textContent = awayScore;
       homeScoreCell.textContent = homeScore;
 
-      // highlight winner
-      if (awayScore > homeScore) {
-        awayScoreCell.classList.add("winner-score");
-      } else if (homeScore > awayScore) {
-        homeScoreCell.classList.add("winner-score");
-      }
+      if (awayScore > homeScore) awayScoreCell.classList.add("winner-score");
+      if (homeScore > awayScore) homeScoreCell.classList.add("winner-score");
     } else {
       awayScoreCell.textContent = "-";
       homeScoreCell.textContent = "-";
     }
 
-    // --- MATCHUP ---
-    const matchup = document.createElement("div");
-    matchup.textContent = `${g.away} @ ${g.home}`;
-
-    // --- PICK BUTTONS ---
-    const actions = document.createElement("div");
-    actions.className = "pick-actions";
-
+    // --- TEAM BUTTONS ---
     const awayBtn = document.createElement("button");
+    awayBtn.className = "team-btn";
     awayBtn.textContent = g.away;
 
     const homeBtn = document.createElement("button");
+    homeBtn.className = "team-btn";
     homeBtn.textContent = g.home;
 
-    // Highlight saved pick
+    const dash = document.createElement("span");
+    dash.className = "vs-separator";
+    dash.textContent = " - ";
+
+    // --- Highlight saved pick ---
     const savedPick = getPickBackend(currentPlayer, weekKey, idx);
+    if (savedPick === g.away) awayBtn.classList.add("selected");
+    if (savedPick === g.home) homeBtn.classList.add("selected");
 
-    if (savedPick === g.away) {
-      awayBtn.classList.add("selected");
-    }
-    if (savedPick === g.home) {
-      homeBtn.classList.add("selected");
-    }
-
-    // Locking logic
-    if (locked) {
+    // --- Locking logic ---
+    if (!locked) {
+      awayBtn.addEventListener("click", () =>
+        setPickBackend(currentPlayer, weekKey, idx, g.away)
+      );
+      homeBtn.addEventListener("click", () =>
+        setPickBackend(currentPlayer, weekKey, idx, g.home)
+      );
+    } else {
       awayBtn.disabled = true;
       homeBtn.disabled = true;
-    } else {
-      awayBtn.addEventListener("click", () => setPickBackend(currentPlayer, weekKey, idx, g.away));
-      homeBtn.addEventListener("click", () => setPickBackend(currentPlayer, weekKey, idx, g.home));
     }
 
-    actions.appendChild(awayBtn);
-    actions.appendChild(homeBtn);
-
-    // --- CURRENT PICK CELL ---
-    const currentPickCell = document.createElement("div");
-    currentPickCell.id = `pick-${weekKey}-${idx}`;
-    currentPickCell.textContent = savedPick || "";
-
-    // --- BUILD ROW IN SCOREBOARD ORDER ---
+    // --- BUILD SCOREBOARD ROW ---
     row.appendChild(awayScoreCell);   // LEFT SCORE
-    row.appendChild(matchup);         // AWAY @ HOME
+    row.appendChild(awayBtn);         // AWAY BUTTON
+    row.appendChild(dash);            // DASH
+    row.appendChild(homeBtn);         // HOME BUTTON
     row.appendChild(homeScoreCell);   // RIGHT SCORE
-    row.appendChild(actions);         // PICK BUTTONS
-    row.appendChild(currentPickCell); // YOUR PICK
 
     container.appendChild(row);
   });
