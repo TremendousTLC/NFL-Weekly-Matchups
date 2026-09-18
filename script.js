@@ -2,6 +2,7 @@
 
 const SCHEDULE_URL = "2026_NFL_schedule.json";
 const TEAMINFO_URL = "teamInfo.json";
+const API_BASE = "https://nfl-pickem-backend.onrender.com";
 
 let scheduleData = null;
 let teamInfo = null;
