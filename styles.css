@@ -359,6 +359,13 @@ button:hover {
   font-weight: bold;
 }
 
+#picks-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 6px;
+  margin-bottom: 12px;
+}
+
 #matchups-container {
   display: flex;
   flex-direction: column;
