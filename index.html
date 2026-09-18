@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>NFL Weekly Matchup 011</title>
+  <title>NFL Weekly Matchup 012</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -48,25 +48,28 @@
       </div>
     </section>
 
-    <!-- CENTER: WEEKLY PICKS -->
-    <section id="picks-panel">
-      <h2>Weekly Picks</h2>
+    <!-- CENTER: WEEKLY PICKS PANEL-->
+ <section id="picks-panel">
+  <div id="weekly-picks-container">
 
-      <!-- ⭐ FIXED WEEK NAV (this is the one between the arrows) -->
-      <div id="picks-week-nav" class="week-nav">
-        <button id="prev-week" onclick="changeWeek(-1)">◀</button>
-        <span id="picks-current-week">Week -</span>
-        <button id="next-week" onclick="changeWeek(1)">▶</button>
-      </div>
+    <h2 id="weekly-title">Weekly Picks</h2>
 
-      <div id="picks-table"></div>
+    <div id="week-selector">
+      <button id="prev-week" onclick="changeWeek(-1)">◀</button>
+      <span id="week-label">Week -</span>
+      <button id="next-week" onclick="changeWeek(1)">▶</button>
+    </div>
 
-      <div class="picks-actions">
-        <button id="submit-picks-btn">Submit Picks</button>
-        <button id="edit-picks-btn">Edit Picks</button>
-      </div>
+    <div id="matchups-container"></div>
 
-      <div id="picks-notification" class="notification hidden"></div>
+    <div class="picks-actions">
+      <button id="submit-picks-btn">Submit Picks</button>
+      <button id="edit-picks-btn">Edit Picks</button>
+    </div>
+
+    <div id="picks-notification" class="notification hidden"></div>
+
+  </div>
 
       <div id="picks-detail-window">
         <!-- Team / matchup / bye info goes here -->

@@ -169,6 +169,13 @@ function ensureWeek(player, weekKey) {
 // ===============================
 
 function setPickBackend(player, weekKey, gameIndex, team) {
+
+  // 🚫 Prevent ghost picks (player=null)
+  if (!player || player.trim() === "") {
+    console.warn("Pick ignored — no player name set.");
+    return;
+  }
+
   ensurePlayer(player);
   ensureWeek(player, weekKey);
 
@@ -177,7 +184,6 @@ function setPickBackend(player, weekKey, gameIndex, team) {
   // Save to backend
   savePicks(currentSeason, player, weekKey, picks[player][weekKey]);
 }
-
 
 // ===============================
 //  GET A PICK
