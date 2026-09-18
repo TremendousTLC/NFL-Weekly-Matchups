@@ -370,10 +370,13 @@ button:hover {
 
 .matchup-row {
   display: flex;
+  flex-direction: row;     /* <-- THIS forces horizontal layout */
   align-items: center;
   justify-content: center;
   gap: 14px;
+  width: 100%;
 }
+
 
 .team-btn {
   padding: 8px 16px;
@@ -399,7 +402,9 @@ button:hover {
 
 .vs-separator {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 20px;
+  color: #fff;
+  opacity: 0.8;
 }
 
 .picks-actions {
