@@ -113,14 +113,13 @@ let currentSeason = 2026;
 //  LOAD PICKS FROM BACKEND
 // ===============================
 
+const API_BASE = "https://nfl-pickem-backend.onrender.com";
+
 async function loadPicks(season = currentSeason) {
   try {
-    const res = await fetch(`/picks/${season}`);
+    const res = await fetch(`${API_BASE}/picks/${season}`);
     const data = await res.json();
-
     picks = data.players || {};
-    console.log("Loaded picks:", picks);
-
     return picks;
   } catch (err) {
     console.error("Error loading picks:", err);
@@ -128,25 +127,21 @@ async function loadPicks(season = currentSeason) {
   }
 }
 
-
 // ===============================
 //  SAVE PICKS TO BACKEND
 // ===============================
 
 async function savePicks(season, player, week, picksObj) {
   try {
-    await fetch(`/picks/${season}/${player}/${week}`, {
+    await fetch(`${API_BASE}/picks/${season}/${player}/${week}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(picksObj)
     });
-
-    console.log(`Saved picks for ${player}, week ${week}:`, picksObj);
   } catch (err) {
     console.error("Error saving picks:", err);
   }
 }
-
 
 // ===============================
 //  ENSURE PLAYER EXISTS
