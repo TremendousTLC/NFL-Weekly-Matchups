@@ -551,7 +551,8 @@ function detectCurrentNFLWeek(schedule) {
 // --- CURRENT WEEK DISPLAY ---
 
 function renderCurrentWeek() {
-  document.getElementById("current-week").textContent = `Week ${currentWeek}`;
+  document.getElementById("current-week").textContent = `Week ${currentWeek}`; // NFL panel
+  document.getElementById("picks-current-week").textContent = `Week ${currentWeek}`; // Picks panel
 }
 
 // --- WEEK NAVIGATION ---
@@ -564,7 +565,7 @@ function changeWeek(delta) {
   if (currentWeek < 1) currentWeek = 1;
   if (currentWeek > 18) currentWeek = 18;
 
-  renderCurrentWeek();          // <-- THIS UPDATES THE LABEL
+  renderCurrentWeek();
   renderPicksForWeek(currentWeek);
 }
 
