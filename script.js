@@ -114,8 +114,6 @@ let currentSeason = 2026;
 //  LOAD PICKS FROM BACKEND
 // ===============================
 
-const API_BASE = "https://nfl-pickem-backend.onrender.com";
-
 async function loadPicks(season = currentSeason) {
   try {
     const res = await fetch(`${API_BASE}/picks/${season}`);
