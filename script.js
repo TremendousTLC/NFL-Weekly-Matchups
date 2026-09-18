@@ -106,7 +106,6 @@ function mergeScoresIntoSchedule(scoreMap) {
 // In-memory picks object
 // Structure:
 // picks[player][week][gameIndex] = "TeamName"
-let picks = {};
 let currentSeason = 2026;
 
 
