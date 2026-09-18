@@ -262,7 +262,7 @@ function lockWeek(weekKey) {
 // ---RENDER PICKS FOR THE WEEK
 
 function renderPicksForWeek(week) {
-  const container = document.getElementById("picks-table");
+  const container = document.getElementById("matchups-container");
   container.innerHTML = "";
 
   const weekKey = String(week);
