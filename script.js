@@ -206,8 +206,6 @@ function renderPicksForWeek(week) {
   container.innerHTML = "";
 
   const games = scheduleData.weeks[week].games;
-
-  // USE THE REAL PICK STORE
   const weekPicks = picks[week] || [];
 
   games.forEach((g, i) => {
@@ -221,21 +219,53 @@ function renderPicksForWeek(week) {
     const awaySelected = pickNorm === awayNorm ? "selected" : "";
     const homeSelected = pickNorm === homeNorm ? "selected" : "";
 
-    const html = `
-      <div class="matchup">
-        <button class="team-btn ${awaySelected}" data-team="${away}" data-index="${i}">
-          ${away} ${g.awayScore ?? ""}
-        </button>
+    const awayScore = g.awayScore ?? "-";
+    const homeScore = g.homeScore ?? "-";
 
-        <span class="vs"> - </span>
+    const row = document.createElement("div");
+    row.className = "matchup-row";
 
-        <button class="team-btn ${homeSelected}" data-team="${home}" data-index="${i}">
-          ${home} ${g.homeScore ?? ""}
-        </button>
-      </div>
-    `;
+    // LEFT SCORE
+    const awayScoreCell = document.createElement("div");
+    awayScoreCell.className = "score-cell";
+    awayScoreCell.textContent = awayScore;
 
-    container.insertAdjacentHTML("beforeend", html);
+    // AWAY BUTTON
+    const awayBtn = document.createElement("button");
+    awayBtn.className = `team-btn ${awaySelected}`;
+    awayBtn.textContent = away;
+    awayBtn.dataset.team = away;
+    awayBtn.dataset.index = i;
+
+    // DASH
+    const dash = document.createElement("span");
+    dash.className = "vs-separator";
+    dash.textContent = " - ";
+
+    // HOME BUTTON
+    const homeBtn = document.createElement("button");
+    homeBtn.className = `team-btn ${homeSelected}`;
+    homeBtn.textContent = home;
+    homeBtn.dataset.team = home;
+    homeBtn.dataset.index = i;
+
+    // RIGHT SCORE
+    const homeScoreCell = document.createElement("div");
+    homeScoreCell.className = "score-cell";
+    homeScoreCell.textContent = homeScore;
+
+    // Add click handlers
+    awayBtn.addEventListener("click", () => setPickBackend(currentPlayer, week, i, away));
+    homeBtn.addEventListener("click", () => setPickBackend(currentPlayer, week, i, home));
+
+    // Build row
+    row.appendChild(awayScoreCell);
+    row.appendChild(awayBtn);
+    row.appendChild(dash);
+    row.appendChild(homeBtn);
+    row.appendChild(homeScoreCell);
+
+    container.appendChild(row);
   });
 }
 
