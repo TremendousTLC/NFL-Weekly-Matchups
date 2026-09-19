@@ -1,5 +1,3 @@
-// --- CONFIG / STATE ---
-
 const SCHEDULE_URL = "2026_NFL_schedule.json";
 const TEAMINFO_URL = "teamInfo.json";
 const API_BASE = "https://nfl-pickem-backend.onrender.com";
@@ -10,15 +8,11 @@ let currentWeek = null;
 
 let currentPlayer = null;
 
-// localStorage keys
 const LS_PLAYERS = "pickem_players";
 const LS_PICKS = "pickem_picks";
 
-// in-memory caches
 let players = {};
 let picks = {};
-
-// --- FETCH SCORES ---
 
 async function loadNFLScores() {
   const res = await fetch("scores_2026.json");
@@ -26,7 +20,6 @@ async function loadNFLScores() {
   return data;
 }
 
-// --- FIX #1: MERGE scoreMap INTO scheduleData ---
 function mergeScoresIntoSchedule(scoreMap) {
   Object.keys(scoreMap).forEach(weekKey => {
     const weekScores = scoreMap[weekKey].scores;
@@ -36,11 +29,8 @@ function mergeScoresIntoSchedule(scoreMap) {
       const game = games.find(g => {
         const awayFull = teamInfo[g.away]?.fullName || "";
         const homeFull = teamInfo[g.home]?.fullName || "";
-
-        // Normalize both sides
         const normAwayFull = awayFull.toLowerCase().replace(/[^a-z]/g, "");
         const normHomeFull = homeFull.toLowerCase().replace(/[^a-z]/g, "");
-
         const normAwayAPI = scoreObj.away.toLowerCase().replace(/[^a-z]/g, "");
         const normHomeAPI = scoreObj.home.toLowerCase().replace(/[^a-z]/g, "");
 
@@ -58,18 +48,7 @@ function mergeScoresIntoSchedule(scoreMap) {
   });
 }
 
-// ===============================
-//  PICKS MODULE (picks.js)
-// ===============================
-
-// In-memory picks object
-// Structure:
-// picks[player][week][gameIndex] = "TeamName"
 let currentSeason = 2026;
-
-// ===============================
-//  LOAD PICKS FROM BACKEND
-// ===============================
 
 async function loadPicks(season = currentSeason) {
   try {
@@ -83,10 +62,6 @@ async function loadPicks(season = currentSeason) {
   }
 }
 
-// ===============================
-//  SAVE PICKS TO BACKEND
-// ===============================
-
 async function savePicks(season, player, week, picksObj) {
   try {
     await fetch(`${API_BASE}/picks/${season}/${player}/${week}`, {
@@ -99,19 +74,11 @@ async function savePicks(season, player, week, picksObj) {
   }
 }
 
-// ===============================
-//  ENSURE PLAYER EXISTS
-// ===============================
-
 function ensurePlayer(player) {
   if (!picks[player]) {
     picks[player] = {};
   }
 }
-
-// ===============================
-//  ENSURE WEEK EXISTS
-// ===============================
 
 function ensureWeek(player, weekKey) {
   if (!picks[player][weekKey]) {
@@ -119,13 +86,8 @@ function ensureWeek(player, weekKey) {
   }
 }
 
-// ===============================
-//  SET A PICK
-// ===============================
-
 function setPickBackend(player, weekKey, gameIndex, team) {
 
-  // 🚫 Prevent ghost picks (player=null)
   if (!player || player.trim() === "") {
     console.warn("Pick ignored — no player name set.");
     return;
@@ -136,13 +98,8 @@ function setPickBackend(player, weekKey, gameIndex, team) {
 
   picks[player][weekKey][gameIndex] = team;
 
-  // Save to backend
   savePicks(currentSeason, player, weekKey, picks[player][weekKey]);
 }
-
-// ===============================
-//  GET A PICK
-// ===============================
 
 function getPickBackend(player, weekKey, gameIndex) {
   if (!picks[player]) return null;
@@ -150,10 +107,6 @@ function getPickBackend(player, weekKey, gameIndex) {
 
   return picks[player][weekKey][gameIndex] || null;
 }
-
-// ===============================
-//  WEEK LOCKING LOGIC
-// ===============================
 
 function isWeekLockedBackend(player, weekKey) {
   const weekObj = picks[player]?.[weekKey];
@@ -171,47 +124,33 @@ function lockWeekBackend(player, weekKey) {
   savePicks(currentSeason, player, weekKey, picks[player][weekKey]);
 }
 
-// ===============================
-//  INITIALIZE PICKS SYSTEM
-// ===============================
-
 async function initPicksSystem() {
   await loadPicks(currentSeason);
 
   console.log("Picks system initialized.");
 }
 
-// ===============================
-//  UI WRAPPERS FOR BACKEND PICKS
-// ===============================
-
-// UI wrapper for setting a pick
 function setPick(weekKey, gameIndex, team) {
   const player = currentPlayer;
   setPickBackend(player, weekKey, gameIndex, team);
   renderPicksForWeek(weekKey);
 }
 
-// UI wrapper for getting a pick
 function getPick(weekKey, gameIndex) {
   const player = currentPlayer;
   return getPickBackend(player, weekKey, gameIndex);
 }
 
-// UI wrapper for checking lock state
 function isWeekLocked(weekKey) {
   const player = currentPlayer;
   return isWeekLockedBackend(player, weekKey);
 }
 
-// UI wrapper for locking a week
 function lockWeek(weekKey) {
   const player = currentPlayer;
   lockWeekBackend(player, weekKey);
   renderPicksForWeek(weekKey);
 }
-
-// ---RENDER PICKS FOR THE WEEK
 
 function renderPicksForWeek(week) {
   const container = document.getElementById("matchups-container");
@@ -230,7 +169,6 @@ function renderPicksForWeek(week) {
     const row = document.createElement("div");
     row.className = "matchup-row";
 
-    // --- SCORE CELLS ---
     const awayScoreCell = document.createElement("div");
     const homeScoreCell = document.createElement("div");
 
@@ -246,7 +184,6 @@ function renderPicksForWeek(week) {
       homeScoreCell.textContent = "-";
     }
 
-    // --- TEAM BUTTONS ---
     const awayBtn = document.createElement("button");
     awayBtn.className = "team-btn";
     awayBtn.textContent = g.away;
@@ -259,13 +196,11 @@ function renderPicksForWeek(week) {
     dash.className = "vs-separator";
     dash.textContent = " - ";
 
-    // --- Highlight saved pick ---
     const savedPick = picks[currentPlayer]?.[weekKey]?.[idx] || null;
 
     if (savedPick === g.away) awayBtn.classList.add("selected");
     if (savedPick === g.home) homeBtn.classList.add("selected");
 
-    // --- Locking logic ---
     if (!locked) {
       awayBtn.addEventListener("click", () =>
         setPickBackend(currentPlayer, weekKey, idx, g.away)
@@ -278,7 +213,6 @@ function renderPicksForWeek(week) {
       homeBtn.disabled = true;
     }
 
-    // --- BUILD SCOREBOARD ROW ---
     row.appendChild(awayScoreCell);   // LEFT SCORE
     row.appendChild(awayBtn);         // AWAY BUTTON
     row.appendChild(dash);            // DASH
@@ -295,7 +229,6 @@ async function loadSchedule() {
   const res = await fetch(SCHEDULE_URL);
   scheduleData = await res.json();
 
-  // ⭐ FIX: Set currentWeek
   currentWeek = scheduleData.currentWeek || 1;
 }
 
@@ -303,8 +236,6 @@ async function loadTeamInfo() {
   const res = await fetch(TEAMINFO_URL);
   teamInfo = await res.json();
 }
-
-// --- FINAL INIT BLOCK (CALL EVERYTHING CLEANLY) ---
 
 async function initApp() {
   await loadSchedule();     // ⭐ MUST COME FIRST
@@ -323,13 +254,10 @@ async function initScores() {
 
   console.log("Scores merged:", scoreMap);
 
-  // Re-render UI now that scores exist
   renderCurrentWeek();
   renderPicksForWeek(currentWeek);
   renderStandings();
 }
-
-// --- TEAM LOGOS ---
 
 const teamLogos = {
   ARI: "LOGOS/ARI.PNG",
@@ -366,43 +294,6 @@ const teamLogos = {
   WAS: "LOGOS/WAS.PNG"
 };
 
-// --- INIT ---
-loadLogoBanner();
-loadLocalStorage();
-setupUIHandlers();
-
-Promise.all([
-  fetch(SCHEDULE_URL).then(r => r.json()),
-  fetch(TEAMINFO_URL).then(r => r.json())
-]).then(async ([schedule, teams]) => {
-  scheduleData = schedule;
-  teamInfo = teams;
-  currentWeek = detectCurrentNFLWeek(scheduleData);
-
-  const apiGames = await loadNFLScores();
-
-  if (!Array.isArray(apiGames)) {
-    console.warn("Scores unavailable — API returned nothing.");
-    scores = {};
-  } else {
-    scores = mapScoresToSchedule(apiGames);
-    mergeScoresIntoSchedule(scores);
-  }
-
-  // NEW: load picks from backend
-  await initPicksSystem();
-
-  renderCurrentWeek();
-  renderStandings();
-  renderTeamsList();
-  renderNFLWeekScheduleSelector();
-  renderPicksForWeek(currentWeek);
-  updateLeagueStats();
-});
-
-
-// --- LOCAL STORAGE ---
-
 function loadLocalStorage() {
   try {
     const p = localStorage.getItem(LS_PLAYERS);
@@ -419,10 +310,6 @@ function saveLocalStorage() {
   localStorage.setItem(LS_PLAYERS, JSON.stringify(players));
   localStorage.setItem(LS_PICKS, JSON.stringify(picks));
 }
-
-
-
-// --- UI HANDLERS ---
 
 function setupUIHandlers() {
   const setPlayerBtn = document.getElementById("set-player-btn");
@@ -482,8 +369,6 @@ function togglePanel(id) {
   });
 }
 
-// --- CURRENT WEEK DETECTION ---
-
 function detectCurrentNFLWeek(schedule) {
   const today = new Date();
   for (let w = 1; w <= 18; w++) {
@@ -498,14 +383,10 @@ function detectCurrentNFLWeek(schedule) {
   return 18;
 }
 
-// --- CURRENT WEEK DISPLAY ---
-
 function renderCurrentWeek() {
   document.getElementById("current-week").textContent = `Week ${currentWeek}`; // NFL panel
   document.getElementById("picks-current-week").textContent = `Week ${currentWeek}`; // Picks panel
 }
-
-// --- WEEK NAVIGATION ---
 
 document.getElementById("prev-week").onclick = () => changeWeek(-1);
 document.getElementById("next-week").onclick = () => changeWeek(1);
