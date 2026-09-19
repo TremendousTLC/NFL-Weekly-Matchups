@@ -342,17 +342,31 @@ function setupUIHandlers() {
   const scheduleWeekSelect = document.getElementById("schedule-week-select");
 
   setPlayerBtn.addEventListener("click", () => {
-    const nameInput = document.getElementById("player-name");
-    const name = nameInput.value.trim();
-    if (!name) return;
-    currentPlayer = name;
-    if (!players[currentPlayer]) {
-      players[currentPlayer] = { displayName: currentPlayer, createdAt: new Date().toISOString() };
-      saveLocalStorage();
-      updateLeagueStats();
-    }
-    showNotification(`Current player set to ${currentPlayer}`);
-  });
+  const nameInput = document.getElementById("player-name");
+  const name = nameInput.value.trim();
+  if (!name) return;
+
+  currentPlayer = name;
+
+  // Create player record if new
+  if (!players[currentPlayer]) {
+    players[currentPlayer] = { 
+      displayName: currentPlayer, 
+      createdAt: new Date().toISOString() 
+    };
+    saveLocalStorage();
+    updateLeagueStats();
+  }
+
+  showNotification(`Current player set to ${currentPlayer}`);
+
+  // ⭐ NEW: Immediately load their picks into the left panel
+  showPlayerPicks(currentPlayer);
+
+  // ⭐ NEW: Immediately highlight their picks in the weekly picks UI
+  renderPicksForWeek(currentWeek);
+});
+
 
   leaderboardBtn.addEventListener("click", () => {
     togglePanel("leaderboard-panel");
@@ -816,9 +830,27 @@ function renderNFLScores(week) {
   });
 }
 
-// --- PICKS SYSTEM ---
-
   // --- RENDER PICKS WITH LOCKING ---
+
+function setPlayer() {
+  const nameInput = document.getElementById("player-name-input");
+  const name = nameInput.value.trim();
+
+  if (!name) {
+    showNotification("Enter a player name.");
+    return;
+  }
+
+  currentPlayer = name;
+
+  // Load their picks immediately
+  showPlayerPicks(currentPlayer);
+
+  // Render the current week with their picks highlighted
+  renderPicksForWeek(currentWeek);
+
+  saveLocalStorage();
+}
 
 function getPick(weekKey, gameIndex) {
   const player = currentPlayer;
