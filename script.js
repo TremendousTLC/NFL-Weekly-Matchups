@@ -18,61 +18,13 @@ const LS_PICKS = "pickem_picks";
 let players = {};
 let picks = {};
 
-// --- API FETCH (TheSportsDB) ---
+// --- FETCH SCORES ---
 
 async function loadNFLScores() {
-  const url = "https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4391&s=2026";
-
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data.events || [];
-  } catch (err) {
-    console.error("Error fetching NFL scores:", err);
-    return [];
-  }
+  const res = await fetch("scores_2026.json");
+  const data = await res.json();
+  return data;
 }
-
-
-// --- MAP API SCORES TO WEEK/GAME INDEX ---
-
-function mapScoresToSchedule(apiGames) {
-  const scoreMap = {};
-
-  // initialize empty score array for all weeks
-  Object.keys(scheduleData.weeks).forEach(weekKey => {
-    scoreMap[weekKey] = { scores: [] };
-  });
-
-  apiGames.forEach(apiGame => {
-    const round = Number(apiGame.intRound);
-
-    // Ignore preseason (round 500)
-    if (round < 1 || round > 18) return;
-
-    const weekKey = String(round);
-
-    const awayName = apiGame.strAwayTeam;
-    const homeName = apiGame.strHomeTeam;
-
-    const awayScore = apiGame.intAwayScore;
-    const homeScore = apiGame.intHomeScore;
-
-    if (awayScore === null || homeScore === null) return;
-
-    const scoreString = `${awayScore}-${homeScore}`;
-
-    // Push into Option-B format
-    scoreMap[weekKey].scores.push({
-      away: awayName,
-      home: homeName,
-      score: scoreString
-    });
-  });
-
-  return scoreMap;
-}
-
 
 // --- FIX #1: MERGE scoreMap INTO scheduleData ---
 function mergeScoresIntoSchedule(scoreMap) {
@@ -114,7 +66,6 @@ function mergeScoresIntoSchedule(scoreMap) {
 // Structure:
 // picks[player][week][gameIndex] = "TeamName"
 let currentSeason = 2026;
-
 
 // ===============================
 //  LOAD PICKS FROM BACKEND
@@ -158,7 +109,6 @@ function ensurePlayer(player) {
   }
 }
 
-
 // ===============================
 //  ENSURE WEEK EXISTS
 // ===============================
@@ -168,7 +118,6 @@ function ensureWeek(player, weekKey) {
     picks[player][weekKey] = {};
   }
 }
-
 
 // ===============================
 //  SET A PICK
@@ -202,7 +151,6 @@ function getPickBackend(player, weekKey, gameIndex) {
   return picks[player][weekKey][gameIndex] || null;
 }
 
-
 // ===============================
 //  WEEK LOCKING LOGIC
 // ===============================
@@ -222,7 +170,6 @@ function lockWeekBackend(player, weekKey) {
 
   savePicks(currentSeason, player, weekKey, picks[player][weekKey]);
 }
-
 
 // ===============================
 //  INITIALIZE PICKS SYSTEM
@@ -367,10 +314,8 @@ async function initApp() {
   renderPicksForWeek(currentWeek);
 }
 
-
 async function initScores() {
-  const apiGames = await loadNFLScores();
-  const scoreMap = mapScoresToSchedule(apiGames);
+  const scoreMap = await loadNFLScores();
   mergeScoresIntoSchedule(scoreMap);
 
   console.log("Scores merged:", scoreMap);
