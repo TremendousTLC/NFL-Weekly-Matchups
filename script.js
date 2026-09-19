@@ -263,25 +263,20 @@ async function loadTeamInfo() {
 }
 
 async function initApp() {
-  await loadSchedule();     // ⭐ MUST COME FIRST
-  await loadTeamInfo();     // ⭐ MUST COME SECOND
-
-  await initScores();       // now merge works
-  await initPicksSystem();  // picks load
+  await loadSchedule();
+  await loadTeamInfo();
+  await initScores();
+  await initPicksSystem();
 
   renderCurrentWeek();
   renderPicksForWeek(currentWeek);
+  renderStandings();
 }
 
 async function initScores() {
   const scoreMap = await loadNFLScores();
   mergeScoresIntoSchedule(scoreMap);
-
   console.log("Scores merged:", scoreMap);
-
-  renderCurrentWeek();
-  renderPicksForWeek(currentWeek);
-  renderStandings();
 }
 
 const teamLogos = {
