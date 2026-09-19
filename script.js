@@ -24,10 +24,17 @@ function normalizeTeamKey(name) {
   const norm = name.toLowerCase().replace(/[^a-z]/g, "");
 
   for (const key in teamInfo) {
-    const full = teamInfo[key].fullName.toLowerCase().replace(/[^a-z]/g, "");
-    const mascot = key.toLowerCase().replace(/[^a-z]/g, "");
+    const info = teamInfo[key];
 
-    if (norm === full || norm === mascot) return key;
+    const mascot = info.mascotName.toLowerCase().replace(/[^a-z]/g, "");
+    const city = info.cityName.toLowerCase().replace(/[^a-z]/g, "");
+    const abbrev = info.abbrevName.toLowerCase().replace(/[^a-z]/g, "");
+    const full = info.fullName.toLowerCase().replace(/[^a-z]/g, "");
+
+    if (norm === mascot) return key;
+    if (norm === city) return key;
+    if (norm === abbrev) return key;
+    if (norm === full) return key;
   }
 
   return name; // fallback

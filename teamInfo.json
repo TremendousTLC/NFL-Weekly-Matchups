@@ -1,6 +1,9 @@
 {
   "Cardinals": {
     "fullName": "Arizona Cardinals",
+    "mascotName": "Cardinals",
+    "cityName": "Arizona",
+    "abbrevName": "ARI",
     "stadium": "State Farm Stadium",
     "city": "Glendale, AZ",
     "coach": "Jonathan Gannon",
@@ -9,6 +12,9 @@
   },
   "Falcons": {
     "fullName": "Atlanta Falcons",
+    "mascotName": "Falcons",
+    "cityName": "Atlanta",
+    "abbrevName": "ATL",
     "stadium": "Mercedes-Benz Stadium",
     "city": "Atlanta, GA",
     "coach": "Raheem Morris",
@@ -17,6 +23,9 @@
   },
   "Ravens": {
     "fullName": "Baltimore Ravens",
+    "mascotName": "Ravens",
+    "cityName": "Baltimore",
+    "abbrevName": "BAL",
     "stadium": "M&T Bank Stadium",
     "city": "Baltimore, MD",
     "coach": "John Harbaugh",
@@ -25,6 +34,9 @@
   },
   "Bills": {
     "fullName": "Buffalo Bills",
+    "mascotName": "Bills",
+    "cityName": "Buffalo",
+    "abbrevName": "BUF",
     "stadium": "Highmark Stadium",
     "city": "Orchard Park, NY",
     "coach": "Sean McDermott",
@@ -33,6 +45,9 @@
   },
   "Panthers": {
     "fullName": "Carolina Panthers",
+    "mascotName": "Panthers",
+    "cityName": "Carolina",
+    "abbrevName": "CAR",
     "stadium": "Bank of America Stadium",
     "city": "Charlotte, NC",
     "coach": "Dave Canales",
@@ -41,6 +56,9 @@
   },
   "Bears": {
     "fullName": "Chicago Bears",
+    "mascotName": "Bears",
+    "cityName": "Chicago",
+    "abbrevName": "CHI",
     "stadium": "Soldier Field",
     "city": "Chicago, IL",
     "coach": "Matt Eberflus",
@@ -49,6 +67,9 @@
   },
   "Bengals": {
     "fullName": "Cincinnati Bengals",
+    "mascotName": "Bengals",
+    "cityName": "Cincinnati",
+    "abbrevName": "CIN",
     "stadium": "Paycor Stadium",
     "city": "Cincinnati, OH",
     "coach": "Zac Taylor",
@@ -57,6 +78,9 @@
   },
   "Browns": {
     "fullName": "Cleveland Browns",
+    "mascotName": "Browns",
+    "cityName": "Cleveland",
+    "abbrevName": "CLE",
     "stadium": "Cleveland Browns Stadium",
     "city": "Cleveland, OH",
     "coach": "Kevin Stefanski",
@@ -65,6 +89,9 @@
   },
   "Cowboys": {
     "fullName": "Dallas Cowboys",
+    "mascotName": "Cowboys",
+    "cityName": "Dallas",
+    "abbrevName": "DAL",
     "stadium": "AT&T Stadium",
     "city": "Arlington, TX",
     "coach": "Brian Schottenheimer",
@@ -73,6 +100,9 @@
   },
   "Broncos": {
     "fullName": "Denver Broncos",
+    "mascotName": "Broncos",
+    "cityName": "Denver",
+    "abbrevName": "DEN",
     "stadium": "Empower Field at Mile High",
     "city": "Denver, CO",
     "coach": "Sean Payton",
@@ -81,6 +111,9 @@
   },
   "Lions": {
     "fullName": "Detroit Lions",
+    "mascotName": "Lions",
+    "cityName": "Detroit",
+    "abbrevName": "DET",
     "stadium": "Ford Field",
     "city": "Detroit, MI",
     "coach": "Dan Campbell",
@@ -89,6 +122,9 @@
   },
   "Packers": {
     "fullName": "Green Bay Packers",
+    "mascotName": "Packers",
+    "cityName": "Green Bay",
+    "abbrevName": "GB",
     "stadium": "Lambeau Field",
     "city": "Green Bay, WI",
     "coach": "Matt LaFleur",
@@ -97,6 +133,9 @@
   },
   "Texans": {
     "fullName": "Houston Texans",
+    "mascotName": "Texans",
+    "cityName": "Houston",
+    "abbrevName": "HOU",
     "stadium": "NRG Stadium",
     "city": "Houston, TX",
     "coach": "DeMeco Ryans",
@@ -105,6 +144,9 @@
   },
   "Colts": {
     "fullName": "Indianapolis Colts",
+    "mascotName": "Colts",
+    "cityName": "Indianapolis",
+    "abbrevName": "IND",
     "stadium": "Lucas Oil Stadium",
     "city": "Indianapolis, IN",
     "coach": "Shane Steichen",
@@ -113,6 +155,9 @@
   },
   "Jaguars": {
     "fullName": "Jacksonville Jaguars",
+    "mascotName": "Jaguars",
+    "cityName": "Jacksonville",
+    "abbrevName": "JAX",
     "stadium": "EverBank Stadium",
     "city": "Jacksonville, FL",
     "coach": "Doug Pederson",
@@ -121,6 +166,9 @@
   },
   "Chiefs": {
     "fullName": "Kansas City Chiefs",
+    "mascotName": "Chiefs",
+    "cityName": "Kansas City",
+    "abbrevName": "KC",
     "stadium": "Arrowhead Stadium",
     "city": "Kansas City, MO",
     "coach": "Andy Reid",
@@ -129,6 +177,9 @@
   },
   "Raiders": {
     "fullName": "Las Vegas Raiders",
+    "mascotName": "Raiders",
+    "cityName": "Las Vegas",
+    "abbrevName": "LV",
     "stadium": "Allegiant Stadium",
     "city": "Las Vegas, NV",
     "coach": "Antonio Pierce",
@@ -137,6 +188,9 @@
   },
   "Chargers": {
     "fullName": "Los Angeles Chargers",
+    "mascotName": "Chargers",
+    "cityName": "Los Angeles",
+    "abbrevName": "LAC",
     "stadium": "SoFi Stadium",
     "city": "Inglewood, CA",
     "coach": "Jim Harbaugh",
@@ -145,6 +199,9 @@
   },
   "Rams": {
     "fullName": "Los Angeles Rams",
+    "mascotName": "Rams",
+    "cityName": "Los Angeles",
+    "abbrevName": "LAR",
     "stadium": "SoFi Stadium",
     "city": "Inglewood, CA",
     "coach": "Sean McVay",
@@ -153,6 +210,9 @@
   },
   "Dolphins": {
     "fullName": "Miami Dolphins",
+    "mascotName": "Dolphins",
+    "cityName": "Miami",
+    "abbrevName": "MIA",
     "stadium": "Hard Rock Stadium",
     "city": "Miami Gardens, FL",
     "coach": "Mike McDaniel",
@@ -161,6 +221,9 @@
   },
   "Vikings": {
     "fullName": "Minnesota Vikings",
+    "mascotName": "Vikings",
+    "cityName": "Minnesota",
+    "abbrevName": "MIN",
     "stadium": "U.S. Bank Stadium",
     "city": "Minneapolis, MN",
     "coach": "Kevin O'Connell",
@@ -169,6 +232,9 @@
   },
   "Patriots": {
     "fullName": "New England Patriots",
+    "mascotName": "Patriots",
+    "cityName": "New England",
+    "abbrevName": "NE",
     "stadium": "Gillette Stadium",
     "city": "Foxborough, MA",
     "coach": "Jerod Mayo",
@@ -177,6 +243,9 @@
   },
   "Saints": {
     "fullName": "New Orleans Saints",
+    "mascotName": "Saints",
+    "cityName": "New Orleans",
+    "abbrevName": "NO",
     "stadium": "Caesars Superdome",
     "city": "New Orleans, LA",
     "coach": "Dennis Allen",
@@ -185,6 +254,9 @@
   },
   "Giants": {
     "fullName": "New York Giants",
+    "mascotName": "Giants",
+    "cityName": "New York",
+    "abbrevName": "NYG",
     "stadium": "MetLife Stadium",
     "city": "East Rutherford, NJ",
     "coach": "Brian Daboll",
@@ -193,6 +265,9 @@
   },
   "Jets": {
     "fullName": "New York Jets",
+    "mascotName": "Jets",
+    "cityName": "New York",
+    "abbrevName": "NYJ",
     "stadium": "MetLife Stadium",
     "city": "East Rutherford, NJ",
     "coach": "Robert Saleh",
@@ -201,6 +276,9 @@
   },
   "Eagles": {
     "fullName": "Philadelphia Eagles",
+    "mascotName": "Eagles",
+    "cityName": "Philadelphia",
+    "abbrevName": "PHI",
     "stadium": "Lincoln Financial Field",
     "city": "Philadelphia, PA",
     "coach": "Nick Sirianni",
@@ -209,6 +287,9 @@
   },
   "Steelers": {
     "fullName": "Pittsburgh Steelers",
+    "mascotName": "Steelers",
+    "cityName": "Pittsburgh",
+    "abbrevName": "PIT",
     "stadium": "Acrisure Stadium",
     "city": "Pittsburgh, PA",
     "coach": "Mike Tomlin",
@@ -217,6 +298,9 @@
   },
   "49ers": {
     "fullName": "San Francisco 49ers",
+    "mascotName": "49ers",
+    "cityName": "San Francisco",
+    "abbrevName": "SF",
     "stadium": "Levi's Stadium",
     "city": "Santa Clara, CA",
     "coach": "Kyle Shanahan",
@@ -225,6 +309,9 @@
   },
   "Seahawks": {
     "fullName": "Seattle Seahawks",
+    "mascotName": "Seahawks",
+    "cityName": "Seattle",
+    "abbrevName": "SEA",
     "stadium": "Lumen Field",
     "city": "Seattle, WA",
     "coach": "Mike Macdonald",
@@ -233,6 +320,9 @@
   },
   "Buccaneers": {
     "fullName": "Tampa Bay Buccaneers",
+    "mascotName": "Buccaneers",
+    "cityName": "Tampa Bay",
+    "abbrevName": "TB",
     "stadium": "Raymond James Stadium",
     "city": "Tampa, FL",
     "coach": "Todd Bowles",
@@ -241,6 +331,9 @@
   },
   "Titans": {
     "fullName": "Tennessee Titans",
+    "mascotName": "Titans",
+    "cityName": "Tennessee",
+    "abbrevName": "TEN",
     "stadium": "Nissan Stadium",
     "city": "Nashville, TN",
     "coach": "Brian Callahan",
@@ -249,6 +342,9 @@
   },
   "Commanders": {
     "fullName": "Washington Commanders",
+    "mascotName": "Commanders",
+    "cityName": "Washington",
+    "abbrevName": "WAS",
     "stadium": "FedExField",
     "city": "Landover, MD",
     "coach": "Dan Quinn",
