@@ -294,6 +294,9 @@ function renderPicksForWeek(week) {
 async function loadSchedule() {
   const res = await fetch(SCHEDULE_URL);
   scheduleData = await res.json();
+
+  // ⭐ FIX: Set currentWeek
+  currentWeek = scheduleData.currentWeek || 1;
 }
 
 async function loadTeamInfo() {
