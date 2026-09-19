@@ -935,25 +935,19 @@ function renderLeaderboard() {
   const container = document.getElementById("leaderboard-list");
   container.innerHTML = "";
 
-  // For now, simple: count total submitted weeks per player.
   const rows = Object.keys(players).map(player => {
-    let totalWeeks = 0;
-    let totalPicks = 0;
     const p = picks[player] || {};
-    Object.keys(p).forEach(weekKey => {
-      if (p[weekKey].submittedAt) {
-        totalWeeks++;
-        totalPicks += Object.keys(p[weekKey].picks || {}).length;
-      }
-    });
-    return { player, totalWeeks, totalPicks };
+    const weeksPlayed = Object.keys(p).length;
+    const totalPicks = Object.values(p).reduce((sum, arr) => sum + arr.length, 0);
+
+    return { player, weeksPlayed, totalPicks };
   });
 
-  rows.sort((a, b) => b.totalWeeks - a.totalWeeks || b.totalPicks - a.totalPicks || a.player.localeCompare(b.player));
+  rows.sort((a, b) => b.weeksPlayed - a.weeksPlayed || b.totalPicks - a.totalPicks);
 
   rows.forEach(row => {
     const div = document.createElement("div");
-    div.textContent = `${row.player}: Weeks played ${row.totalWeeks}, Picks made ${row.totalPicks}`;
+    div.textContent = `${row.player}: Weeks played ${row.weeksPlayed}, Picks made ${row.totalPicks}`;
     div.addEventListener("click", () => showPlayerPicks(row.player));
     container.appendChild(div);
   });
@@ -965,17 +959,19 @@ function showPlayerPicks(player) {
   container.innerHTML = "";
 
   const p = picks[player] || {};
+
   Object.keys(p).sort((a, b) => Number(a) - Number(b)).forEach(weekKey => {
-    const weekObj = p[weekKey];
+    const weekPicks = p[weekKey];   // ← array of picks
     const header = document.createElement("h4");
     header.textContent = `Week ${weekKey}`;
     container.appendChild(header);
 
     const games = scheduleData.weeks[weekKey].games;
+
     games.forEach((g, idx) => {
       const line = document.createElement("div");
-      const pick = weekObj.games ? weekObj.games[idx] : null;
-      line.textContent = `${g.away} @ ${g.home} → ${pick || "No pick"}`;
+      const pick = weekPicks[idx] || "No pick";
+      line.textContent = `${g.away} @ ${g.home} → ${pick}`;
       container.appendChild(line);
     });
   });
