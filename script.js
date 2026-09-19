@@ -185,21 +185,16 @@ function setPick(weekKey, gameIndex, team) {
     return;
   }
 
-  // Ensure player + week exist
   if (!picks[currentPlayer]) picks[currentPlayer] = {};
   if (!picks[currentPlayer][weekKey]) picks[currentPlayer][weekKey] = [];
 
-  // Save pick locally
   picks[currentPlayer][weekKey][gameIndex] = team;
   saveLocalStorage();
-
-  // Save pick to backend
   setPickBackend(currentPlayer, weekKey, gameIndex, team);
 
-  // Re-render UI (only once)
   renderPicksForWeek(weekKey);
+  showPlayerPicks(currentPlayer); // refresh left window text
 }
-
 
 function getPick(weekKey, gameIndex) {
   const player = currentPlayer;
@@ -221,46 +216,29 @@ function renderPicksForWeek(week) {
   container.innerHTML = "";
 
   const games = scheduleData.weeks[week].games;
-
-  // Correct way to load picks for this week
   const weekPicks = picks[currentPlayer]?.[week] || [];
 
   games.forEach((g, i) => {
-    const away = g.away;
-    const home = g.home;
-
-    const awayNorm = normalizePickName(away);
-    const homeNorm = normalizePickName(home);
-    const pickNorm = normalizePickName(weekPicks[i] || "");
-
     const row = document.createElement("div");
     row.className = "matchup-row";
 
-    // Create buttons
     const awayBtn = document.createElement("button");
-    awayBtn.textContent = away;
+    awayBtn.textContent = g.away;
 
     const homeBtn = document.createElement("button");
-    homeBtn.textContent = home;
+    homeBtn.textContent = g.home;
 
-    // Highlight logic
-    if (pickNorm === awayNorm) {
-      awayBtn.classList.add("selected");
-    }
-    if (pickNorm === homeNorm) {
-      homeBtn.classList.add("selected");
-    }
+    const pick = weekPicks[i] || "";
+    if (pick === g.away) awayBtn.classList.add("selected");
+    if (pick === g.home) homeBtn.classList.add("selected");
 
-    // Click handlers
-    awayBtn.addEventListener("click", () => setPick(week, i, away));
-    homeBtn.addEventListener("click", () => setPick(week, i, home));
+    awayBtn.addEventListener("click", () => setPick(week, i, g.away));
+    homeBtn.addEventListener("click", () => setPick(week, i, g.home));
 
-    // Score display
     const scoreSpan = document.createElement("span");
     scoreSpan.className = "score-display";
     scoreSpan.textContent = `${g.awayScore ?? "-"} - ${g.homeScore ?? "-"}`;
 
-    // Build row
     row.appendChild(awayBtn);
     row.appendChild(homeBtn);
     row.appendChild(scoreSpan);
@@ -994,7 +972,7 @@ function showPlayerPicks(player) {
   const p = picks[player] || {};
 
   Object.keys(p).sort((a, b) => Number(a) - Number(b)).forEach(weekKey => {
-    const weekPicks = p[weekKey];   // ← array of picks
+    const weekPicks = p[weekKey];
     const header = document.createElement("h4");
     header.textContent = `Week ${weekKey}`;
     container.appendChild(header);
@@ -1009,6 +987,7 @@ function showPlayerPicks(player) {
     });
   });
 }
+
 
 // --- NOTIFICATIONS ---
 
