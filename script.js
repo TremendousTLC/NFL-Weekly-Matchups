@@ -180,17 +180,26 @@ async function initPicksSystem() {
 }
 
 function setPick(weekKey, gameIndex, team) {
-  const player = currentPlayer;
-  setPickBackend(player, weekKey, gameIndex, team);
+  if (!currentPlayer) {
+    showNotification("Set your player name first.");
+    return;
+  }
+
+  // Ensure player + week exist
+  if (!picks[currentPlayer]) picks[currentPlayer] = {};
+  if (!picks[currentPlayer][weekKey]) picks[currentPlayer][weekKey] = [];
+
+  // Save pick locally
+  picks[currentPlayer][weekKey][gameIndex] = team;
+  saveLocalStorage();
+
+  // Save pick to backend
+  setPickBackend(currentPlayer, weekKey, gameIndex, team);
+
+  // Re-render UI (only once)
   renderPicksForWeek(weekKey);
-if (!picks[currentPlayer]) picks[currentPlayer] = {};
-if (!picks[currentPlayer][weekKey]) picks[currentPlayer][weekKey] = [];
-
-picks[currentPlayer][weekKey][gameIndex] = team;
-saveLocalStorage();
-renderPicksForWeek(currentWeek);
-
 }
+
 
 function getPick(weekKey, gameIndex) {
   const player = currentPlayer;
@@ -207,14 +216,13 @@ function lockWeek(weekKey) {
   lockWeekBackend(player, weekKey);
   renderPicksForWeek(weekKey);
 }
-
 function renderPicksForWeek(week) {
   const container = document.getElementById("matchups-container");
   container.innerHTML = "";
 
   const games = scheduleData.weeks[week].games;
 
-  // FIX #1 — correct way to load picks for this week
+  // Correct way to load picks for this week
   const weekPicks = picks[currentPlayer]?.[week] || [];
 
   games.forEach((g, i) => {
@@ -235,7 +243,7 @@ function renderPicksForWeek(week) {
     const homeBtn = document.createElement("button");
     homeBtn.textContent = home;
 
-    // FIX #1 — highlight logic
+    // Highlight logic
     if (pickNorm === awayNorm) {
       awayBtn.classList.add("selected");
     }
@@ -247,9 +255,15 @@ function renderPicksForWeek(week) {
     awayBtn.addEventListener("click", () => setPick(week, i, away));
     homeBtn.addEventListener("click", () => setPick(week, i, home));
 
+    // Score display
+    const scoreSpan = document.createElement("span");
+    scoreSpan.className = "score-display";
+    scoreSpan.textContent = `${g.awayScore ?? "-"} - ${g.homeScore ?? "-"}`;
+
     // Build row
     row.appendChild(awayBtn);
     row.appendChild(homeBtn);
+    row.appendChild(scoreSpan);
 
     container.appendChild(row);
   });
