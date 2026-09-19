@@ -81,11 +81,19 @@ function mergeScoresIntoSchedule(scoreMap) {
     const games = scheduleData.weeks[weekKey].games;
 
     weekScores.forEach(scoreObj => {
-      const game = games.find(
-        g =>
-          teamInfo[g.away].fullName === scoreObj.away &&
-          teamInfo[g.home].fullName === scoreObj.home
-      );
+      const game = games.find(g => {
+        const awayFull = teamInfo[g.away]?.fullName || "";
+        const homeFull = teamInfo[g.home]?.fullName || "";
+
+        // Normalize both sides
+        const normAwayFull = awayFull.toLowerCase().replace(/[^a-z]/g, "");
+        const normHomeFull = homeFull.toLowerCase().replace(/[^a-z]/g, "");
+
+        const normAwayAPI = scoreObj.away.toLowerCase().replace(/[^a-z]/g, "");
+        const normHomeAPI = scoreObj.home.toLowerCase().replace(/[^a-z]/g, "");
+
+        return normAwayFull === normAwayAPI && normHomeFull === normHomeAPI;
+      });
 
       if (game) {
         game.score = scoreObj.score;
