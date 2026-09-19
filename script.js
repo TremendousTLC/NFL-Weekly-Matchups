@@ -39,9 +39,9 @@ async function loadNFLScores() {
 function mapScoresToSchedule(apiGames) {
   const scoreMap = {};
 
-  // initialize empty score map for all weeks
+  // initialize empty score array for all weeks
   Object.keys(scheduleData.weeks).forEach(weekKey => {
-    scoreMap[weekKey] = {};
+    scoreMap[weekKey] = { scores: [] };
   });
 
   apiGames.forEach(apiGame => {
@@ -58,26 +58,20 @@ function mapScoresToSchedule(apiGames) {
     const awayScore = apiGame.intAwayScore;
     const homeScore = apiGame.intHomeScore;
 
-    // If API has no score yet, skip
     if (awayScore === null || homeScore === null) return;
 
     const scoreString = `${awayScore}-${homeScore}`;
 
-    const games = scheduleData.weeks[weekKey].games;
-
-    games.forEach((g, idx) => {
-      if (
-        teamInfo[g.away].fullName === awayName ||
-        teamInfo[g.home].fullName === homeName
-      ) {
-        scoreMap[weekKey][idx] = scoreString;
-      }
+    // Push into Option-B format
+    scoreMap[weekKey].scores.push({
+      away: awayName,
+      home: homeName,
+      score: scoreString
     });
   });
 
   return scoreMap;
 }
-
 
 // --- FIX #1: MERGE scoreMap INTO scheduleData ---
 function mergeScoresIntoSchedule(scoreMap) {
