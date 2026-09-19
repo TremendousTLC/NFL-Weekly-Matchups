@@ -73,6 +73,7 @@ function mapScoresToSchedule(apiGames) {
   return scoreMap;
 }
 
+
 // --- FIX #1: MERGE scoreMap INTO scheduleData ---
 function mergeScoresIntoSchedule(scoreMap) {
   Object.keys(scoreMap).forEach(weekKey => {
