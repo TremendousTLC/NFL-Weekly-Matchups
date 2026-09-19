@@ -1,20 +1,22 @@
 {
   "1": {
     "scores": [
-      { "away": "Seahawks", "home": "Patriots", "score": "13-10" },
-      { "away": "49ers", "home": "Rams", "score": "27-7" },
-      { "away": "Jets", "home": "Titans", "score": "23-10" },
-      { "away": "Bills", "home": "Texans", "score": "36-31" },
-      { "away": "Bears", "home": "Panthers", "score": "59-37" },
-      { "away": "Jaguars", "home": "Browns", "score": "34-10" },
-      { "away": "Steelers", "home": "Falcons", "score": "20-13" },
-      { "away": "Lions", "home": "Saints", "score": "31-30" },
-      { "away": "Eagles", "home": "Commanders", "score": "24-22" },
-      { "away": "Chargers", "home": "Cardinals", "score": "14-26" },
-      { "away": "Vikings", "home": "Packers", "score": "39-22" },
-      { "away": "Raiders", "home": "Dolphins", "score": "27-13" },
-      { "away": "Giants", "home": "Cowboys", "score": "28-20" },
-      { "away": "Chiefs", "home": "Broncos", "score": "31-10" }
+      { "away": "Patriots",   "home": "Seahawks",   "score": "10-13" },
+      { "away": "49ers",      "home": "Rams",       "score": "27-7" },
+      { "away": "Bears",      "home": "Panthers",   "score": "59-37" },
+      { "away": "Buccaneers", "home": "Bengals",    "score": "27-33" },
+      { "away": "Saints",     "home": "Lions",      "score": "30-31" },
+      { "away": "Bills",      "home": "Texans",     "score": "36-31" },
+      { "away": "Ravens",     "home": "Colts",      "score": "41-23" },
+      { "away": "Browns",     "home": "Jaguars",    "score": "10-34" },
+      { "away": "Falcons",    "home": "Steelers",   "score": "13-20" },
+      { "away": "Jets",       "home": "Titans",     "score": "23-10" },
+      { "away": "Cardinals",  "home": "Chargers",   "score": "26-14" },
+      { "away": "Dolphins",   "home": "Raiders",    "score": "13-27" },
+      { "away": "Packers",    "home": "Vikings",    "score": "22-39" },
+      { "away": "Commanders", "home": "Eagles",     "score": "22-24" },
+      { "away": "Cowboys",    "home": "Giants",     "score": "20-28" },
+      { "away": "Broncos",    "home": "Chiefs",     "score": "10-31" }
     ]
   }
 }
