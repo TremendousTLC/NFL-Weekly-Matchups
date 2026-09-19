@@ -335,6 +335,16 @@ function saveLocalStorage() {
 function setupUIHandlers() {
   const setPlayerBtn = document.getElementById("set-player-btn");
   const leaderboardBtn = document.getElementById("leaderboard-btn");
+  const showMyPicksBtn = document.getElementById("show-my-picks-btn");
+  showMyPicksBtn.addEventListener("click", () => {
+    if (!currentPlayer) {
+      showNotification("Set your player name first.");
+      return;
+    }
+    showPlayerPicks(currentPlayer);
+  });
+
+  
   const teamsBtn = document.getElementById("teams-btn");
   const scheduleBtn = document.getElementById("schedule-btn");
   const submitPicksBtn = document.getElementById("submit-picks-btn");
@@ -997,7 +1007,6 @@ function renderLeaderboard() {
 }
 
 function showPlayerPicks(player) {
-  togglePanel("player-picks-panel");
   const container = document.getElementById("player-picks-content");
   container.innerHTML = "";
 
@@ -1018,8 +1027,10 @@ function showPlayerPicks(player) {
       container.appendChild(line);
     });
   });
-}
 
+  // Make sure panel is visible
+  document.getElementById("player-picks-panel").classList.remove("hidden");
+}
 
 // --- NOTIFICATIONS ---
 
