@@ -330,32 +330,48 @@ button:hover {
   text-align: center;
   font-size: 18px;
   font-weight: bold;
+  color: #fff;
 }
 
+/* Team buttons */
 /* Team buttons */
 .team-btn {
   padding: 8px 16px;
   border-radius: 6px;
-  border: 1px solid #ccc;
-  background: #f2f2f2;
+  border: 1px solid #888;
+  background: #d0d0d0;        /* darker base */
   color: #000;
   cursor: pointer;
   min-width: 120px;
-  text-align: center;
   font-weight: bold;
+  text-align: center;
+  transition: background 0.15s ease;
 }
 
+/* Hover */
 .team-btn:hover {
-  background: #e0e0e0;
+  background: #b5b5b5;        /* slightly darker hover */
 }
 
+/* Selected (stays visible) */
 .team-btn.selected {
-  background: #4caf50;
+  background: #4caf50;        /* green highlight */
   color: white;
   border-color: #3e8e41;
 }
 
-/* Dash separator */
+/* Winner flash (your existing logic will use this class) */
+.team-btn.winner-flash {
+  animation: flashWinner 0.4s ease-in-out 5;
+}
+
+@keyframes flashWinner {
+  0% { background: #4caf50; }
+  50% { background: #2e7d32; }
+  100% { background: #4caf50; }
+}
+
+/* Dash */
 .vs-separator {
   font-weight: bold;
   font-size: 20px;

@@ -225,12 +225,11 @@ function renderPicksForWeek(week) {
     const row = document.createElement("div");
     row.className = "matchup-row";
 
-    // LEFT SCORE
+    // LEFT SIDE — AWAY TEAM + SCORE
     const awayScoreCell = document.createElement("div");
     awayScoreCell.className = "score-cell";
     awayScoreCell.textContent = awayScore;
 
-    // AWAY BUTTON
     const awayBtn = document.createElement("button");
     awayBtn.className = `team-btn ${awaySelected}`;
     awayBtn.textContent = away;
@@ -242,19 +241,18 @@ function renderPicksForWeek(week) {
     dash.className = "vs-separator";
     dash.textContent = " - ";
 
-    // HOME BUTTON
+    // RIGHT SIDE — HOME TEAM + SCORE
     const homeBtn = document.createElement("button");
     homeBtn.className = `team-btn ${homeSelected}`;
     homeBtn.textContent = home;
     homeBtn.dataset.team = home;
     homeBtn.dataset.index = i;
 
-    // RIGHT SCORE
     const homeScoreCell = document.createElement("div");
     homeScoreCell.className = "score-cell";
     homeScoreCell.textContent = homeScore;
 
-    // Add click handlers
+    // Click handlers
     awayBtn.addEventListener("click", () => setPickBackend(currentPlayer, week, i, away));
     homeBtn.addEventListener("click", () => setPickBackend(currentPlayer, week, i, home));
 
