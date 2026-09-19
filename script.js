@@ -204,73 +204,41 @@ function renderPicksForWeek(week) {
   const container = document.getElementById("matchups-container");
   container.innerHTML = "";
 
-  const weekKey = String(week);
-  const games = scheduleData.weeks[weekKey].games;
+  const games = scheduleData.weeks[week].games;
+  const picks = playerPicks[week] || [];
 
-  const locked =
-    isWeekLockedBackend(currentPlayer, weekKey) ||
-    (picks[currentPlayer] &&
-     picks[currentPlayer][weekKey] &&
-     picks[currentPlayer][weekKey].locked);
+  games.forEach((g, i) => {
+    const away = g.away;
+    const home = g.home;
 
-  games.forEach((g, idx) => {
-    const row = document.createElement("div");
-    row.className = "matchup-row";
+    const awayNorm = normalizePickName(away);
+    const homeNorm = normalizePickName(home);
+    const pickNorm = normalizePickName(picks[i] || "");
 
-    const awayScoreCell = document.createElement("div");
-    const homeScoreCell = document.createElement("div");
+    const awaySelected = pickNorm === awayNorm ? "selected" : "";
+    const homeSelected = pickNorm === homeNorm ? "selected" : "";
 
-    if (g.score) {
-      const [awayScore, homeScore] = g.score.split("-").map(Number);
-      awayScoreCell.textContent = awayScore;
-      homeScoreCell.textContent = homeScore;
+    const html = `
+      <div class="matchup">
+        <button class="team-btn ${awaySelected}" data-team="${away}" data-index="${i}">
+          ${away} ${g.awayScore ?? ""}
+        </button>
 
-      if (awayScore > homeScore) awayScoreCell.classList.add("winner-score");
-      if (homeScore > awayScore) homeScoreCell.classList.add("winner-score");
-    } else {
-      awayScoreCell.textContent = "-";
-      homeScoreCell.textContent = "-";
-    }
+        <span class="vs"> - </span>
 
-    const awayBtn = document.createElement("button");
-    awayBtn.className = "team-btn";
-    awayBtn.textContent = g.away;
+        <button class="team-btn ${homeSelected}" data-team="${home}" data-index="${i}">
+          ${home} ${g.homeScore ?? ""}
+        </button>
+      </div>
+    `;
 
-    const homeBtn = document.createElement("button");
-    homeBtn.className = "team-btn";
-    homeBtn.textContent = g.home;
-
-    const dash = document.createElement("span");
-    dash.className = "vs-separator";
-    dash.textContent = " - ";
-
-    const savedPick = picks[currentPlayer]?.[weekKey]?.[idx] || null;
-
-    if (savedPick === g.away) awayBtn.classList.add("selected");
-    if (savedPick === g.home) homeBtn.classList.add("selected");
-
-    if (!locked) {
-      awayBtn.addEventListener("click", () =>
-        setPickBackend(currentPlayer, weekKey, idx, g.away)
-      );
-      homeBtn.addEventListener("click", () =>
-        setPickBackend(currentPlayer, weekKey, idx, g.home)
-      );
-    } else {
-      awayBtn.disabled = true;
-      homeBtn.disabled = true;
-    }
-
-    row.appendChild(awayScoreCell);   // LEFT SCORE
-    row.appendChild(awayBtn);         // AWAY BUTTON
-    row.appendChild(dash);            // DASH
-    row.appendChild(homeBtn);         // HOME BUTTON
-    row.appendChild(homeScoreCell);   // RIGHT SCORE
-
-    container.appendChild(row);
+    container.insertAdjacentHTML("beforeend", html);
   });
+}
 
-  updateEditLockState();
+
+function normalizePickName(name) {
+  return name.toLowerCase().replace(/[^a-z]/g, "");
 }
 
 async function loadSchedule() {
