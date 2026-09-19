@@ -211,6 +211,7 @@ function lockWeek(weekKey) {
   lockWeekBackend(player, weekKey);
   renderPicksForWeek(weekKey);
 }
+
 function renderPicksForWeek(week) {
   const container = document.getElementById("matchups-container");
   container.innerHTML = "";
@@ -228,9 +229,13 @@ function renderPicksForWeek(week) {
     const homeBtn = document.createElement("button");
     homeBtn.textContent = g.home;
 
-    const pick = weekPicks[i] || "";
-    if (pick === g.away) awayBtn.classList.add("selected");
-    if (pick === g.home) homeBtn.classList.add("selected");
+    // ⭐ Correct highlight logic
+    if (weekPicks[i] === g.away) {
+      awayBtn.classList.add("selected");
+    }
+    if (weekPicks[i] === g.home) {
+      homeBtn.classList.add("selected");
+    }
 
     awayBtn.addEventListener("click", () => setPick(week, i, g.away));
     homeBtn.addEventListener("click", () => setPick(week, i, g.home));
@@ -336,6 +341,14 @@ function setupUIHandlers() {
   const setPlayerBtn = document.getElementById("set-player-btn");
   const leaderboardBtn = document.getElementById("leaderboard-btn");
   const showMyPicksBtn = document.getElementById("show-my-picks-btn");
+  const teamsBtn = document.getElementById("teams-btn");
+  const scheduleBtn = document.getElementById("schedule-btn");
+  const submitPicksBtn = document.getElementById("submit-picks-btn");
+  const editPicksBtn = document.getElementById("edit-picks-btn");
+  const scheduleWeekSelect = document.getElementById("schedule-week-select");
+  const deletePlayerBtn = document.getElementById("delete-player-btn");
+
+  // Show My Picks button
   showMyPicksBtn.addEventListener("click", () => {
     if (!currentPlayer) {
       showNotification("Set your player name first.");
@@ -344,39 +357,48 @@ function setupUIHandlers() {
     showPlayerPicks(currentPlayer);
   });
 
-  
-  const teamsBtn = document.getElementById("teams-btn");
-  const scheduleBtn = document.getElementById("schedule-btn");
-  const submitPicksBtn = document.getElementById("submit-picks-btn");
-  const editPicksBtn = document.getElementById("edit-picks-btn");
-  const scheduleWeekSelect = document.getElementById("schedule-week-select");
-
+  // Set Player button
   setPlayerBtn.addEventListener("click", () => {
-  const nameInput = document.getElementById("player-name");
-  const name = nameInput.value.trim();
-  if (!name) return;
+    const nameInput = document.getElementById("player-name");
+    const name = nameInput.value.trim();
+    if (!name) return;
 
-  currentPlayer = name;
+    currentPlayer = name;
 
-  // Create player record if new
-  if (!players[currentPlayer]) {
-    players[currentPlayer] = { 
-      displayName: currentPlayer, 
-      createdAt: new Date().toISOString() 
-    };
+    // Create player record if new
+    if (!players[currentPlayer]) {
+      players[currentPlayer] = {
+        displayName: currentPlayer,
+        createdAt: new Date().toISOString()
+      };
+    }
+
     saveLocalStorage();
     updateLeagueStats();
-  }
+    refreshPlayerList();
 
-  showNotification(`Current player set to ${currentPlayer}`);
+    showNotification(`Current player set to ${currentPlayer}`);
 
-  // ⭐ NEW: Immediately load their picks into the left panel
-  showPlayerPicks(currentPlayer);
+    // Show picks immediately
+    showPlayerPicks(currentPlayer);
 
-  // ⭐ NEW: Immediately highlight their picks in the weekly picks UI
-  renderPicksForWeek(currentWeek);
-});
+    // Highlight picks immediately
+    renderPicksForWeek(currentWeek);
+  });
 
+  // Delete Player button
+  deletePlayerBtn.addEventListener("click", () => {
+    const list = document.getElementById("player-list");
+    const name = list.value;
+    if (!name) return;
+
+    delete players[name];
+    delete picks[name];
+
+    saveLocalStorage();
+    refreshPlayerList();
+    showNotification(`Deleted player ${name} and all picks.`);
+  });
 
   leaderboardBtn.addEventListener("click", () => {
     togglePanel("leaderboard-panel");
@@ -411,6 +433,18 @@ function togglePanel(id) {
     const el = document.getElementById(pid);
     if (!el) return;
     el.classList.toggle("hidden", pid !== id);
+  });
+}
+
+function refreshPlayerList() {
+  const list = document.getElementById("player-list");
+  list.innerHTML = "";
+
+  Object.keys(players).forEach(name => {
+    const opt = document.createElement("option");
+    opt.value = name;
+    opt.textContent = name;
+    list.appendChild(opt);
   });
 }
 
