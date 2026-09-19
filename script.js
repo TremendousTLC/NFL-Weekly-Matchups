@@ -82,7 +82,9 @@ function mergeScoresIntoSchedule(scoreMap) {
 
     weekScores.forEach(scoreObj => {
       const game = games.find(
-        g => g.away === scoreObj.away && g.home === scoreObj.home
+        g =>
+          teamInfo[g.away].fullName === scoreObj.away &&
+          teamInfo[g.home].fullName === scoreObj.home
       );
 
       if (game) {
@@ -334,15 +336,29 @@ function renderPicksForWeek(week) {
   updateEditLockState();
 }
 
+async function loadSchedule() {
+  const res = await fetch(SCHEDULE_URL);
+  scheduleData = await res.json();
+}
+
+async function loadTeamInfo() {
+  const res = await fetch(TEAMINFO_URL);
+  teamInfo = await res.json();
+}
+
 // --- FINAL INIT BLOCK (CALL EVERYTHING CLEANLY) ---
 
 async function initApp() {
-  await initScores();      // your score system
-  await initPicksSystem(); // new picks.js module
+  await loadSchedule();     // ⭐ MUST COME FIRST
+  await loadTeamInfo();     // ⭐ MUST COME SECOND
+
+  await initScores();       // now merge works
+  await initPicksSystem();  // picks load
 
   renderCurrentWeek();
   renderPicksForWeek(currentWeek);
 }
+
 
 async function initScores() {
   const apiGames = await loadNFLScores();
