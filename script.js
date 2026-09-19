@@ -948,3 +948,7 @@ function showNotification(msg) {
   el.classList.remove("hidden");
   setTimeout(() => el.classList.add("hidden"), 3000);
 }
+
+loadLocalStorage();
+setupUIHandlers();
+initApp();
