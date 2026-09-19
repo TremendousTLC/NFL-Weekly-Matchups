@@ -45,31 +45,54 @@ function mergeScoresIntoSchedule(scoreMap) {
     const weekScores = scoreMap[weekKey].scores;
     const games = scheduleData.weeks[weekKey].games;
 
+    console.group(`🔍 WEEK ${weekKey} MERGE START`);
+
     weekScores.forEach(scoreObj => {
+
+      console.group(`🔎 Checking score: ${scoreObj.away} @ ${scoreObj.home} (${scoreObj.score})`);
+
       const game = games.find(g => {
         const awayKey = normalizeTeamKey(g.away);
         const homeKey = normalizeTeamKey(g.home);
 
-        const awayFull = teamInfo[awayKey]?.fullName || "";
-        const homeFull = teamInfo[homeKey]?.fullName || "";
+        const awayMascot = teamInfo[awayKey]?.mascotName?.toLowerCase().replace(/[^a-z]/g, "");
+        const homeMascot = teamInfo[homeKey]?.mascotName?.toLowerCase().replace(/[^a-z]/g, "");
 
-        const normAwayFull = awayFull.toLowerCase().replace(/[^a-z]/g, "");
-        const normHomeFull = homeFull.toLowerCase().replace(/[^a-z]/g, "");
+        const scoreAway = scoreObj.away.toLowerCase().replace(/[^a-z]/g, "");
+        const scoreHome = scoreObj.home.toLowerCase().replace(/[^a-z]/g, "");
 
-        const normAwayAPI = scoreObj.away.toLowerCase().replace(/[^a-z]/g, "");
-        const normHomeAPI = scoreObj.home.toLowerCase().replace(/[^a-z]/g, "");
+        console.log("COMPARE:");
+        console.log("  schedule away mascot:", awayMascot);
+        console.log("  schedule home mascot:", homeMascot);
+        console.log("  score away mascot:", scoreAway);
+        console.log("  score home mascot:", scoreHome);
 
-        return normAwayFull === normAwayAPI && normHomeFull === normHomeAPI;
+        const match = (awayMascot === scoreAway && homeMascot === scoreHome);
+
+        console.log("  MATCH RESULT:", match ? "✔ MATCH" : "❌ NO MATCH");
+
+        return match;
       });
 
-      if (game) {
-        game.score = scoreObj.score;
+      if (!game) {
+        console.warn(`❌ No match found for: ${scoreObj.away} @ ${scoreObj.home}`);
+      } else {
+        console.log(`✔ MATCH FOUND → ${game.away} @ ${game.home} = ${scoreObj.score}`);
 
         const [awayScore, homeScore] = scoreObj.score.split("-").map(Number);
+        game.score = scoreObj.score;
         game.awayScore = awayScore;
         game.homeScore = homeScore;
       }
+
+      console.groupEnd();
     });
+
+    console.group(`📌 FINAL scheduleData WEEK ${weekKey}`);
+    console.log(scheduleData.weeks[weekKey]);
+    console.groupEnd();
+
+    console.groupEnd();
   });
 }
 
