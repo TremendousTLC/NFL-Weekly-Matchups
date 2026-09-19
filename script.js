@@ -2,9 +2,10 @@ const SCHEDULE_URL = "2026_NFL_schedule.json";
 const TEAMINFO_URL = "teamInfo.json";
 const API_BASE = "https://nfl-pickem-backend.onrender.com";
 
-let scheduleData = null;
-let teamInfo = null;
-let currentWeek = null;
+// GLOBAL STATE
+let scheduleData = {};
+let teamInfo = {};
+let currentWeek = 1;
 
 let currentPlayer = null;
 
@@ -205,7 +206,9 @@ function renderPicksForWeek(week) {
   container.innerHTML = "";
 
   const games = scheduleData.weeks[week].games;
-  const picks = playerPicks[week] || [];
+
+  // USE THE REAL PICK STORE
+  const weekPicks = picks[week] || [];
 
   games.forEach((g, i) => {
     const away = g.away;
@@ -213,7 +216,7 @@ function renderPicksForWeek(week) {
 
     const awayNorm = normalizePickName(away);
     const homeNorm = normalizePickName(home);
-    const pickNorm = normalizePickName(picks[i] || "");
+    const pickNorm = normalizePickName(weekPicks[i] || "");
 
     const awaySelected = pickNorm === awayNorm ? "selected" : "";
     const homeSelected = pickNorm === homeNorm ? "selected" : "";
@@ -235,7 +238,6 @@ function renderPicksForWeek(week) {
     container.insertAdjacentHTML("beforeend", html);
   });
 }
-
 
 function normalizePickName(name) {
   return name.toLowerCase().replace(/[^a-z]/g, "");
