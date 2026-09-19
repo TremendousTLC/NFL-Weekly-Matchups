@@ -183,6 +183,13 @@ function setPick(weekKey, gameIndex, team) {
   const player = currentPlayer;
   setPickBackend(player, weekKey, gameIndex, team);
   renderPicksForWeek(weekKey);
+if (!picks[currentPlayer]) picks[currentPlayer] = {};
+if (!picks[currentPlayer][weekKey]) picks[currentPlayer][weekKey] = [];
+
+picks[currentPlayer][weekKey][gameIndex] = team;
+saveLocalStorage();
+renderPicksForWeek(currentWeek);
+
 }
 
 function getPick(weekKey, gameIndex) {
@@ -206,7 +213,9 @@ function renderPicksForWeek(week) {
   container.innerHTML = "";
 
   const games = scheduleData.weeks[week].games;
-  const weekPicks = picks[week] || [];
+
+  // FIX #1 — correct way to load picks for this week
+  const weekPicks = picks[currentPlayer]?.[week] || [];
 
   games.forEach((g, i) => {
     const away = g.away;
@@ -216,52 +225,31 @@ function renderPicksForWeek(week) {
     const homeNorm = normalizePickName(home);
     const pickNorm = normalizePickName(weekPicks[i] || "");
 
-    const awaySelected = pickNorm === awayNorm ? "selected" : "";
-    const homeSelected = pickNorm === homeNorm ? "selected" : "";
-
-    const awayScore = g.awayScore ?? "-";
-    const homeScore = g.homeScore ?? "-";
-
     const row = document.createElement("div");
     row.className = "matchup-row";
 
-    // LEFT SIDE — AWAY TEAM + SCORE
-    const awayScoreCell = document.createElement("div");
-    awayScoreCell.className = "score-cell";
-    awayScoreCell.textContent = awayScore;
-
+    // Create buttons
     const awayBtn = document.createElement("button");
-    awayBtn.className = `team-btn ${awaySelected}`;
     awayBtn.textContent = away;
-    awayBtn.dataset.team = away;
-    awayBtn.dataset.index = i;
 
-    // DASH
-    const dash = document.createElement("span");
-    dash.className = "vs-separator";
-    dash.textContent = " - ";
-
-    // RIGHT SIDE — HOME TEAM + SCORE
     const homeBtn = document.createElement("button");
-    homeBtn.className = `team-btn ${homeSelected}`;
     homeBtn.textContent = home;
-    homeBtn.dataset.team = home;
-    homeBtn.dataset.index = i;
 
-    const homeScoreCell = document.createElement("div");
-    homeScoreCell.className = "score-cell";
-    homeScoreCell.textContent = homeScore;
+    // FIX #1 — highlight logic
+    if (pickNorm === awayNorm) {
+      awayBtn.classList.add("selected");
+    }
+    if (pickNorm === homeNorm) {
+      homeBtn.classList.add("selected");
+    }
 
     // Click handlers
-    awayBtn.addEventListener("click", () => setPickBackend(currentPlayer, week, i, away));
-    homeBtn.addEventListener("click", () => setPickBackend(currentPlayer, week, i, home));
+    awayBtn.addEventListener("click", () => setPick(week, i, away));
+    homeBtn.addEventListener("click", () => setPick(week, i, home));
 
     // Build row
-    row.appendChild(awayScoreCell);
     row.appendChild(awayBtn);
-    row.appendChild(dash);
     row.appendChild(homeBtn);
-    row.appendChild(homeScoreCell);
 
     container.appendChild(row);
   });
@@ -846,22 +834,53 @@ function getPick(weekKey, gameIndex) {
 }
 
 function setPick(weekKey, gameIndex, team) {
-  const player = currentPlayer; // however you track the active user
+  if (!currentPlayer) {
+    showNotification("Set your player name first.");
+    return;
+  }
 
-  // Save to backend + memory
-  setPickBackend(player, weekKey, gameIndex, team);
+  // Ensure player + week exist
+  if (!picks[currentPlayer]) picks[currentPlayer] = {};
+  if (!picks[currentPlayer][weekKey]) picks[currentPlayer][weekKey] = [];
 
-  // Re-render UI
+  // Save pick locally
+  picks[currentPlayer][weekKey][gameIndex] = team;
+  saveLocalStorage();
+
+  // Save pick to backend
+  setPickBackend(currentPlayer, weekKey, gameIndex, team);
+
+  // Re-render UI (only once)
   renderPicksForWeek(weekKey);
 }
 
 function submitCurrentWeekPicks() {
-  const player = currentPlayer;
-  const weekKey = currentWeek;
+  if (!currentPlayer) {
+    showNotification("Set your player name first.");
+    return;
+  }
 
-  lockWeekBackend(player, weekKey);
+  const weekKey = String(currentWeek);
 
-  renderPicksForWeek(weekKey);
+  if (!picks[currentPlayer] || !picks[currentPlayer][weekKey]) {
+    showNotification("No picks to submit for this week.");
+    return;
+  }
+
+  const weekObj = picks[currentPlayer][weekKey];
+
+  if (weekObj.locked) {
+    showNotification("Picks already locked for this week.");
+    return;
+  }
+
+  // ⭐ FIX #3 — THIS IS THE CORRECT LOCATION
+  weekObj.submittedAt = new Date().toISOString();
+  saveLocalStorage();
+
+  updateLeagueStats();
+  showNotification("Picks submitted successfully.");
+  updateEditLockState();
 }
 
 function editCurrentWeekPicks() {
