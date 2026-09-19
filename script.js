@@ -20,6 +20,19 @@ async function loadNFLScores() {
   return data;
 }
 
+function normalizeTeamKey(name) {
+  const norm = name.toLowerCase().replace(/[^a-z]/g, "");
+
+  for (const key in teamInfo) {
+    const full = teamInfo[key].fullName.toLowerCase().replace(/[^a-z]/g, "");
+    const mascot = key.toLowerCase().replace(/[^a-z]/g, "");
+
+    if (norm === full || norm === mascot) return key;
+  }
+
+  return name; // fallback
+}
+
 function mergeScoresIntoSchedule(scoreMap) {
   Object.keys(scoreMap).forEach(weekKey => {
     const weekScores = scoreMap[weekKey].scores;
@@ -27,10 +40,15 @@ function mergeScoresIntoSchedule(scoreMap) {
 
     weekScores.forEach(scoreObj => {
       const game = games.find(g => {
-        const awayFull = teamInfo[g.away]?.fullName || "";
-        const homeFull = teamInfo[g.home]?.fullName || "";
+        const awayKey = normalizeTeamKey(g.away);
+        const homeKey = normalizeTeamKey(g.home);
+
+        const awayFull = teamInfo[awayKey]?.fullName || "";
+        const homeFull = teamInfo[homeKey]?.fullName || "";
+
         const normAwayFull = awayFull.toLowerCase().replace(/[^a-z]/g, "");
         const normHomeFull = homeFull.toLowerCase().replace(/[^a-z]/g, "");
+
         const normAwayAPI = scoreObj.away.toLowerCase().replace(/[^a-z]/g, "");
         const normHomeAPI = scoreObj.home.toLowerCase().replace(/[^a-z]/g, "");
 
@@ -949,6 +967,7 @@ function showNotification(msg) {
   setTimeout(() => el.classList.add("hidden"), 3000);
 }
 
+loadLogoBanner();
 loadLocalStorage();
 setupUIHandlers();
 initApp();
