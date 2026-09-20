@@ -44,7 +44,7 @@ body {
   display: grid;
 
   /* Resize these three values to adjust panel widths */
-  grid-template-columns: 600px 600px 600px;
+  grid-template-columns: 700px 600px 600px;
 
   gap: 16px;
   padding: 16px;
