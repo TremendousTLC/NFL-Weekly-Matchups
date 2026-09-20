@@ -42,7 +42,7 @@ body {
 #app {
   margin-top: 70px;
   display: grid;
-  grid-template-columns: 360px 1fr 360px; /* LOCKED WIDTHS */
+  grid-template-columns: 360px 600px 360px; /* LOCKED WIDTHS */
   gap: 16px;
   padding: 16px;
 }
