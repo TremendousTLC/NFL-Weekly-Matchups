@@ -143,120 +143,10 @@ function setPickBackend(player, weekKey, weekObj) {
   });
 }
 
-
-function getPickBackend(player, weekKey, gameIndex) {
-  if (!picks[player]) return null;
-  if (!picks[player][weekKey]) return null;
-
-  return picks[player][weekKey][gameIndex] || null;
-}
-
-function isWeekLockedBackend(player, weekKey) {
-  const weekObj = picks[player]?.[weekKey];
-  if (!weekObj) return false;
-
-  return weekObj.locked === true;
-}
-
-function lockWeekBackend(player, weekKey) {
-  ensurePlayer(player);
-  ensureWeek(player, weekKey);
-
-  picks[player][weekKey].locked = true;
-
-  savePicks(currentSeason, player, weekKey, picks[player][weekKey]);
-}
-
-function submitCurrentWeekPicks() {
-  if (!currentPlayer) {
-    showNotification("Set your player name first.");
-    return;
-  }
-
-  const weekKey = String(currentWeek);
-  const weekPicks = picks[currentPlayer]?.[weekKey];
-
-  if (!weekPicks) {
-    showNotification("No picks to submit for this week.");
-    return;
-  }
-
-  // Save into allPicks (for onRender)
-  const allPicks = loadAllPicks();
-  if (!allPicks["2026"]) allPicks["2026"] = {};
-  if (!allPicks["2026"][weekKey]) allPicks["2026"][weekKey] = {};
-
-  const picksArray = Object.keys(weekPicks).map(gameId => ({
-    gameId: Number(gameId),
-    pick: weekPicks[gameId]
-  }));
-
-  allPicks["2026"][weekKey][currentPlayer] = {
-    picks: picksArray,
-    submittedAt: new Date().toISOString()
-  };
-
-  saveAllPicks(allPicks);
-
-  // Lock week in your real system
-  picks[currentPlayer][weekKey].locked = true;
-  saveLocalStorage();
-
-  showNotification("Picks submitted successfully.");
-
-  // Re-render everything using onRender
-  onRenderWeeklyPicks();
-  showPlayerPicks(currentPlayer);
-  updateEditLockState();
-}
-
 async function initPicksSystem() {
   await loadPicks(currentSeason);
 
   console.log("Picks system initialized.");
-}
-
-function setPick(weekKey, gameIndex, team) {
-  if (!currentPlayer) {
-    showNotification("Set your player name first.");
-    return;
-  }
-
-  if (!picks[currentPlayer]) {
-    picks[currentPlayer] = {};
-  }
-
-  if (!picks[currentPlayer][weekKey]) {
-    picks[currentPlayer][weekKey] = {
-      picks: {},
-      submittedAt: null,
-      locked: false
-    };
-  }
-
-  picks[currentPlayer][weekKey].picks[gameIndex] = team;
-
-  saveLocalStorage();
-  setPickBackend(currentPlayer, weekKey, picks[currentPlayer][weekKey]);
-
-  renderPicksForWeek(weekKey);
-  showPlayerPicks(currentPlayer);
-}
-
-function getPick(weekKey, gameIndex) {
-  const player = currentPlayer;
-  return getPickBackend(player, weekKey, gameIndex);
-}
-
-function isWeekLocked(weekKey) {
-  const player = currentPlayer;
-  return isWeekLockedBackend(player, weekKey);
-}
-
-function lockWeek(weekKey) {
-  const player = currentPlayer;
-  lockWeekBackend(player, weekKey);
-  renderPicksForWeek(weekKey);
 }
 
 function normalizePickName(name) {
@@ -616,7 +506,6 @@ function loadLogoBanner() {
   });
 }
 
-
 function createStandingsRow(team, rec) {
   const row = document.createElement("div");
   row.className = "team-row";
@@ -867,12 +756,12 @@ function renderNFLScores(week) {
   });
 }
 
-// --- PLAYER SETUP / PICK STORAGE ---
+// --- UNIFIED PICK SYSTEM
 
+// --- PLAYER SETUP ---
 function setPlayer() {
-  const nameInput = document.getElementById("player-name-input");
+  const nameInput = document.getElementById("player-name");
   const name = nameInput.value.trim();
-
   if (!name) {
     showNotification("Enter a player name.");
     return;
@@ -880,35 +769,49 @@ function setPlayer() {
 
   currentPlayer = name;
 
+  // Create player record if new
+  if (!players[currentPlayer]) {
+    players[currentPlayer] = {
+      displayName: currentPlayer,
+      createdAt: new Date().toISOString()
+    };
+  }
+
+  // Ensure picks structure
   if (!picks[currentPlayer]) picks[currentPlayer] = {};
   if (!picks[currentPlayer][currentWeek]) picks[currentPlayer][currentWeek] = {};
 
-  showPlayerPicks(currentPlayer);
+  saveLocalStorage();
+  updateLeagueStats();
+  refreshPlayerList();
+
+  showNotification(`Current player set to ${currentPlayer}`);
+
   renderPicksForWeek(currentWeek);
-
-  saveLocalStorage();
+  showPlayerPicks(currentPlayer);
 }
 
-function getPick(weekKey, gameId) {
-  const player = currentPlayer;
-  return picks[player]?.[weekKey]?.[gameId] || null;
-}
-
+// --- SET PICK (gameId-based, local + backend) ---
 function setPick(weekKey, gameId, team) {
-  if (!currentPlayer) return;
+  if (!currentPlayer) {
+    showNotification("Set your player name first.");
+    return;
+  }
 
-  if (!picks[currentPlayer]) picks[currentPlayer] = {};
-  if (!picks[currentPlayer][weekKey]) picks[currentPlayer][weekKey] = {};
+  ensurePlayer(currentPlayer);
+  ensureWeek(currentPlayer, weekKey);
 
+  // store by gameId
   picks[currentPlayer][weekKey][gameId] = team;
+
   saveLocalStorage();
+  setPickBackend(currentPlayer, weekKey, picks[currentPlayer][weekKey]);
 
   renderPicksForWeek(weekKey);
   showPlayerPicks(currentPlayer);
 }
 
-// --- WEEKLY PICKS UI (live panel) ---
-
+// --- RENDER WEEKLY PICKS ---
 function renderPicksForWeek(week) {
   const container = document.getElementById("matchups-container");
   container.innerHTML = "";
@@ -949,14 +852,57 @@ function renderPicksForWeek(week) {
   });
 }
 
-// --- SIMPLE "ON RENDER" HOOK (just re-renders current week) ---
+// --- SHOW ALL WEEKS FOR A PLAYER ---
+function showPlayerPicks(player) {
+  const container = document.getElementById("player-picks-content");
+  container.innerHTML = "";
 
-function onRenderWeeklyPicks() {
-  if (!currentPlayer) return;
-  renderPicksForWeek(currentWeek);
+  const p = picks[player] || {};
+
+  Object.keys(p)
+    .sort((a, b) => Number(a) - Number(b))
+    .forEach(weekKey => {
+      const weekPicks = p[weekKey];
+
+      const header = document.createElement("h4");
+      header.textContent = `Week ${weekKey}`;
+      container.appendChild(header);
+
+      const games = scheduleData.weeks[weekKey].games;
+
+      games.forEach(g => {
+        const pick = weekPicks[g.id] || "No pick";
+        const line = document.createElement("div");
+        line.textContent = `${g.away} @ ${g.home} → ${pick}`;
+        container.appendChild(line);
+      });
+    });
+
+  document.getElementById("player-picks-panel").classList.remove("hidden");
 }
 
-// --- CURRENT WEEK PLAYER PANEL (live picks) ---
+// --- SUBMIT (no locking, just timestamp + stats) ---
+function submitCurrentWeekPicks() {
+  if (!currentPlayer) {
+    showNotification("Set your player name first.");
+    return;
+  }
+
+  const weekKey = String(currentWeek);
+  const weekPicks = picks[currentPlayer]?.[weekKey];
+
+  if (!weekPicks || Object.keys(weekPicks).length === 0) {
+    showNotification("No picks to submit for this week.");
+    return;
+  }
+
+  // mark submitted time
+  picks[currentPlayer][weekKey].submittedAt = new Date().toISOString();
+  saveLocalStorage();
+
+  showNotification("Picks submitted.");
+  updateLeagueStats();
+}
 
 function renderPlayerPicksForWeek() {
   const container = document.getElementById("player-picks-content");
@@ -976,40 +922,18 @@ function renderPlayerPicksForWeek() {
   document.getElementById("player-picks-panel").classList.remove("hidden");
 }
 
-// --- SUBMIT (no locking, just timestamp + stats) ---
-
-function submitCurrentWeekPicks() {
-  if (!currentPlayer) {
-    showNotification("Set your player name first.");
-    return;
-  }
-
-  const weekKey = String(currentWeek);
-  const weekPicks = picks[currentPlayer]?.[weekKey];
-
-  if (!weekPicks || Object.keys(weekPicks).length === 0) {
-    showNotification("No picks to submit for this week.");
-    return;
-  }
-
-  // Just mark submitted time on this week
-  picks[currentPlayer][weekKey].submittedAt = new Date().toISOString();
-  saveLocalStorage();
-
-  updateLeagueStats();
-  showNotification("Picks submitted successfully.");
-}
-
-// --- EDIT (no locking logic for now) ---
-
 function editCurrentWeekPicks() {
   const player = currentPlayer;
   const weekKey = String(currentWeek);
 
   if (!picks[player] || !picks[player][weekKey]) return;
 
-  // For now, edit just re-renders; no lock/unlock
   renderPicksForWeek(weekKey);
+}
+
+function getPick(weekKey, gameId) {
+  const player = currentPlayer;
+  return picks[player]?.[weekKey]?.[gameId] || null;
 }
 
 // --- LEAGUE STATS / LEADERBOARD (kept, minimal) ---
@@ -1050,36 +974,6 @@ function renderLeaderboard() {
     div.addEventListener("click", () => showPlayerPicks(row.player));
     container.appendChild(div);
   });
-}
-
-// --- FULL PLAYER HISTORY PANEL ---
-
-function showPlayerPicks(player) {
-  const container = document.getElementById("player-picks-content");
-  container.innerHTML = "";
-
-  const p = picks[player] || {};
-
-  Object.keys(p)
-    .sort((a, b) => Number(a) - Number(b))
-    .forEach(weekKey => {
-      const weekPicks = p[weekKey];
-
-      const header = document.createElement("h4");
-      header.textContent = `Week ${weekKey}`;
-      container.appendChild(header);
-
-      const games = scheduleData.weeks[weekKey].games;
-
-      games.forEach(g => {
-        const line = document.createElement("div");
-        const pick = weekPicks[g.id] || "No pick";
-        line.textContent = `${g.away} @ ${g.home} → ${pick}`;
-        container.appendChild(line);
-      });
-    });
-
-  document.getElementById("player-picks-panel").classList.remove("hidden");
 }
 
 // --- NOTIFICATIONS ---
