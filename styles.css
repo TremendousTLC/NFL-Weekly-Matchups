@@ -42,7 +42,7 @@ body {
 #app {
   margin-top: 70px;
   display: grid;
-  grid-template-columns: 300px 1fr 300px;
+  grid-template-columns: 300px 1fr 300px; /* LOCKED WIDTHS */
   gap: 16px;
   padding: 16px;
 }
@@ -52,6 +52,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 300px; /* LOCKED WIDTH */
 }
 
 /* --------------------------------------------------
@@ -62,6 +63,8 @@ section {
   border-radius: 8px;
   padding: 12px 16px;
   box-shadow: 0 0 8px rgba(0,0,0,0.4);
+  width: 100%; /* LOCK PANEL WIDTH */
+  box-sizing: border-box;
 }
 
 h2, h3, h4 {
@@ -107,6 +110,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  width: 100%;
 }
 
 .league-current-player {
@@ -131,6 +135,7 @@ button:hover {
   background: #101528;
   padding: 10px;
   border-radius: 6px;
+  width: 100%;
 }
 
 /* MANAGE PLAYERS PANEL */
@@ -139,6 +144,7 @@ button:hover {
   padding: 10px;
   border-radius: 6px;
   border: 1px solid #333;
+  width: 100%;
 }
 
 /* --------------------------------------------------
@@ -148,7 +154,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  max-width: 480px;
+  width: 300px; /* LOCKED WIDTH */
 }
 
 .nfl-buttons {
@@ -236,6 +242,7 @@ button:hover {
   background: #151a2c;
   padding: 12px 16px;
   border-radius: 8px;
+  width: 100%;
 }
 
 #weekly-picks-container {
@@ -306,7 +313,24 @@ button:hover {
 }
 
 /* TEAM BUTTONS */
-button.selected {
+.team-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid #888;
+  background: #d0d0d0;
+  color: #000;
+  cursor: pointer;
+  min-width: 120px;
+  font-weight: bold;
+  text-align: center;
+  transition: background 0.15s ease;
+}
+
+.team-btn:hover {
+  background: #b5b5b5;
+}
+
+.team-btn.selected {
   background: #4caf50 !important;
   color: #fff !important;
   border-color: #3e8e41 !important;
