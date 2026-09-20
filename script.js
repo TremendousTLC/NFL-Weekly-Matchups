@@ -135,20 +135,14 @@ function ensureWeek(player, weekKey) {
   }
 }
 
-function setPickBackend(player, weekKey, gameIndex, team) {
-
-  if (!player || player.trim() === "") {
-    console.warn("Pick ignored — no player name set.");
-    return;
-  }
-
-  ensurePlayer(player);
-  ensureWeek(player, weekKey);
-
-  picks[player][weekKey][gameIndex] = team;
-
-  savePicks(currentSeason, player, weekKey, picks[player][weekKey]);
+function setPickBackend(player, weekKey, weekObj) {
+  fetch(`/picks/${currentSeason}/${player}/${weekKey}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(weekObj)
+  });
 }
+
 
 function getPickBackend(player, weekKey, gameIndex) {
   if (!picks[player]) return null;
@@ -173,6 +167,39 @@ function lockWeekBackend(player, weekKey) {
   savePicks(currentSeason, player, weekKey, picks[player][weekKey]);
 }
 
+function submitCurrentWeekPicks() {
+  if (!currentPlayer) {
+    showNotification("Set your player name first.");
+    return;
+  }
+
+  const weekKey = String(currentWeek);
+  const weekObj = picks[currentPlayer][weekKey];
+
+  if (!weekObj) {
+    showNotification("No picks to submit for this week.");
+    return;
+  }
+
+  if (weekObj.locked) {
+    showNotification("Picks already locked for this week.");
+    return;
+  }
+
+  weekObj.submittedAt = new Date().toISOString();
+  weekObj.locked = true;
+
+  saveLocalStorage();
+
+  // ⭐ Send full week to backend
+  setPickBackend(currentPlayer, weekKey, weekObj);
+
+  updateLeagueStats();
+  showNotification("Picks submitted successfully.");
+  updateEditLockState();
+}
+
+
 async function initPicksSystem() {
   await loadPicks(currentSeason);
 
@@ -185,12 +212,10 @@ function setPick(weekKey, gameIndex, team) {
     return;
   }
 
-  // Ensure player exists
   if (!picks[currentPlayer]) {
     picks[currentPlayer] = {};
   }
 
-  // Ensure week object exists in NEW FORMAT
   if (!picks[currentPlayer][weekKey]) {
     picks[currentPlayer][weekKey] = {
       picks: {},
@@ -199,14 +224,11 @@ function setPick(weekKey, gameIndex, team) {
     };
   }
 
-  // Save pick in new structure
   picks[currentPlayer][weekKey].picks[gameIndex] = team;
 
-  // Persist
   saveLocalStorage();
-  setPickBackend(currentPlayer, weekKey, gameIndex, team);
+  setPickBackend(currentPlayer, weekKey, picks[currentPlayer][weekKey]);
 
-  // Refresh UI
   renderPicksForWeek(weekKey);
   showPlayerPicks(currentPlayer);
 }
