@@ -224,10 +224,13 @@ function renderPicksForWeek(week) {
     row.className = "matchup-row";
 
     const awayBtn = document.createElement("button");
+    awayBtn.className = "team-btn";
     awayBtn.textContent = g.away;
 
     const homeBtn = document.createElement("button");
+    homeBtn.className = "team-btn";
     homeBtn.textContent = g.home;
+
 
     // ⭐ FIX: highlight logic (correct, no duplicates)
     if (weekPicks[i] === g.away) {
