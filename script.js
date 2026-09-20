@@ -185,15 +185,30 @@ function setPick(weekKey, gameIndex, team) {
     return;
   }
 
-  if (!picks[currentPlayer]) picks[currentPlayer] = {};
-  if (!picks[currentPlayer][weekKey]) picks[currentPlayer][weekKey] = [];
+  // Ensure player exists
+  if (!picks[currentPlayer]) {
+    picks[currentPlayer] = {};
+  }
 
-  picks[currentPlayer][weekKey][gameIndex] = team;
+  // Ensure week object exists in NEW FORMAT
+  if (!picks[currentPlayer][weekKey]) {
+    picks[currentPlayer][weekKey] = {
+      picks: {},
+      submittedAt: null,
+      locked: false
+    };
+  }
+
+  // Save pick in new structure
+  picks[currentPlayer][weekKey].picks[gameIndex] = team;
+
+  // Persist
   saveLocalStorage();
   setPickBackend(currentPlayer, weekKey, gameIndex, team);
 
+  // Refresh UI
   renderPicksForWeek(weekKey);
-  showPlayerPicks(currentPlayer); // refresh left window text
+  showPlayerPicks(currentPlayer);
 }
 
 function getPick(weekKey, gameIndex) {
