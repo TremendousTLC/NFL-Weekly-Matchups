@@ -229,7 +229,7 @@ function renderPicksForWeek(week) {
     const homeBtn = document.createElement("button");
     homeBtn.textContent = g.home;
 
-    // ⭐ Correct highlight logic
+    // ⭐ FIX: highlight logic (correct, no duplicates)
     if (weekPicks[i] === g.away) {
       awayBtn.classList.add("selected");
     }
@@ -237,6 +237,7 @@ function renderPicksForWeek(week) {
       homeBtn.classList.add("selected");
     }
 
+    // ⭐ FIX: click handlers (must fire)
     awayBtn.addEventListener("click", () => setPick(week, i, g.away));
     homeBtn.addEventListener("click", () => setPick(week, i, g.home));
 
@@ -902,24 +903,16 @@ function getPick(weekKey, gameIndex) {
 }
 
 function setPick(weekKey, gameIndex, team) {
-  if (!currentPlayer) {
-    showNotification("Set your player name first.");
-    return;
-  }
+  if (!currentPlayer) return;
 
-  // Ensure player + week exist
   if (!picks[currentPlayer]) picks[currentPlayer] = {};
   if (!picks[currentPlayer][weekKey]) picks[currentPlayer][weekKey] = [];
 
-  // Save pick locally
   picks[currentPlayer][weekKey][gameIndex] = team;
   saveLocalStorage();
 
-  // Save pick to backend
-  setPickBackend(currentPlayer, weekKey, gameIndex, team);
-
-  // Re-render UI (only once)
   renderPicksForWeek(weekKey);
+  showPlayerPicks(currentPlayer);
 }
 
 function submitCurrentWeekPicks() {

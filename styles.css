@@ -13,20 +13,17 @@ body {
   top: 0;
   left: 0;
   right: 0;
-
   height: 60px;
   background: #0d1328;
   display: flex;
-  justify-content: center;   /* <-- THIS IS THE FIX */
+  justify-content: center;
   gap: 10px;
   padding: 6px;
   align-items: center;
-
   z-index: 1000;
   border-bottom: 2px solid #1a2135;
 }
 
-/* Logo images inside banner */
 .teamLogo {
   height: 48px;
   width: auto;
@@ -39,13 +36,22 @@ body {
   transform: scale(1.1);
 }
 
-/* Push app down below fixed banner */
+/* --------------------------------------------------
+   APP GRID LAYOUT
+-------------------------------------------------- */
 #app {
   margin-top: 70px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 300px 1fr 300px;
   gap: 16px;
   padding: 16px;
+}
+
+/* LEFT COLUMN WRAPPER */
+#left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 /* --------------------------------------------------
@@ -120,6 +126,21 @@ button:hover {
   border-radius: 6px;
 }
 
+/* PLAYER PICKS PANEL */
+#player-picks-panel {
+  background: #101528;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+/* MANAGE PLAYERS PANEL */
+#player-management {
+  background: #101528;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #333;
+}
+
 /* --------------------------------------------------
    NFL PANEL
 -------------------------------------------------- */
@@ -136,14 +157,12 @@ button:hover {
   margin-top: 8px;
 }
 
-/* Standings container */
 #nfl-standings {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* Conference layout */
 .conference-block {
   display: grid;
   grid-template-columns: 1fr 0.7fr;
@@ -156,15 +175,6 @@ button:hover {
 
 .conference-right {
   padding-left: 6px;
-}
-
-/* Division block */
-.standings-division {
-  margin-bottom: 8px;
-}
-
-.standings-division h5 {
-  margin: 4px 0;
 }
 
 /* --------------------------------------------------
@@ -200,17 +210,14 @@ button:hover {
   height: 16px;
 }
 
-/* Best teams list */
 .best-list .team-row {
   grid-template-columns: 1fr 32px;
 }
 
-/* Teams list */
 #teams-list .team-row {
   grid-template-columns: 1.5fr 1fr;
 }
 
-/* Team detail */
 #team-info {
   margin-bottom: 8px;
 }
@@ -221,40 +228,16 @@ button:hover {
 }
 
 /* --------------------------------------------------
-   NFL SCORES PANEL
+   PICKS PANEL
 -------------------------------------------------- */
-
-#nfl-scores-panel {
-  padding: 10px;
-  border-left: 2px solid #ccc;
-}
-
-.score-row {
-  display: grid;
-  grid-template-columns: 1fr 80px 80px;
-  padding: 6px 0;
-  border-bottom: 1px solid #ddd;
-}
-
-.score-row .winner {
-  font-weight: bold;
-  color: #2a7;
-}
-
-/* --------------------------------------------------
-   PICKS PANEL (FINAL MERGED VERSION)
--------------------------------------------------- */
-
 #picks-panel {
   display: flex;
   flex-direction: column;
-  max-height: 930px;
   background: #151a2c;
-  margin: 16px 0;
   padding: 12px 16px;
+  border-radius: 8px;
 }
 
-/* Title + Week Selector */
 #weekly-picks-container {
   text-align: center;
   display: flex;
@@ -290,7 +273,6 @@ button:hover {
   font-weight: bold;
 }
 
-/* Scrollable matchups area */
 #picks-scroll {
   flex: 1;
   overflow-y: auto;
@@ -307,7 +289,6 @@ button:hover {
   width: 100%;
 }
 
-/* Scoreboard row */
 .matchup-row {
   display: flex !important;
   flex-direction: row !important;
@@ -317,66 +298,18 @@ button:hover {
   padding: 6px 0;
 }
 
-/* Score cells */
-.matchup-row div {
-  width: 40px;
+.score-display {
+  width: 60px;
   text-align: center;
   font-size: 18px;
   color: #fff;
 }
 
-.score-cell {
-  width: 40px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  color: #fff;
-}
-
-/* Team buttons */
-/* Team buttons */
-.team-btn {
-  padding: 8px 16px;
-  border-radius: 6px;
-  border: 1px solid #888;
-  background: #d0d0d0;        /* darker base */
-  color: #000;
-  cursor: pointer;
-  min-width: 120px;
-  font-weight: bold;
-  text-align: center;
-  transition: background 0.15s ease;
-}
-
-/* Hover */
-.team-btn:hover {
-  background: #b5b5b5;        /* slightly darker hover */
-}
-
-/* Selected (stays visible) */
-.team-btn.selected {
-  background: #4caf50;        /* green highlight */
-  color: white;
-  border-color: #3e8e41;
-}
-
-/* Winner flash (your existing logic will use this class) */
-.team-btn.winner-flash {
-  animation: flashWinner 0.4s ease-in-out 5;
-}
-
-@keyframes flashWinner {
-  0% { background: #4caf50; }
-  50% { background: #2e7d32; }
-  100% { background: #4caf50; }
-}
-
-/* Dash */
-.vs-separator {
-  font-weight: bold;
-  font-size: 20px;
-  color: #fff;
-  opacity: 0.85;
+/* TEAM BUTTONS */
+button.selected {
+  background: #4caf50 !important;
+  color: #fff !important;
+  border-color: #3e8e41 !important;
 }
 
 /* Submit/Edit buttons */
@@ -387,34 +320,6 @@ button:hover {
   justify-content: center;
 }
 
-.picks-actions button {
-  background: #1f6feb;
-  padding: 8px 16px;
-  border-radius: 6px;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.picks-actions button:hover {
-  background: #1450a3;
-}
-
-/* Notification */
-.notification {
-  margin-top: 8px;
-  padding: 6px 10px;
-  border-radius: 4px;
-  background: #1f6feb;
-  color: #fff;
-}
-
-.notification.hidden {
-  display: none;
-}
-
-/* Detail window */
 #picks-detail-window {
   margin-top: 10px;
   background: #101528;
@@ -424,7 +329,6 @@ button:hover {
   color: #fff;
 }
 
-/* Winner score highlight */
 .winner-score {
   font-weight: bold;
   color: #2a7;

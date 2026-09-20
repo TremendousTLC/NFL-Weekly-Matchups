@@ -3,95 +3,100 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>NFL Weekly Matchup 047</title>
+  <title>NFL Weekly Matchup 048</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+
   <!-- TOP: LOGO BANNER -->
   <div id="logo-banner"></div>
 
   <div id="app">
 
-    <!-- LEFT: LEAGUE PANEL -->
-    <section id="league-panel">
-      <h2>League</h2>
+    <!-- LEFT COLUMN -->
+    <div id="left-column">
 
-      <div class="league-current-player">
-        <label for="player-name">Player / Team Name:</label>
-        <input type="text" id="player-name" placeholder="e.g. Terry, Legendary-Fake-Laugher">
-        <button id="set-player-btn">Set Player</button>
-		<button id="show-my-picks-btn">Show My Picks</button>
+      <!-- LEAGUE PANEL -->
+      <section id="league-panel">
+        <h2>League</h2>
 
+        <div class="league-current-player">
+          <label for="player-name">Player / Team Name:</label>
+          <input type="text" id="player-name" placeholder="e.g. Terry, Legendary-Fake-Laugher">
+          <button id="set-player-btn">Set Player</button>
+          <button id="show-my-picks-btn">Show My Picks</button>
+        </div>
+
+        <div class="league-stats">
+          <p><strong>Total Participants:</strong> <span id="total-participants">0</span></p>
+          <p><strong>Participants This Week:</strong> <span id="week-participants">0</span></p>
+        </div>
+
+        <div class="league-actions">
+          <button id="leaderboard-btn">View Leaderboard</button>
+          <button id="view-submissions-btn">View Submissions</button>
+        </div>
+
+        <div id="leaderboard-panel" class="panel hidden">
+          <h3>Season Leaderboard</h3>
+          <div id="leaderboard-list"></div>
+        </div>
+
+        <div id="player-picks-panel" class="side-panel">
+          <h3>Player Picks</h3>
+          <div id="player-picks-content"></div>
+        </div>
+
+        <div id="submissions-window" class="panel hidden">
+          <h3>Weekly Submissions</h3>
+          <div id="submissions-list"></div>
+        </div>
+      </section>
+
+      <!-- MANAGE PLAYERS (MOVED HERE, OUT OF WEEKLY PICKS AREA) -->
+      <div id="player-management" class="side-panel">
+        <h3>Manage Players</h3>
+        <select id="player-list"></select>
+        <button id="delete-player-btn">Delete Player</button>
       </div>
 
-      <div class="league-stats">
-        <p><strong>Total Participants:</strong> <span id="total-participants">0</span></p>
-        <p><strong>Participants This Week:</strong> <span id="week-participants">0</span></p>
-      </div>
+    </div> <!-- END LEFT COLUMN -->
 
-      <div class="league-actions">
-        <button id="leaderboard-btn">View Leaderboard</button>
-        <button id="view-submissions-btn">View Submissions</button>
-      </div>
 
-      <div id="leaderboard-panel" class="panel hidden">
-        <h3>Season Leaderboard</h3>
-        <div id="leaderboard-list"></div>
-      </div>
+    <!-- CENTER: WEEKLY PICKS PANEL -->
+    <section id="picks-panel">
+      <div id="weekly-picks-container">
 
-<div id="player-picks-panel" class="side-panel">
-  <h3>Player Picks</h3>
-  <div id="player-picks-content"></div>
-</div>
+        <h2 id="weekly-title">Weekly Picks</h2>
 
-      <div id="submissions-window" class="panel hidden">
-        <h3>Weekly Submissions</h3>
-        <div id="submissions-list"></div>
+        <div id="week-selector">
+          <button id="prev-week" onclick="changeWeek(-1)">◀</button>
+          <span id="picks-current-week">Week -</span>
+          <button id="next-week" onclick="changeWeek(1)">▶</button>
+        </div>
+
+        <div id="picks-scroll">
+          <div id="matchups-container"></div>
+        </div>
+
+        <div class="picks-actions">
+          <button id="submit-picks-btn">Submit Picks</button>
+          <button id="edit-picks-btn">Edit Picks</button>
+        </div>
+
+        <div id="picks-notification" class="notification hidden"></div>
+
+        <div id="picks-detail-window"></div>
+
       </div>
     </section>
-	
-<div id="player-management">
-  <h3>Manage Players</h3>
-  <select id="player-list"></select>
-  <button id="delete-player-btn">Delete Player</button>
-</div>
-
-
-    <!-- CENTER: WEEKLY PICKS PANEL-->
-<section id="picks-panel">
-  <div id="weekly-picks-container">
-
-    <h2 id="weekly-title">Weekly Picks</h2>
-
-    <div id="week-selector">
-      <button id="prev-week" onclick="changeWeek(-1)">◀</button>
-      <span id="picks-current-week">Week -</span>
-      <button id="next-week" onclick="changeWeek(1)">▶</button>
-    </div>
-
-    <div id="picks-scroll">
-      <div id="matchups-container"></div>
-    </div>
-
-    <div class="picks-actions">
-      <button id="submit-picks-btn">Submit Picks</button>
-      <button id="edit-picks-btn">Edit Picks</button>
-    </div>
-
-    <div id="picks-notification" class="notification hidden"></div>
-
-    <div id="picks-detail-window"></div>
-
-  </div>
-</section>
 
 
     <!-- RIGHT: NFL PANEL -->
     <section id="nfl-panel">
       <h2>NFL Dashboard</h2>
 
-      <!-- ⭐ This stays exactly as-is -->
       <div id="current-week-display">
         <strong>Current NFL Week:</strong> <span id="current-week">-</span>
       </div>
@@ -153,6 +158,6 @@
 
   </div>
 
-  <script src="script.js?v=129"></script>
+  <script src="script.js?v=130"></script>
 </body>
 </html>
