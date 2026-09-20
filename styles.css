@@ -42,7 +42,7 @@ body {
 #app {
   margin-top: 70px;
   display: grid;
-  grid-template-columns: 300px 1fr 300px; /* LOCKED WIDTHS */
+  grid-template-columns: 360px 1fr 360px; /* LOCKED WIDTHS */
   gap: 16px;
   padding: 16px;
 }
@@ -52,7 +52,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 300px; /* LOCKED WIDTH */
+  width: 360px; /* LOCKED WIDTH */
 }
 
 /* --------------------------------------------------
@@ -154,7 +154,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 300px; /* LOCKED WIDTH */
+  width: 360px; /* LOCKED WIDTH */
 }
 
 .nfl-buttons {
