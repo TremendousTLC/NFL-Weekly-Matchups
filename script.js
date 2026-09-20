@@ -253,10 +253,13 @@ function renderPicksForWeek(week) {
   const container = document.getElementById("matchups-container");
   container.innerHTML = "";
 
-  const games = scheduleData.weeks[week].games;
-  const weekPicks = picks[currentPlayer]?.[week] || [];
+  const weekKey = String(week);
+  const games = scheduleData.weeks[weekKey].games;
 
-  games.forEach((g, i) => {
+  // Correct: picks stored by gameId
+  const weekPicks = picks[currentPlayer]?.[weekKey] || {};
+
+  games.forEach((g) => {
     const row = document.createElement("div");
     row.className = "matchup-row";
 
@@ -268,18 +271,19 @@ function renderPicksForWeek(week) {
     homeBtn.className = "team-btn";
     homeBtn.textContent = g.home;
 
+    // ⭐ CORRECT HIGHLIGHT LOGIC (gameId-based)
+    const pick = weekPicks[g.id];   // <-- THIS IS THE FIX
 
-    // ⭐ FIX: highlight logic (correct, no duplicates)
-    if (weekPicks[i] === g.away) {
+    if (pick === g.away) {
       awayBtn.classList.add("selected");
     }
-    if (weekPicks[i] === g.home) {
+    if (pick === g.home) {
       homeBtn.classList.add("selected");
     }
 
-    // ⭐ FIX: click handlers (must fire)
-    awayBtn.addEventListener("click", () => setPick(week, i, g.away));
-    homeBtn.addEventListener("click", () => setPick(week, i, g.home));
+    // ⭐ CORRECT CLICK HANDLERS (gameId-based)
+    awayBtn.addEventListener("click", () => setPick(weekKey, g.id, g.away));
+    homeBtn.addEventListener("click", () => setPick(weekKey, g.id, g.home));
 
     const scoreSpan = document.createElement("span");
     scoreSpan.className = "score-display";
@@ -937,22 +941,80 @@ function setPlayer() {
   saveLocalStorage();
 }
 
-function getPick(weekKey, gameIndex) {
+function getPick(weekKey, gameId) {
   const player = currentPlayer;
-  return getPickBackend(player, weekKey, gameIndex);
+  return picks[player]?.[weekKey]?.[gameId] || null;
 }
 
-function setPick(weekKey, gameIndex, team) {
+function setPick(weekKey, gameId, team) {
   if (!currentPlayer) return;
 
   if (!picks[currentPlayer]) picks[currentPlayer] = {};
-  if (!picks[currentPlayer][weekKey]) picks[currentPlayer][weekKey] = [];
+  if (!picks[currentPlayer][weekKey]) picks[currentPlayer][weekKey] = {};
 
-  picks[currentPlayer][weekKey][gameIndex] = team;
+  picks[currentPlayer][weekKey][gameId] = team;   // <-- FIXED
   saveLocalStorage();
 
   renderPicksForWeek(weekKey);
   showPlayerPicks(currentPlayer);
+}
+
+function onRenderWeeklyPicks() {
+  const allPicks = loadAllPicks();
+  const saved = allPicks["2026"]?.["1"]?.["Terry"]?.picks || [];
+  const weekGames = schedule["2026"]["1"].games;
+
+  weekGames.forEach(game => {
+    const pickObj = saved.find(p => p.gameId === game.id);
+    const pick = pickObj ? pickObj.pick : null;
+    renderGameRow(game, pick);   // highlight your pick
+  });
+}
+
+function renderPlayerPicksForWeek() {
+  const container = document.getElementById("player-picks-content");
+  container.innerHTML = "";
+
+  const weekKey = String(currentWeek);
+  const weekPicks = picks[currentPlayer]?.[weekKey] || {};
+  const games = scheduleData.weeks[weekKey].games;
+
+  games.forEach(g => {
+    const pick = weekPicks[g.id] || "No pick";
+    const line = document.createElement("div");
+    line.textContent = `${g.away} @ ${g.home} → ${pick}`;
+    container.appendChild(line);
+  });
+
+  document.getElementById("player-picks-panel").classList.remove("hidden");
+}
+
+function renderGameRow(game, pick) {
+  // build your row however you do it now
+  // but highlight the team if pick matches
+
+  highlightTeamPick(game.id, pick);  // your UI highlight function
+}
+
+
+function saveWeekPicks() {
+  const allPicks = loadAllPicks();
+  const weekGames = schedule["2026"]["1"].games;
+
+  const picks = weekGames.map(game => ({
+    gameId: game.id,
+    pick: getSelectedPickForGame(game.id)   // <-- YOUR UI returns the picked team
+  }));
+
+  if (!allPicks["2026"]) allPicks["2026"] = {};
+  if (!allPicks["2026"]["1"]) allPicks["2026"]["1"] = {};
+
+  allPicks["2026"]["1"]["Terry"] = {
+    picks,
+    submittedAt: new Date().toISOString()
+  };
+
+  saveAllPicks(allPicks);
 }
 
 function submitCurrentWeekPicks() {
