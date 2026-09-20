@@ -944,6 +944,12 @@ function setPlayer() {
 
   currentPlayer = name;
 
+  // ⭐ Ensure player object exists
+  if (!picks[currentPlayer]) picks[currentPlayer] = {};
+
+  // ⭐ Ensure week object exists
+  if (!picks[currentPlayer][currentWeek]) picks[currentPlayer][currentWeek] = {};
+
   // Load their picks immediately
   showPlayerPicks(currentPlayer);
 
