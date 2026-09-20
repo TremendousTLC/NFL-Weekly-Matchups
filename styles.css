@@ -50,6 +50,15 @@ body {
   padding: 16px;
 }
 
+/* Force all panels to fill their grid column */
+#league-panel,
+#player-picks-panel,
+#player-management,
+#picks-panel,
+#nfl-panel {
+  width: 100%;
+  box-sizing: border-box;
+}
 
 /* ==================================================
    LEFT PANEL — LEAGUE AREA
