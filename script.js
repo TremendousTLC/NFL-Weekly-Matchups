@@ -136,11 +136,11 @@ function ensureWeek(player, weekKey) {
 }
 
 function setPickBackend(player, weekKey, weekObj) {
-  fetch(`/picks/${currentSeason}/${player}/${weekKey}`, {
+  fetch(`${API_BASE}/picks/${currentSeason}/${player}/${weekKey}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(weekObj)
-  });
+  }).catch(err => console.error("Error saving pick backend:", err));
 }
 
 async function initPicksSystem() {
@@ -220,18 +220,14 @@ const teamLogos = {
 function loadLocalStorage() {
   try {
     const p = localStorage.getItem(LS_PLAYERS);
-    const pk = localStorage.getItem(LS_PICKS);
     players = p ? JSON.parse(p) : {};
-    picks = pk ? JSON.parse(pk) : {};
   } catch (e) {
     players = {};
-    picks = {};
   }
 }
 
 function saveLocalStorage() {
   localStorage.setItem(LS_PLAYERS, JSON.stringify(players));
-  localStorage.setItem(LS_PICKS, JSON.stringify(picks));
 }
 
 function setupUIHandlers() {
@@ -245,7 +241,12 @@ function setupUIHandlers() {
   const scheduleWeekSelect = document.getElementById("schedule-week-select");
   const deletePlayerBtn = document.getElementById("delete-player-btn");
 
-  // Show My Picks button
+  // --- SET PLAYER ---
+  setPlayerBtn.addEventListener("click", () => {
+    setPlayer();   // unified backend-only version
+  });
+
+  // --- SHOW MY PICKS ---
   showMyPicksBtn.addEventListener("click", () => {
     if (!currentPlayer) {
       showNotification("Set your player name first.");
@@ -254,71 +255,48 @@ function setupUIHandlers() {
     showPlayerPicks(currentPlayer);
   });
 
-  // Set Player button
-  setPlayerBtn.addEventListener("click", () => {
-    const nameInput = document.getElementById("player-name");
-    const name = nameInput.value.trim();
-    if (!name) return;
-
-    currentPlayer = name;
-
-    // Create player record if new
-    if (!players[currentPlayer]) {
-      players[currentPlayer] = {
-        displayName: currentPlayer,
-        createdAt: new Date().toISOString()
-      };
-    }
-
-    saveLocalStorage();
-    updateLeagueStats();
-    refreshPlayerList();
-
-    showNotification(`Current player set to ${currentPlayer}`);
-
-    // Show picks immediately
-    showPlayerPicks(currentPlayer);
-
-    // Highlight picks immediately
-    renderPicksForWeek(currentWeek);
-  });
-
-  // Delete Player button
+  // --- DELETE PLAYER ---
   deletePlayerBtn.addEventListener("click", () => {
     const list = document.getElementById("player-list");
     const name = list.value;
     if (!name) return;
 
     delete players[name];
-    delete picks[name];
+    delete picks[name];   // backend-only picks object in memory
 
-    saveLocalStorage();
+    saveLocalStorage();   // players only
     refreshPlayerList();
     showNotification(`Deleted player ${name} and all picks.`);
   });
 
+  // --- LEADERBOARD ---
   leaderboardBtn.addEventListener("click", () => {
     togglePanel("leaderboard-panel");
     renderLeaderboard();
   });
 
+  // --- TEAMS ---
   teamsBtn.addEventListener("click", () => {
     togglePanel("teams-panel");
   });
 
+  // --- SCHEDULE ---
   scheduleBtn.addEventListener("click", () => {
     togglePanel("nfl-schedule-panel");
     renderNFLWeekSchedule();
   });
 
+  // --- SUBMIT PICKS ---
   submitPicksBtn.addEventListener("click", () => {
-    submitCurrentWeekPicks();
+    submitCurrentWeekPicks();   // backend-only submit
   });
 
+  // --- EDIT PICKS ---
   editPicksBtn.addEventListener("click", () => {
-    editCurrentWeekPicks();
+    editCurrentWeekPicks();     // no locking, just re-render
   });
 
+  // --- WEEK SELECTOR ---
   scheduleWeekSelect.addEventListener("change", () => {
     renderNFLWeekSchedule();
   });
@@ -791,7 +769,7 @@ function setPlayer() {
   showPlayerPicks(currentPlayer);
 }
 
-// --- SET PICK (gameId-based, local + backend) ---
+// --- SET PICK ---
 function setPick(weekKey, gameId, team) {
   if (!currentPlayer) {
     showNotification("Set your player name first.");
@@ -801,10 +779,8 @@ function setPick(weekKey, gameId, team) {
   ensurePlayer(currentPlayer);
   ensureWeek(currentPlayer, weekKey);
 
-  // store by gameId
   picks[currentPlayer][weekKey][gameId] = team;
 
-  saveLocalStorage();
   setPickBackend(currentPlayer, weekKey, picks[currentPlayer][weekKey]);
 
   renderPicksForWeek(weekKey);
@@ -896,9 +872,8 @@ function submitCurrentWeekPicks() {
     return;
   }
 
-  // mark submitted time
   picks[currentPlayer][weekKey].submittedAt = new Date().toISOString();
-  saveLocalStorage();
+  savePicks(currentSeason, currentPlayer, weekKey, weekPicks);
 
   showNotification("Picks submitted.");
   updateLeagueStats();
