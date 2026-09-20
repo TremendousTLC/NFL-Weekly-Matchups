@@ -73,7 +73,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 600px; /* Resize left panel width here */
+  width: 700px; /* Resize left panel width here */
 }
 
 /* ---------- League Panel ---------- */
