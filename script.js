@@ -1042,21 +1042,27 @@ function showPlayerPicks(player) {
 
   const p = picks[player] || {};
 
-  Object.keys(p).sort((a, b) => Number(a) - Number(b)).forEach(weekKey => {
-    const weekPicks = p[weekKey];
-    const header = document.createElement("h4");
-    header.textContent = `Week ${weekKey}`;
-    container.appendChild(header);
+  Object.keys(p)
+    .sort((a, b) => Number(a) - Number(b))
+    .forEach(weekKey => {
+      const weekPicks = p[weekKey];
 
-    const games = scheduleData.weeks[weekKey].games;
+      const header = document.createElement("h4");
+      header.textContent = `Week ${weekKey}`;
+      container.appendChild(header);
 
-    games.forEach((g, idx) => {
-      const line = document.createElement("div");
-      const pick = weekPicks[idx] || "No pick";
-      line.textContent = `${g.away} @ ${g.home} → ${pick}`;
-      container.appendChild(line);
+      const games = scheduleData.weeks[weekKey].games;
+
+      games.forEach((g, idx) => {
+        const line = document.createElement("div");
+
+        // ⭐ Support both formats: array OR object.picks
+        const pick = (weekPicks.picks ? weekPicks.picks[idx] : weekPicks[idx]) || "No pick";
+
+        line.textContent = `${g.away} @ ${g.home} → ${pick}`;
+        container.appendChild(line);
+      });
     });
-  });
 
   // Make sure panel is visible
   document.getElementById("player-picks-panel").classList.remove("hidden");
