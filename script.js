@@ -174,31 +174,41 @@ function submitCurrentWeekPicks() {
   }
 
   const weekKey = String(currentWeek);
-  const weekObj = picks[currentPlayer][weekKey];
+  const weekPicks = picks[currentPlayer]?.[weekKey];
 
-  if (!weekObj) {
+  if (!weekPicks) {
     showNotification("No picks to submit for this week.");
     return;
   }
 
-  if (weekObj.locked) {
-    showNotification("Picks already locked for this week.");
-    return;
-  }
+  // Save into allPicks (for onRender)
+  const allPicks = loadAllPicks();
+  if (!allPicks["2026"]) allPicks["2026"] = {};
+  if (!allPicks["2026"][weekKey]) allPicks["2026"][weekKey] = {};
 
-  weekObj.submittedAt = new Date().toISOString();
-  weekObj.locked = true;
+  const picksArray = Object.keys(weekPicks).map(gameId => ({
+    gameId: Number(gameId),
+    pick: weekPicks[gameId]
+  }));
 
+  allPicks["2026"][weekKey][currentPlayer] = {
+    picks: picksArray,
+    submittedAt: new Date().toISOString()
+  };
+
+  saveAllPicks(allPicks);
+
+  // Lock week in your real system
+  picks[currentPlayer][weekKey].locked = true;
   saveLocalStorage();
 
-  // ⭐ Send full week to backend
-  setPickBackend(currentPlayer, weekKey, weekObj);
-
-  updateLeagueStats();
   showNotification("Picks submitted successfully.");
+
+  // Re-render everything using onRender
+  onRenderWeeklyPicks();
+  showPlayerPicks(currentPlayer);
   updateEditLockState();
 }
-
 
 async function initPicksSystem() {
   await loadPicks(currentSeason);
