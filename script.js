@@ -256,43 +256,45 @@ function renderPicksForWeek(week) {
   const weekKey = String(week);
   const games = scheduleData.weeks[weekKey].games;
 
-  // Correct: picks stored by gameId
+  // Picks stored by gameId
   const weekPicks = picks[currentPlayer]?.[weekKey] || {};
 
-  games.forEach((g) => {
+  games.forEach(g => {
+    const pick = weekPicks[g.id] || null;
+
+    // Build row
     const row = document.createElement("div");
     row.className = "matchup-row";
 
+    // Away button
     const awayBtn = document.createElement("button");
     awayBtn.className = "team-btn";
     awayBtn.textContent = g.away;
 
+    // Home button
     const homeBtn = document.createElement("button");
     homeBtn.className = "team-btn";
     homeBtn.textContent = g.home;
 
-    // ⭐ CORRECT HIGHLIGHT LOGIC (gameId-based)
-    const pick = weekPicks[g.id];   // <-- THIS IS THE FIX
+    // ⭐ Highlight correct pick
+    if (pick === g.away) awayBtn.classList.add("selected");
+    if (pick === g.home) homeBtn.classList.add("selected");
 
-    if (pick === g.away) {
-      awayBtn.classList.add("selected");
-    }
-    if (pick === g.home) {
-      homeBtn.classList.add("selected");
-    }
-
-    // ⭐ CORRECT CLICK HANDLERS (gameId-based)
+    // ⭐ Correct click handlers (gameId-based)
     awayBtn.addEventListener("click", () => setPick(weekKey, g.id, g.away));
     homeBtn.addEventListener("click", () => setPick(weekKey, g.id, g.home));
 
+    // Score display
     const scoreSpan = document.createElement("span");
     scoreSpan.className = "score-display";
     scoreSpan.textContent = `${g.awayScore ?? "-"} - ${g.homeScore ?? "-"}`;
 
+    // Build row
     row.appendChild(awayBtn);
     row.appendChild(homeBtn);
     row.appendChild(scoreSpan);
 
+    // Add row to container
     container.appendChild(row);
   });
 }
@@ -959,16 +961,30 @@ function setPick(weekKey, gameId, team) {
   showPlayerPicks(currentPlayer);
 }
 
-function onRenderWeeklyPicks() {
-  const allPicks = loadAllPicks();
-  const saved = allPicks["2026"]?.["1"]?.["Terry"]?.picks || [];
-  const weekGames = schedule["2026"]["1"].games;
+function normalizeWeekPicks(player, weekKey) {
+  const weekPicks = picks[player]?.[weekKey];
+  if (!weekPicks) return;
 
-  weekGames.forEach(game => {
-    const pickObj = saved.find(p => p.gameId === game.id);
-    const pick = pickObj ? pickObj.pick : null;
-    renderGameRow(game, pick);   // highlight your pick
+  // Already correct format
+  if (!Array.isArray(weekPicks)) return;
+
+  const games = scheduleData.weeks[weekKey].games;
+  const obj = {};
+
+  games.forEach((g, idx) => {
+    obj[g.id] = weekPicks[idx] || null;
   });
+
+  picks[player][weekKey] = obj;
+  saveLocalStorage();
+}
+
+function onRenderWeeklyPicks() {
+  // Normalize picks (convert old array → new object)
+  normalizeWeekPicks(currentPlayer, currentWeek);
+
+  // Render the week using the correct gameId-based system
+  renderPicksForWeek(currentWeek);
 }
 
 function renderPlayerPicksForWeek() {
@@ -989,12 +1005,6 @@ function renderPlayerPicksForWeek() {
   document.getElementById("player-picks-panel").classList.remove("hidden");
 }
 
-function renderGameRow(game, pick) {
-  // build your row however you do it now
-  // but highlight the team if pick matches
-
-  highlightTeamPick(game.id, pick);  // your UI highlight function
-}
 
 
 function saveWeekPicks() {
@@ -1152,18 +1162,17 @@ function showPlayerPicks(player) {
 
       const games = scheduleData.weeks[weekKey].games;
 
-      games.forEach((g, idx) => {
+      games.forEach(g => {
         const line = document.createElement("div");
 
-        // ⭐ Support both formats: array OR object.picks
-        const pick = (weekPicks.picks ? weekPicks.picks[idx] : weekPicks[idx]) || "No pick";
+        // ⭐ CORRECT: picks stored by gameId
+        const pick = weekPicks[g.id] || "No pick";
 
         line.textContent = `${g.away} @ ${g.home} → ${pick}`;
         container.appendChild(line);
       });
     });
 
-  // Make sure panel is visible
   document.getElementById("player-picks-panel").classList.remove("hidden");
 }
 
