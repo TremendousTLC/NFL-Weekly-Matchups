@@ -242,7 +242,12 @@ button:hover {
   background: #151a2c;
   padding: 12px 16px;
   border-radius: 8px;
+
+  /* ⭐ NEW: lock width */
+  max-width: 600px;
   width: 100%;
+  margin: 0 auto;   /* centers it */
+  box-sizing: border-box;
 }
 
 #weekly-picks-container {
