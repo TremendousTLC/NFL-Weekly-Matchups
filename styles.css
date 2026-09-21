@@ -151,3 +151,13 @@ section {
   border-radius: 4px;
   font-size: 0.9rem;
 }
+
+#nfl-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#current-nfl-week {
+  font-weight: bold;
+  font-size: 1.1em;
+}
