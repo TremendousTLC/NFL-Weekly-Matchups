@@ -242,8 +242,8 @@ function setupUIHandlers() {
   const deletePlayerBtn = document.getElementById("delete-player-btn");
 
   // --- SET PLAYER ---
-  setPlayerBtn.addEventListener("click", () => {
-    setPlayer();   // unified backend-only version
+  setPlayerBtn.addEventListener("click", async () => {
+    await setPlayer();
   });
 
   // --- SHOW MY PICKS ---
@@ -737,7 +737,7 @@ function renderNFLScores(week) {
 // --- UNIFIED PICK SYSTEM
 
 // --- PLAYER SETUP ---
-function setPlayer() {
+async function setPlayer() {
   const nameInput = document.getElementById("player-name");
   const name = nameInput.value.trim();
   if (!name) {
@@ -753,13 +753,16 @@ function setPlayer() {
       displayName: currentPlayer,
       createdAt: new Date().toISOString()
     };
+    saveLocalStorage(); // players only
   }
 
-  // Ensure picks structure
-  if (!picks[currentPlayer]) picks[currentPlayer] = {};
-  if (!picks[currentPlayer][currentWeek]) picks[currentPlayer][currentWeek] = {};
+  // ⭐ CRITICAL: Load backend picks for ALL players
+  await loadPicks(currentSeason);
 
-  saveLocalStorage();
+  // Ensure structure exists for this player + week
+  ensurePlayer(currentPlayer);
+  ensureWeek(currentPlayer, String(currentWeek));
+
   updateLeagueStats();
   refreshPlayerList();
 
