@@ -761,42 +761,20 @@ function renderNFLScores(week) {
 // --- UNIFIED PICK SYSTEM
 
 // --- PLAYER SETUP ---
-async function setPlayer() {
-  const nameInput = document.getElementById("player-name");
-  const name = nameInput.value.trim();
-  if (!name) {
-    showNotification("Enter a player name.");
+async function setPlayer(name) {
+  currentPlayer = name;
+
+  await initPicksSystem();   // loads picks for this player
+
+  // SAFETY: ensure weekly picks panel exists before rendering
+  const container = document.getElementById("weekly-picks");
+  if (!container) {
+    console.warn("weekly-picks element not found in DOM → delaying render.");
     return;
   }
 
-  currentPlayer = name;
-
-  // Create player record if new
-  if (!players[currentPlayer]) {
-    players[currentPlayer] = {
-      displayName: currentPlayer,
-      createdAt: new Date().toISOString()
-    };
-    saveLocalStorage(); // players only
-  }
-
-  // ⭐ CRITICAL: Load backend picks for ALL players
-  await loadPicks(currentSeason);
-
-  // Ensure structure exists for this player + week
-  ensurePlayer(currentPlayer);
-  ensureWeek(currentPlayer, String(currentWeek));
-
-  updateLeagueStats();
-  refreshPlayerList();
-
-  showNotification(`Current player set to ${currentPlayer}`);
-
   renderPicksForWeek(currentWeek);
-  showPlayerPicks(currentPlayer);
-  
-  renderSeasonStandings();
-  renderWeekStandings(currentWeek);
+  renderStandings();
 }
 
 // --- SET PICK ---
