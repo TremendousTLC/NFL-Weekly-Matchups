@@ -1,268 +1,144 @@
-/* ==================================================
-   GLOBAL STYLES
-================================================== */
+/* =============================== */
+/* GLOBAL                          */
+/* =============================== */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #0b1020;
-  color: #f5f5f5;
+  background: #0b0c10;
+  color: #ffffff;
 }
 
-/* ---------- Top Banner (NFL Logos) ---------- */
-#logo-banner {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
+h2, h3 {
+  margin: 0 0 8px 0;
+}
+
+/* =============================== */
+/* HEADER                          */
+/* =============================== */
+#header {
   background: #0d1328;
+  padding: 10px;
+  border-bottom: 2px solid #1a2135;
+}
+
+#logo-banner {
   display: flex;
-  justify-content: center;
   gap: 10px;
+  overflow-x: auto;
   padding: 6px;
   align-items: center;
-  z-index: 1000;
-  border-bottom: 2px solid #1a2135;
 }
 
 .teamLogo {
   height: 48px;
   width: auto;
+  flex-shrink: 0;
   cursor: pointer;
   transition: transform 0.15s ease;
 }
+
 .teamLogo:hover {
   transform: scale(1.1);
 }
 
-/* ---------- MAIN APP GRID LAYOUT ---------- */
-#app {
-  margin-top: 70px;
+/* =============================== */
+/* MAIN LAYOUT GRID                */
+/* =============================== */
+#layout {
   display: grid;
-  grid-template-columns: 700px 600px 600px;
-  gap: 16px;
-  padding: 16px;
-  justify-content: center;
+  grid-template-columns: 1.2fr 2fr 1.5fr;
+  gap: 10px;
+  padding: 10px;
 }
 
-#league-panel,
-#player-picks-panel,
-#player-management,
-#picks-panel,
-#nfl-panel {
-  width: 590px;
-  box-sizing: border-box;
+/* =============================== */
+/* PANEL BASE STYLE                */
+/* =============================== */
+section {
+  background: #1f2833;
+  padding: 10px;
+  border-radius: 4px;
 }
 
-/* ==================================================
-   LEFT PANEL — LEAGUE AREA
-================================================== */
+.panel-block {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #3a3a3a;
+  padding-bottom: 8px;
+}
+
+.panel-block:last-child {
+  border-bottom: none;
+}
+
+/* =============================== */
+/* LEFT COLUMN                     */
+/* =============================== */
 #left-column {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 700px;
-}
-
-#league-panel {
-  background: #151a2c;
-  padding: 12px 16px;
-  border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.4);
-  display: flex;
-  flex-direction: column;
   gap: 12px;
 }
 
-.league-current-player {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+/* DETAILS PANEL */
+#picks-detail-window {
+  min-height: 80px;
+  background: #0b0c10;
+  padding: 6px;
+  border-radius: 4px;
+  font-size: 0.9rem;
 }
 
-#player-picks-panel {
-  background: #101528;
+/* =============================== */
+/* CENTER COLUMN                   */
+/* =============================== */
+#weekly-picks-panel {
+  background: #1f2833;
   padding: 10px;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 
-#player-management {
-  background: #101528;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #333;
-}
-
-/* ==================================================
-   MIDDLE PANEL — WEEKLY PICKS (NEW CLEAN VERSION)
-================================================== */
-#picks-panel {
-  background: #151a2c;
-  padding: 12px 16px;
-  border-radius: 8px;
-  justify-self: center;
-  max-width: 600px;
-  width: 100%;
-}
-
-#weekly-picks-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-#weekly-title {
-  font-size: 26px;
-  margin-bottom: 12px;
-  font-weight: bold;
-}
-
-/* ---------- Week Selector ---------- */
-#week-selector {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 18px;
-  margin-bottom: 20px;
-}
-
-#week-selector button {
-  background: #1f6feb;
-  padding: 6px 14px;
-  border-radius: 6px;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-}
-
-#picks-current-week {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-/* ==================================================
-   WEEKLY PICKS — NEW BUTTON LAYOUT
-================================================== */
-#weekly-picks {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.game-row {
+.week-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #1a2135;
-  padding: 12px;
-  border-radius: 8px;
-  gap: 12px;
 }
 
-.game-row button {
-  flex: 1;
-  padding: 12px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 8px;
-  border: 1px solid #888;
-  background: #d0d0d0;
-  color: #000;
-  font-weight: bold;
-  text-align: center;
-  transition: background 0.15s ease, transform 0.1s ease;
-}
-
-.game-row button:hover {
-  background: #b5b5b5;
-  transform: scale(1.03);
-}
-
-.game-row button.selected {
-  background: #4caf50 !important;
-  color: #fff !important;
-  border-color: #3e8e41 !important;
-}
-
-/* ---------- Submit / Edit Buttons ---------- */
-.picks-actions {
-  margin-top: 20px;
+#weekly-picks .game-row {
   display: flex;
-  justify-content: center;
-  gap: 14px;
+  justify-content: space-between;
+  margin-bottom: 4px;
 }
 
-.picks-actions button {
-  padding: 12px 18px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 8px;
-  border: 1px solid #333;
-  background: #eee;
+#weekly-picks button.selected {
+  background: #45a29e;
   color: #000;
-  font-weight: bold;
 }
 
-/* ==================================================
-   RIGHT PANEL — NFL DASHBOARD
-================================================== */
-#nfl-panel {
-  background: #151a2c;
-  padding: 12px 16px;
-  border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.4);
+/* =============================== */
+/* RIGHT COLUMN                    */
+/* =============================== */
+#right-column {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 600px;
 }
 
-#nfl-standings {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+/* Standings / Leaders / Playoffs can share base panel styles */
+#nfl-standings-panel,
+#team-leaders-panel,
+#playoffs-panel {
+  /* already using base section styles */
 }
 
-.conference-block {
-  display: grid;
-  grid-template-columns: 1fr 0.7fr;
-  gap: 12px;
-}
-
-.team-row {
-  display: grid;
-  grid-template-columns: 1fr 32px 32px 32px 32px 32px;
-  gap: 2px;
-  align-items: center;
-  padding: 4px 3px;
-  cursor: pointer;
+/* Placeholder styles for standings/leaders content */
+#afc-standings,
+#nfc-standings,
+#afc-leaders,
+#nfc-leaders,
+#playoff-bracket {
+  min-height: 60px;
+  background: #0b0c10;
+  padding: 6px;
   border-radius: 4px;
-  background: #1a2135;
-}
-
-.team-row:hover {
-  background: #222a40;
-}
-
-.team-name {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.team-logo {
-  width: 16px;
-  height: 16px;
-}
-
-.best-list .team-row {
-  grid-template-columns: 1fr 32px;
-}
-
-#team-info img {
-  width: 40px;
-  height: 40px;
+  font-size: 0.9rem;
 }
