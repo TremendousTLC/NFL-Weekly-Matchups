@@ -168,43 +168,29 @@ async function loadTeamInfo() {
 async function initApp() {
   console.log("🔵 initApp() starting…");
 
-  // 1. Load schedule
-  await loadSchedule();     
+  await loadSchedule();
   console.log("✔ Schedule loaded");
 
-  // 2. Load team info
-  await loadTeamInfo();     
+  await loadTeamInfo();
   console.log("✔ Team info loaded");
 
-  // 3. Load & merge scores
-  await initScores();       
+  await initScores();
   console.log("✔ Scores merged");
 
-  // 4. Load picks system
-  await initPicksSystem();  
+  await initPicksSystem();
   console.log("✔ Picks system initialized");
 
-  // 5. If no players exist, stop here
-  if (!currentPlayer) {
-    console.warn("⚠ No players exist → waiting for player creation.");
-    return;   // ← prevents early rendering
-  }
-
-  // 6. Render current week (safe)
+  // Always show schedule + standings even with no players
   renderCurrentWeek();
-
-  // 7. OPTIONAL SAFETY: Only render picks if weekly-picks exists
-  const weeklyPicksEl = document.getElementById("weekly-picks");
-  if (!weeklyPicksEl) {
-    console.warn("⚠ weekly-picks element not found in DOM → delaying render.");
-    return;   // ← prevents DOM crash
-  }
-
-  // 8. Render weekly picks
-  renderPicksForWeek(currentWeek);
-
-  // 9. Render standings
   renderStandings();
+
+  // Only render picks if weekly-picks exists AND a player is set
+  const weeklyPicksEl = document.getElementById("weekly-picks");
+  if (weeklyPicksEl && currentPlayer) {
+    renderPicksForWeek(currentWeek);
+  } else {
+    console.warn("ℹ Picks will render once a player is set.");
+  }
 
   console.log("✔ initApp() complete");
 }
@@ -793,7 +779,6 @@ async function setPlayer(name) {
 
   await initPicksSystem();   // loads picks for this player
 
-  // SAFETY: ensure weekly picks panel exists before rendering
   const container = document.getElementById("weekly-picks");
   if (!container) {
     console.warn("weekly-picks element not found in DOM → delaying render.");
@@ -819,13 +804,6 @@ function setPick(player, weekKey, gameId, team) {
 
 // --- RENDER WEEKLY PICKS ---
 function renderPicksForWeek(weekKey) {
-  // SAFETY: ensure a player is selected
-  if (!currentPlayer) {
-    console.warn("No currentPlayer selected → weekly picks panel not rendered.");
-    return;
-  }
-
-  // SAFETY: ensure the weekly picks container exists
   const container = document.getElementById("weekly-picks");
   if (!container) {
     console.warn("weekly-picks element not found in DOM.");
@@ -834,7 +812,6 @@ function renderPicksForWeek(weekKey) {
 
   container.innerHTML = "";
 
-  // SAFETY: ensure schedule exists
   const weekData = scheduleData.weeks[weekKey];
   if (!weekData || !weekData.games) {
     console.warn("No schedule data for week:", weekKey);
@@ -842,7 +819,9 @@ function renderPicksForWeek(weekKey) {
   }
 
   const games = weekData.games;
-  const weekPicks = picks[currentPlayer]?.[weekKey] || {};
+
+  // Picks only matter if a player exists
+  const weekPicks = currentPlayer ? (picks[currentPlayer]?.[weekKey] || {}) : {};
 
   games.forEach(g => {
     const row = document.createElement("div");
@@ -850,16 +829,19 @@ function renderPicksForWeek(weekKey) {
 
     const awayBtn = document.createElement("button");
     awayBtn.textContent = g.away;
-    awayBtn.onclick = () => setPick(currentPlayer, weekKey, g.id, g.away);
 
     const homeBtn = document.createElement("button");
     homeBtn.textContent = g.home;
-    homeBtn.onclick = () => setPick(currentPlayer, weekKey, g.id, g.home);
 
-    const pick = weekPicks[g.id];
+    // Only attach pick handlers if a player exists
+    if (currentPlayer) {
+      awayBtn.onclick = () => setPick(currentPlayer, weekKey, g.id, g.away);
+      homeBtn.onclick = () => setPick(currentPlayer, weekKey, g.id, g.home);
 
-    if (pick === g.away) awayBtn.classList.add("selected");
-    if (pick === g.home) homeBtn.classList.add("selected");
+      const pick = weekPicks[g.id];
+      if (pick === g.away) awayBtn.classList.add("selected");
+      if (pick === g.home) homeBtn.classList.add("selected");
+    }
 
     row.appendChild(awayBtn);
     row.appendChild(homeBtn);
