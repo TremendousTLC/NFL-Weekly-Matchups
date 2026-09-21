@@ -10,16 +10,6 @@ let currentWeek = 1;
 // picks[player][week][gameId] = "Team"
 let picks = {};
 
-
-// ============================================================
-// BACKEND API BASE
-// ============================================================
-const API_BASE = "https://nfl-pickem-backend.onrender.com";
-
-
-// ============================================================
-// TEAM LOGOS (uppercase filenames)
-// ============================================================
 const teamLogos = {
   ARI: "LOGOS/ARI.PNG",
   ATL: "LOGOS/ATL.PNG",
@@ -66,10 +56,6 @@ function loadLogoBanner() {
   });
 }
 
-
-// ============================================================
-// WEEK DETECTION (your original working version)
-// ============================================================
 function detectCurrentNFLWeek(schedule) {
   const today = new Date();
   for (let w = 1; w <= 18; w++) {
@@ -82,35 +68,26 @@ function detectCurrentNFLWeek(schedule) {
   return 18;
 }
 
+const API_BASE = "https://nfl-pickem-backend.onrender.com";
 
-// ============================================================
-// BACKEND LOAD PICKS
-// ============================================================
 async function loadPicks() {
   try {
-    const res = await fetch(`${API_BASE}/getPicks`);
+    const res = await fetch(`${API_BASE}/picks/2026`);
     const data = await res.json();
-    return data || {};
+    picks = data.players || {};
+    return picks;
   } catch (err) {
     console.error("Error loading picks:", err);
     return {};
   }
 }
 
-
-// ============================================================
-// BACKEND SAVE PICKS
-// ============================================================
 async function savePicks(player, week, weekPicks) {
   try {
-    const res = await fetch(`${API_BASE}/savePicks`, {
+    const res = await fetch(`${API_BASE}/picks/2026/${player}/${week}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        player,
-        week,
-        picks: weekPicks
-      })
+      body: JSON.stringify(weekPicks)
     });
 
     return await res.json();
@@ -119,10 +96,6 @@ async function savePicks(player, week, weekPicks) {
   }
 }
 
-
-// ============================================================
-// INITIAL LOAD
-// ============================================================
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     const scheduleJson = await fetch("2026_NFL_schedule.json").then(r => r.json());
