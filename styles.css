@@ -1,163 +1,177 @@
-/* =============================== */
-/* GLOBAL                          */
-/* =============================== */
+/* ============================================================
+   GLOBAL PAGE STYLES
+   ============================================================ */
+
 body {
-  margin: 0;
+  background-color: #111;
+  color: #fff;
   font-family: Arial, sans-serif;
-  background: #0b0c10;
-  color: #ffffff;
+  margin: 0;
+  padding: 0;
 }
 
-h2, h3 {
-  margin: 0 0 8px 0;
+h2 {
+  text-align: center;
+  margin: 10px 0;
 }
 
-/* =============================== */
-/* HEADER                          */
-/* =============================== */
-#header {
-  background: #0d1328;
-  padding: 10px;
-  border-bottom: 2px solid #1a2135;
-}
+/* ============================================================
+   LOGO BANNER
+   ============================================================ */
 
 #logo-banner {
   display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding: 6px;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 0;
 }
 
 .teamLogo {
-  height: 48px;
-  width: auto;
-  flex-shrink: 0;
-  cursor: pointer;
-  transition: transform 0.15s ease;
+  width: 40px;
+  height: 40px;
 }
 
-.teamLogo:hover {
-  transform: scale(1.1);
-}
+/* ============================================================
+   LEFT PANEL (PLAYER + DETAILS)
+   ============================================================ */
 
-/* =============================== */
-/* MAIN LAYOUT GRID                */
-/* =============================== */
-#layout {
-  display: grid;
-  grid-template-columns: 1.2fr 2fr 1.5fr;
-  gap: 10px;
+#left-panel {
+  width: 22%;
   padding: 10px;
 }
 
-/* =============================== */
-/* PANEL BASE STYLE                */
-/* =============================== */
-section {
-  background: #1f2833;
-  padding: 10px;
-  border-radius: 4px;
+#player-list,
+#player-name-input {
+  width: 100%;
+  margin-bottom: 8px;
 }
 
-.panel-block {
-  margin-bottom: 10px;
-  border-bottom: 1px solid #3a3a3a;
-  padding-bottom: 8px;
-}
-
-.panel-block:last-child {
-  border-bottom: none;
-}
-
-#logo-banner {
-  display: flex;
-  justify-content: center;   /* centers logos horizontally */
-  align-items: center;        /* centers logos vertically */
-  gap: 10px;                  /* spacing between logos */
-  flex-wrap: wrap;            /* allows wrapping if screen is small */
-  padding: 10px;
-}
-
-/* =============================== */
-/* LEFT COLUMN                     */
-/* =============================== */
-#left-column {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* DETAILS PANEL */
 #picks-detail-window {
-  min-height: 80px;
-  background: #0b0c10;
-  padding: 6px;
-  border-radius: 4px;
-  font-size: 0.9rem;
-}
-
-/* =============================== */
-/* CENTER COLUMN                   */
-/* =============================== */
-#weekly-picks-panel {
-  background: #1f2833;
+  background: #222;
   padding: 10px;
-  border-radius: 4px;
+  border-radius: 6px;
+  min-height: 120px;
+  margin-top: 10px;
 }
 
-.week-header {
+/* ============================================================
+   WEEKLY PICKS PANEL
+   ============================================================ */
+
+#weekly-picks-panel {
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Title */
+#weekly-picks-panel h2 {
+  text-align: center;
+}
+
+/* Prev / Week # / Next */
+#week-nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  gap: 20px;
+  margin-bottom: 10px;
 }
 
+#week-nav button {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+/* Team grid */
+#weekly-picks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Each game row (two buttons side-by-side) */
 #weekly-picks .game-row {
+  width: 260px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 4px;
+  margin: 4px auto;
 }
 
-#weekly-picks button.selected {
-  background: #45a29e;
-  color: #000;
-}
-
-/* =============================== */
-/* RIGHT COLUMN                    */
-/* =============================== */
-#right-column {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* Standings / Leaders / Playoffs can share base panel styles */
-#nfl-standings-panel,
-#team-leaders-panel,
-#playoffs-panel {
-  /* already using base section styles */
-}
-
-/* Placeholder styles for standings/leaders content */
-#afc-standings,
-#nfc-standings,
-#afc-leaders,
-#nfc-leaders,
-#playoff-bracket {
-  min-height: 60px;
-  background: #0b0c10;
-  padding: 6px;
+/* Team buttons — compact, not full width */
+#weekly-picks .game-row button {
+  width: 120px;
+  padding: 6px 10px;
+  font-size: 14px;
+  text-align: center;
+  white-space: nowrap;
+  background: #333;
+  color: #fff;
+  border: 1px solid #555;
   border-radius: 4px;
-  font-size: 0.9rem;
+  cursor: pointer;
 }
 
+#weekly-picks .game-row button.selected {
+  background: #0077ff;
+  border-color: #00aaff;
+}
+
+/* Submit / Edit buttons */
+.picks-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.picks-actions button {
+  padding: 8px 16px;
+  font-size: 15px;
+  background: #444;
+  color: #fff;
+  border: 1px solid #666;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* ============================================================
+   BYE WEEK SECTION
+   ============================================================ */
+
+.bye-section {
+  margin: 10px 0;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* ============================================================
+   RIGHT PANEL (STANDINGS)
+   ============================================================ */
+
+#right-panel {
+  width: 28%;
+  padding: 10px;
+}
+
+/* NFL Team Standings title with right-aligned week */
 #nfl-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 #current-nfl-week {
   font-weight: bold;
   font-size: 1.1em;
+}
+
+/* Standings boxes */
+.standings-box {
+  background: #222;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
 }

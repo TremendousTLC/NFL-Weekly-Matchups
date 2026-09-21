@@ -287,6 +287,15 @@ function renderPicksForWeek(weekKey) {
   }
 
   const weekData = scheduleData[String(weekKey)];
+  
+  // Show Teams on Bye
+  if (weekData.byes && weekData.byes.length > 0) {
+    const byeDiv = document.createElement("div");
+    byeDiv.className = "bye-section";
+    byeDiv.innerHTML = `<strong>Teams on Bye:</strong> ${weekData.byes.join(", ")}`;
+    container.appendChild(byeDiv);
+  }
+ 
   if (!weekData) {
     updateDetails(`No schedule data for Week ${weekKey}.`);
     return;
