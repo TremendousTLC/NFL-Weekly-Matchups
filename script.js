@@ -167,13 +167,15 @@ async function loadTeamInfo() {
 
 async function initApp() {
   await loadSchedule();
-  await loadTeamInfo();
-  await initScores();
-  await initPicksSystem();
+  await mergeScores();
+  await loadPlayers();
 
-  renderCurrentWeek();
+  if (!currentPlayer) {
+    console.warn("No players exist → waiting for player creation.");
+    return;
+  }
+
   renderPicksForWeek(currentWeek);
-  renderStandings();
 }
 
 async function initScores() {
@@ -808,10 +810,29 @@ function setPick(player, weekKey, gameId, team) {
 
 // --- RENDER WEEKLY PICKS ---
 function renderPicksForWeek(weekKey) {
+  // SAFETY: ensure a player is selected
+  if (!currentPlayer) {
+    console.warn("No currentPlayer selected → weekly picks panel not rendered.");
+    return;
+  }
+
+  // SAFETY: ensure the weekly picks container exists
   const container = document.getElementById("weekly-picks");
+  if (!container) {
+    console.warn("weekly-picks element not found in DOM.");
+    return;
+  }
+
   container.innerHTML = "";
 
-  const games = scheduleData.weeks[weekKey].games;
+  // SAFETY: ensure schedule exists
+  const weekData = scheduleData.weeks[weekKey];
+  if (!weekData || !weekData.games) {
+    console.warn("No schedule data for week:", weekKey);
+    return;
+  }
+
+  const games = weekData.games;
   const weekPicks = picks[currentPlayer]?.[weekKey] || {};
 
   games.forEach(g => {
