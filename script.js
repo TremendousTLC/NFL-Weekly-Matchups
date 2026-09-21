@@ -168,33 +168,42 @@ async function loadTeamInfo() {
 async function initApp() {
   console.log("🔵 initApp() starting…");
 
+  // 1. Load schedule
   await loadSchedule();     
   console.log("✔ Schedule loaded");
 
+  // 2. Load team info
   await loadTeamInfo();     
   console.log("✔ Team info loaded");
 
+  // 3. Load & merge scores
   await initScores();       
   console.log("✔ Scores merged");
 
+  // 4. Load picks system
   await initPicksSystem();  
   console.log("✔ Picks system initialized");
 
+  // 5. If no players exist, stop here
   if (!currentPlayer) {
     console.warn("⚠ No players exist → waiting for player creation.");
     return;   // ← prevents early rendering
   }
 
+  // 6. Render current week (safe)
   renderCurrentWeek();
 
+  // 7. OPTIONAL SAFETY: Only render picks if weekly-picks exists
   const weeklyPicksEl = document.getElementById("weekly-picks");
   if (!weeklyPicksEl) {
-    console.warn("⚠ weekly-picks element not found → delaying picks render.");
+    console.warn("⚠ weekly-picks element not found in DOM → delaying render.");
     return;   // ← prevents DOM crash
   }
 
+  // 8. Render weekly picks
   renderPicksForWeek(currentWeek);
 
+  // 9. Render standings
   renderStandings();
 
   console.log("✔ initApp() complete");
