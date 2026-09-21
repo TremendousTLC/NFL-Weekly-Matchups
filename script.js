@@ -810,16 +810,43 @@ function renderPicksForWeek(week) {
     homeBtn.className = "team-btn";
     homeBtn.textContent = g.home;
 
+    // --- PLAYER PICK HIGHLIGHT ---
     if (pick === g.away) awayBtn.classList.add("selected");
     if (pick === g.home) homeBtn.classList.add("selected");
 
+    // --- NFL WINNER + CORRECT/WRONG PICK HIGHLIGHT ---
+    if (g.score) {
+      const [a, b] = g.score.split("-").map(Number);
+      const winner = a > b ? g.away : g.home;
+
+      // Highlight actual NFL winner (subtle)
+      if (winner === g.away) awayBtn.classList.add("nfl-winner");
+      if (winner === g.home) homeBtn.classList.add("nfl-winner");
+
+      // Highlight correct/wrong pick
+      if (pick) {
+        if (pick === winner) {
+          // Correct pick
+          if (winner === g.away) awayBtn.classList.add("correct-pick");
+          if (winner === g.home) homeBtn.classList.add("correct-pick");
+        } else {
+          // Wrong pick
+          if (pick === g.away) awayBtn.classList.add("wrong-pick");
+          if (pick === g.home) homeBtn.classList.add("wrong-pick");
+        }
+      }
+    }
+
+    // --- CLICK HANDLERS ---
     awayBtn.addEventListener("click", () => setPick(weekKey, g.id, g.away));
     homeBtn.addEventListener("click", () => setPick(weekKey, g.id, g.home));
 
+    // --- SCORE DISPLAY ---
     const scoreSpan = document.createElement("span");
     scoreSpan.className = "score-display";
     scoreSpan.textContent = `${g.awayScore ?? "-"} - ${g.homeScore ?? "-"}`;
 
+    // --- BUILD ROW ---
     row.appendChild(awayBtn);
     row.appendChild(homeBtn);
     row.appendChild(scoreSpan);

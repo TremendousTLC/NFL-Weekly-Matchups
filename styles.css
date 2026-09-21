@@ -226,6 +226,19 @@ body {
   border-color: #3e8e41 !important;
 }
 
+.correct-pick {
+  border: 3px solid #00ff00; /* bright green */
+}
+
+.wrong-pick {
+  border: 3px solid #ff0000; /* bright red */
+}
+
+.nfl-winner {
+  border: 2px solid gold;
+  box-shadow: 0 0 6px gold;
+}
+
 /* ---------- Submit / Edit Buttons ---------- */
 .picks-actions {
   margin-top: 12px;
