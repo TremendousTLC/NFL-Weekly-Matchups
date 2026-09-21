@@ -1,13 +1,19 @@
+// ===============================
+// GLOBAL STATE
+// ===============================
 let scheduleData = null;     // loaded from JSON
 let players = [];
 let currentPlayer = null;
 let currentWeek = 1;
 let picks = {};              // picks[player][week][gameId] = teamName
 
+// ===============================
+// APP INIT — LOAD REAL JSON
+// ===============================
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Loading schedule…");
 
-  fetch("2026_NFL_schedule.json?v=1")
+  fetch("2026_NFL_schedule.json?v=3")
     .then(res => res.json())
     .then(data => {
       scheduleData = data.weeks;   // <-- YOUR JSON, EXACTLY
@@ -15,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       initLeague();
       initWeekSelector();
+      renderStandings();
       renderPicksForWeek(currentWeek);
     })
     .catch(err => {
@@ -22,24 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// players and picks
-let players = [];
-let currentPlayer = null;
-let currentWeek = 1;
-// picks[player][week][gameId] = teamName
-let picks = {};
-
-// ===== INIT =====
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("initApp() starting");
-  initLeague();
-  initWeekSelector();
-  renderPicksForWeek(currentWeek);
-  renderStandings();
-  console.log("initApp() complete");
-});
-
-// ===== LEAGUE / PLAYERS =====
+// ===============================
+// LEAGUE / PLAYERS
+// ===============================
 function initLeague() {
   document.getElementById("add-player-btn").onclick = addPlayer;
   document.getElementById("delete-player-btn").onclick = deleteCurrentPlayer;
@@ -47,7 +39,8 @@ function initLeague() {
 
   document.getElementById("submit-picks-btn").onclick = submitPicks;
   document.getElementById("edit-picks-btn").onclick = () => {
-    document.getElementById("picks-detail-window").textContent = "Edit mode: change your picks and resubmit.";
+    document.getElementById("picks-detail-window").textContent =
+      "Edit mode: change your picks and resubmit.";
   };
 
   updatePlayerListUI();
@@ -100,7 +93,9 @@ function updatePlayerListUI() {
   document.getElementById("total-participants").textContent = players.length;
 }
 
-// ===== WEEK SELECTOR =====
+// ===============================
+// WEEK SELECTOR
+// ===============================
 function initWeekSelector() {
   document.getElementById("prev-week-btn").onclick = () => changeWeek(-1);
   document.getElementById("next-week-btn").onclick = () => changeWeek(1);
@@ -108,14 +103,18 @@ function initWeekSelector() {
 
 function changeWeek(delta) {
   const newWeek = currentWeek + delta;
-  if (!scheduleData.weeks[newWeek]) return;
+  if (!scheduleData[String(newWeek)]) return;
+
   currentWeek = newWeek;
   document.getElementById("picks-current-week").textContent = `Week ${currentWeek}`;
   document.getElementById("current-nfl-week").textContent = currentWeek;
+
   renderPicksForWeek(currentWeek);
 }
 
-// ===== WEEKLY PICKS RENDER =====
+// ===============================
+// WEEKLY PICKS RENDER
+// ===============================
 function renderPicksForWeek(weekKey) {
   const container = document.getElementById("weekly-picks");
   container.innerHTML = "";
@@ -161,6 +160,9 @@ function renderPicksForWeek(weekKey) {
   updatePicksDetail(weekKey);
 }
 
+// ===============================
+// SET PICK
+// ===============================
 function setPick(player, weekKey, gameId, teamName) {
   if (!picks[player]) picks[player] = {};
   if (!picks[player][weekKey]) picks[player][weekKey] = {};
@@ -173,7 +175,9 @@ function setPick(player, weekKey, gameId, teamName) {
   updatePicksDetail(weekKey);
 }
 
-// ===== SUBMIT PICKS =====
+// ===============================
+// SUBMIT PICKS (NO SCORES)
+// ===============================
 function submitPicks() {
   if (!currentPlayer) {
     document.getElementById("picks-detail-window").textContent =
@@ -182,33 +186,19 @@ function submitPicks() {
   }
 
   const weekKey = currentWeek;
-  const weekData = scheduleData.weeks[weekKey];
-  const weekScores = scoresData[weekKey] || {};
+  const weekData = scheduleData[String(weekKey)];
   const weekPicks = picks[currentPlayer]?.[weekKey] || {};
 
-  let correct = 0;
-  let total = weekData.games.length;
+  document.getElementById("picks-detail-window").innerHTML =
+    `<strong>${currentPlayer} submitted picks.</strong><br>
+     Picks made: ${Object.keys(weekPicks).length} / ${weekData.games.length}`;
 
-  weekData.games.forEach(g => {
-    const pick = weekPicks[g.id];
-    const score = weekScores[g.id];
-
-    if (pick && score && score.winner) {
-      if (pick === score.winner) {
-        correct++;
-      }
-    }
-  });
-
-  // Update detail window
-  document.getElementById("picks-detail-window").textContent =
-    `${currentPlayer} submitted picks: ${correct} correct out of ${total} games.`;
-
-  // Re-render to apply correct/wrong borders
   renderPicksForWeek(weekKey);
 }
 
-// ===== STANDINGS (simple demo) =====
+// ===============================
+// STANDINGS (STATIC)
+// ===============================
 function renderStandings() {
   const afcDivs = ["AFC East", "AFC North", "AFC South", "AFC West"];
   const nfcDivs = ["NFC East", "NFC North", "NFC South", "NFC West"];
@@ -286,7 +276,9 @@ function renderStandings() {
   });
 }
 
-// ===== DETAIL =====
+// ===============================
+// DETAIL WINDOW
+// ===============================
 function updatePicksDetail(weekKey) {
   const div = document.getElementById("picks-detail-window");
 
