@@ -256,16 +256,20 @@ function setupUIHandlers() {
   });
 
   // --- DELETE PLAYER ---
-  deletePlayerBtn.addEventListener("click", () => {
+  deletePlayerBtn.addEventListener("click", async () => {
     const list = document.getElementById("player-list");
     const name = list.value;
     if (!name) return;
 
+    // Delete locally
     delete players[name];
-    delete picks[name];   // backend-only picks object in memory
-
-    saveLocalStorage();   // players only
+    delete picks[name];
+    saveLocalStorage();
     refreshPlayerList();
+
+    // Delete from backend
+    await deletePlayerFromBackend(name);
+
     showNotification(`Deleted player ${name} and all picks.`);
   });
 
@@ -288,12 +292,12 @@ function setupUIHandlers() {
 
   // --- SUBMIT PICKS ---
   submitPicksBtn.addEventListener("click", () => {
-    submitCurrentWeekPicks();   // backend-only submit
+    submitCurrentWeekPicks();
   });
 
   // --- EDIT PICKS ---
   editPicksBtn.addEventListener("click", () => {
-    editCurrentWeekPicks();     // no locking, just re-render
+    editCurrentWeekPicks();
   });
 
   // --- WEEK SELECTOR ---
@@ -309,6 +313,17 @@ function togglePanel(id) {
     if (!el) return;
     el.classList.toggle("hidden", pid !== id);
   });
+}
+
+async function deletePlayerFromBackend(player) {
+  // Overwrite all weeks with empty objects
+  for (let w = 1; w <= 18; w++) {
+    await fetch(`${API_BASE}/picks/${currentSeason}/${player}/${w}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({})
+    });
+  }
 }
 
 function refreshPlayerList() {
