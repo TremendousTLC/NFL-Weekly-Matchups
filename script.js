@@ -10,6 +10,16 @@ let currentWeek = 1;
 // picks[player][week][gameId] = "Team"
 let picks = {};
 
+
+// ============================================================
+// BACKEND API BASE
+// ============================================================
+const API_BASE = "https://nfl-pickem-backend.onrender.com";
+
+
+// ============================================================
+// TEAM LOGOS
+// ============================================================
 const teamLogos = {
   ARI: "LOGOS/ARI.PNG",
   ATL: "LOGOS/ATL.PNG",
@@ -46,6 +56,7 @@ const teamLogos = {
 
 function loadLogoBanner() {
   const banner = document.getElementById("logo-banner");
+  if (!banner) return;
   banner.innerHTML = "";
 
   Object.keys(teamLogos).forEach(team => {
@@ -56,20 +67,26 @@ function loadLogoBanner() {
   });
 }
 
+
+// ============================================================
+// WEEK DETECTION
+// ============================================================
 function detectCurrentNFLWeek(schedule) {
   const today = new Date();
   for (let w = 1; w <= 18; w++) {
     const weekKey = String(w);
     const games = schedule.weeks[weekKey].games;
     const dates = games.map(g => new Date(`${g.date} 2026`));
-    const lastGame = dates.reduce((a, b) => a > b ? a : b);
+    const lastGame = dates.reduce((a, b) => (a > b ? a : b));
     if (today <= lastGame) return w;
   }
   return 18;
 }
 
-const API_BASE = "https://nfl-pickem-backend.onrender.com";
 
+// ============================================================
+// BACKEND LOAD/SAVE
+// ============================================================
 async function loadPicks() {
   try {
     const res = await fetch(`${API_BASE}/picks/2026`);
@@ -89,13 +106,16 @@ async function savePicks(player, week, weekPicks) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(weekPicks)
     });
-
     return await res.json();
   } catch (err) {
     console.error("Error saving picks:", err);
   }
 }
 
+
+// ============================================================
+// INITIAL LOAD
+// ============================================================
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     const scheduleJson = await fetch("2026_NFL_schedule.json").then(r => r.json());
@@ -106,13 +126,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     scoresData   = scoresJson.weeks || scoresJson;
     picks        = backendPicks || {};
 
+    // Build players list from picks
+    players = Object.keys(picks);
+    if (players.length > 0) {
+      currentPlayer = players[0];
+    }
+
     currentWeek = detectCurrentNFLWeek(scheduleJson);
-    document.getElementById("current-week-label").textContent = `Week ${currentWeek}`;
+
+    const weekLabel = document.getElementById("current-week-label");
+    if (weekLabel) weekLabel.textContent = `Week ${currentWeek}`;
+
+    const nflWeekSpan = document.getElementById("current-nfl-week");
+    if (nflWeekSpan) nflWeekSpan.textContent = `Current NFL Week: ${currentWeek}`;
 
     loadLogoBanner();
     initPlayerPanel();
     renderPlayerList();
-    renderPicksForWeek(currentWeek);
+
+    if (currentPlayer) {
+      renderPicksForWeek(currentWeek);
+      updateDetailsPanel(currentWeek);
+    } else {
+      updateDetails("Add a player to start making picks.");
+    }
 
   } catch (err) {
     console.error("INIT ERROR:", err);
@@ -124,24 +161,43 @@ document.addEventListener("DOMContentLoaded", async () => {
 // PLAYER PANEL LOGIC
 // ============================================================
 function initPlayerPanel() {
-  document.getElementById("add-player-btn").onclick = addPlayer;
-  document.getElementById("delete-player-btn").onclick = deletePlayer;
-  document.getElementById("player-list").onchange = selectPlayer;
-  document.getElementById("show-weekly-picks-btn").onclick = () => {
-    renderPicksForWeek(currentWeek);
-  };
+  const addBtn = document.getElementById("add-player-btn");
+  const delBtn = document.getElementById("delete-player-btn");
+  const sel    = document.getElementById("player-list");
+  const showWeeklyBtn = document.getElementById("show-weekly-picks-btn");
+  const prevWeekBtn   = document.getElementById("prev-week-btn");
+  const nextWeekBtn   = document.getElementById("next-week-btn");
+  const submitBtn     = document.getElementById("submit-picks-btn");
+  const editBtn       = document.getElementById("edit-picks-btn");
 
-  document.getElementById("prev-week-btn").onclick = () => changeWeek(-1);
-  document.getElementById("next-week-btn").onclick = () => changeWeek(1);
+  if (addBtn) addBtn.onclick = addPlayer;
+  if (delBtn) delBtn.onclick = deletePlayer;
+  if (sel)    sel.onchange  = selectPlayer;
 
-  document.getElementById("submit-picks-btn").onclick = submitPicks;
-  document.getElementById("edit-picks-btn").onclick = () => {
+  // This button now shows submitted results, not the pick UI
+  if (showWeeklyBtn) {
+    showWeeklyBtn.onclick = () => {
+      if (!currentPlayer) {
+        updateDetails("Select a player to view submitted picks.");
+        return;
+      }
+      showSubmittedResults(currentPlayer, currentWeek);
+    };
+  }
+
+  if (prevWeekBtn) prevWeekBtn.onclick = () => changeWeek(-1);
+  if (nextWeekBtn) nextWeekBtn.onclick = () => changeWeek(1);
+
+  if (submitBtn) submitBtn.onclick = submitPicks;
+  if (editBtn)   editBtn.onclick   = () => {
     updateDetails("Edit mode enabled. Change picks and resubmit.");
   };
 }
 
 function addPlayer() {
-  const name = document.getElementById("player-name-input").value.trim();
+  const input = document.getElementById("player-name-input");
+  if (!input) return;
+  const name = input.value.trim();
   if (!name) return;
 
   if (!players.includes(name)) players.push(name);
@@ -149,6 +205,7 @@ function addPlayer() {
 
   currentPlayer = name;
   renderPlayerList();
+  renderPicksForWeek(currentWeek);
   updateDetails(`Player "${name}" added.`);
 }
 
@@ -160,7 +217,14 @@ function deletePlayer() {
 
   currentPlayer = players.length ? players[0] : null;
   renderPlayerList();
-  updateDetails("Player deleted.");
+
+  if (currentPlayer) {
+    renderPicksForWeek(currentWeek);
+    updateDetails(`Player deleted. Now selected: ${currentPlayer}`);
+  } else {
+    document.getElementById("weekly-picks").innerHTML = "";
+    updateDetails("No players. Add a player to start.");
+  }
 }
 
 function selectPlayer(e) {
@@ -171,6 +235,8 @@ function selectPlayer(e) {
 
 function renderPlayerList() {
   const sel = document.getElementById("player-list");
+  if (!sel) return;
+
   sel.innerHTML = "";
 
   players.forEach(p => {
@@ -196,8 +262,14 @@ function changeWeek(delta) {
 }
 
 function renderCurrentWeek() {
-  document.getElementById("current-week-label").textContent = `Week ${currentWeek}`;
+  const weekLabel = document.getElementById("current-week-label");
+  if (weekLabel) weekLabel.textContent = `Week ${currentWeek}`;
+
+  const nflWeekSpan = document.getElementById("current-nfl-week");
+  if (nflWeekSpan) nflWeekSpan.textContent = `Current NFL Week: ${currentWeek}`;
+
   renderPicksForWeek(currentWeek);
+  updateDetailsPanel(currentWeek);
 }
 
 
@@ -206,6 +278,7 @@ function renderCurrentWeek() {
 // ============================================================
 function renderPicksForWeek(weekKey) {
   const container = document.getElementById("weekly-picks");
+  if (!container) return;
   container.innerHTML = "";
 
   if (!currentPlayer) {
@@ -214,6 +287,11 @@ function renderPicksForWeek(weekKey) {
   }
 
   const weekData = scheduleData[String(weekKey)];
+  if (!weekData) {
+    updateDetails(`No schedule data for Week ${weekKey}.`);
+    return;
+  }
+
   const weekPicks = picks[currentPlayer]?.[weekKey] || {};
 
   weekData.games.forEach(g => {
@@ -266,27 +344,42 @@ function submitPicks() {
 
   const weekKey = currentWeek;
   const weekData = scheduleData[String(weekKey)];
+  if (!weekData) {
+    updateDetails(`No schedule data for Week ${weekKey}.`);
+    return;
+  }
+
   const weekPicks = {};
 
-  // FIX: use game.id, not index
   weekData.games.forEach(g => {
     const pick = picks[currentPlayer]?.[weekKey]?.[g.id] || null;
     if (pick) weekPicks[g.id] = pick;
   });
 
+  const totalGames = weekData.games.length;
+  const madePicks = Object.keys(weekPicks).length;
+
+  updateDetails(`Submitting ${madePicks}/${totalGames} picks…`);
+
   savePicks(currentPlayer, weekKey, weekPicks)
-    .then(() => updateDetails(`Picks submitted successfully for ${currentPlayer}.`))
+    .then(() => {
+      updateDetails(`Picks submitted successfully for ${currentPlayer}.`);
+      showSubmittedResults(currentPlayer, weekKey);
+    })
     .catch(err => {
       console.error("SAVE ERROR:", err);
       updateDetails("Error submitting picks.");
     });
 }
 
+
 // ============================================================
-// DETAILS PANEL UPDATE
+// RESULTS / DETAILS PANEL
 // ============================================================
 function updateDetails(msg) {
-  document.getElementById("picks-detail-window").textContent = msg;
+  const el = document.getElementById("picks-detail-window");
+  if (!el) return;
+  el.textContent = msg;
 }
 
 function updateDetailsPanel(weekKey) {
@@ -296,6 +389,11 @@ function updateDetailsPanel(weekKey) {
   }
 
   const weekData = scheduleData[String(weekKey)];
+  if (!weekData) {
+    updateDetails(`No schedule data for Week ${weekKey}.`);
+    return;
+  }
+
   const weekPicks = picks[currentPlayer]?.[weekKey] || {};
 
   let lines = weekData.games.map(g => {
@@ -303,5 +401,30 @@ function updateDetailsPanel(weekKey) {
     return `${g.away} vs ${g.home}: ${pick}`;
   });
 
-  document.getElementById("picks-detail-window").innerHTML = lines.join("<br>");
+  const el = document.getElementById("picks-detail-window");
+  if (!el) return;
+  el.innerHTML = lines.join("<br>");
+}
+
+// Show submitted results explicitly (used by Show Weekly Picks button)
+function showSubmittedResults(player, week) {
+  const el = document.getElementById("picks-detail-window");
+  if (!el) return;
+
+  const weekData = scheduleData[String(week)];
+  if (!weekData) {
+    el.textContent = `No schedule data for Week ${week}.`;
+    return;
+  }
+
+  const weekPicks = picks[player]?.[week] || {};
+
+  let html = `<strong>${player}'s Picks for Week ${week}</strong><br><br>`;
+
+  weekData.games.forEach(g => {
+    const pick = weekPicks[g.id] || "-";
+    html += `${g.away} vs ${g.home}: ${pick}<br>`;
+  });
+
+  el.innerHTML = html;
 }
