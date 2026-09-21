@@ -10,44 +10,40 @@ let currentWeek = 1;
 // picks[player][week][gameId] = "Team"
 let picks = {};
 
-
-// ============================================================
-// TEAM LOGOS (your LOGOS folder, NFL abbreviations)
-// ============================================================
 const teamLogos = {
-  ARI: "LOGOS/ari.png",
-  ATL: "LOGOS/atl.png",
-  BAL: "LOGOS/bal.png",
-  BUF: "LOGOS/buf.png",
-  CAR: "LOGOS/car.png",
-  CHI: "LOGOS/chi.png",
-  CIN: "LOGOS/cin.png",
-  CLE: "LOGOS/cle.png",
-  DAL: "LOGOS/dal.png",
-  DEN: "LOGOS/den.png",
-  DET: "LOGOS/det.png",
-  GB:  "LOGOS/gb.png",
-  HOU: "LOGOS/hou.png",
-  IND: "LOGOS/ind.png",
-  JAX: "LOGOS/jax.png",
-  KC:  "LOGOS/kc.png",
-  LV:  "LOGOS/lv.png",
-  LAC: "LOGOS/lac.png",
-  LAR: "LOGOS/lar.png",
-  MIA: "LOGOS/mia.png",
-  MIN: "LOGOS/min.png",
-  NE:  "LOGOS/ne.png",
-  NO:  "LOGOS/no.png",
-  NYG: "LOGOS/nyg.png",
-  NYJ: "LOGOS/nyj.png",
-  PHI: "LOGOS/phi.png",
-  PIT: "LOGOS/pit.png",
-  SEA: "LOGOS/sea.png",
-  SF:  "LOGOS/sf.png",
-  TB:  "LOGOS/tb.png",
-  TEN: "LOGOS/ten.png",
-  WAS: "LOGOS/was.png"
+  ARI: "LOGOS/ARI.PNG",
+  ATL: "LOGOS/ATL.PNG",
+  BAL: "LOGOS/BAL.PNG",
+  BUF: "LOGOS/BUF.PNG",
+  CAR: "LOGOS/CAR.PNG",
+  CHI: "LOGOS/CHI.PNG",
+  CIN: "LOGOS/CIN.PNG",
+  CLE: "LOGOS/CLE.PNG",
+  DAL: "LOGOS/DAL.PNG",
+  DEN: "LOGOS/DEN.PNG",
+  DET: "LOGOS/DET.PNG",
+  GB:  "LOGOS/GB.PNG",
+  HOU: "LOGOS/HOU.PNG",
+  IND: "LOGOS/IND.PNG",
+  JAX: "LOGOS/JAX.PNG",
+  KC:  "LOGOS/KC.PNG",
+  LAC: "LOGOS/LAC.PNG",
+  LAR: "LOGOS/LAR.PNG",
+  LV:  "LOGOS/LV.PNG",
+  MIA: "LOGOS/MIA.PNG",
+  MIN: "LOGOS/MIN.PNG",
+  NE:  "LOGOS/NE.PNG",
+  NO:  "LOGOS/NO.PNG",
+  NYG: "LOGOS/NYG.PNG",
+  NYJ: "LOGOS/NYJ.PNG",
+  PHI: "LOGOS/PHI.PNG",
+  PIT: "LOGOS/PIT.PNG",
+  SEA: "LOGOS/SEA.PNG",
+  SF:  "LOGOS/SF.PNG",
+  WAS: "LOGOS/WAS.PNG",
+  TEN: "LOGOS/TEN.PNG"
 };
+
 
 function loadLogoBanner() {
   const banner = document.getElementById("logo-banner");
