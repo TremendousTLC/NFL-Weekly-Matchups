@@ -8,27 +8,12 @@ let currentWeek = 1;
 let picks = {};              // picks[player][week][gameId] = teamName
 
 // ===============================
-// LOCAL STORAGE (SAVE / LOAD)
-// ===============================
-function saveLocal() {
-  localStorage.setItem("players", JSON.stringify(players));
-  localStorage.setItem("picks", JSON.stringify(picks));
-}
-
-function loadLocal() {
-  players = JSON.parse(localStorage.getItem("players") || "[]");
-  picks = JSON.parse(localStorage.getItem("picks") || "{}");
-}
-
-// ===============================
 // APP INIT — LOAD REAL JSON
 // ===============================
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Loading schedule…");
 
-  loadLocal();   // <-- Load saved players + picks first
-
-  fetch("2026_NFL_schedule.json?v=6")
+  fetch("2026_NFL_schedule.json?v=7")
     .then(res => res.json())
     .then(data => {
       scheduleData = data.weeks;   // <-- YOUR JSON, EXACTLY
@@ -72,8 +57,6 @@ function addPlayer() {
   currentPlayer = name;
   if (!picks[currentPlayer]) picks[currentPlayer] = {};
   input.value = "";
-
-  saveLocal();   // <-- Save after adding player
   updatePlayerListUI();
 }
 
@@ -82,8 +65,6 @@ function deleteCurrentPlayer() {
   players = players.filter(p => p !== currentPlayer);
   delete picks[currentPlayer];
   currentPlayer = players.length ? players[0] : null;
-
-  saveLocal();   // <-- Save after deleting player
   updatePlayerListUI();
 }
 
@@ -186,8 +167,6 @@ function setPick(player, weekKey, gameId, teamName) {
 
   picks[player][weekKey][gameId] = teamName;
 
-  saveLocal();   // <-- Save after picking
-
   renderPicksForWeek(weekKey);
   updatePicksDetail(weekKey);
 }
@@ -209,8 +188,6 @@ function submitPicks() {
   document.getElementById("picks-detail-window").innerHTML =
     `<strong>${currentPlayer} submitted picks.</strong><br>
      Picks made: ${Object.keys(weekPicks).length} / ${weekData.games.length}`;
-
-  saveLocal();   // <-- Save after submitting
 
   renderPicksForWeek(weekKey);
 }
