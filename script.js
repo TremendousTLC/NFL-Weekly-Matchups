@@ -992,7 +992,7 @@ function computeSeasonRecord(player) {
       const winner = getWinner(g);
       if (!winner) return;
 
-      const pick = weekPicks[g.id];
+      const pick = weekPicks[g.id];   // ⭐ FIXED: use gameId
       if (!pick) return;
 
       if (pick === winner) wins++;
@@ -1014,7 +1014,7 @@ function computeWeekRecord(player, weekKey) {
     const winner = getWinner(g);
     if (!winner) return;
 
-    const pick = weekPicks[g.id];
+    const pick = weekPicks[g.id];   // ⭐ FIXED: use gameId
     if (!pick) return;
 
     if (pick === winner) wins++;
