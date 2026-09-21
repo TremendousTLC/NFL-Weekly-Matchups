@@ -1,820 +1,138 @@
-const SCHEDULE_URL = "2026_NFL_schedule.json";
-const TEAMINFO_URL = "teamInfo.json";
-const API_BASE = "https://nfl-pickem-backend.onrender.com";
-
+// ============================================================
 // GLOBAL STATE
-let scheduleData = {};
-let teamInfo = {};
+// ============================================================
+let scheduleData = null;   // weeks["1"].games[]
+let scoresData = null;     // scores by gameId
+let players = [];          // ["Terry", "Jim", ...]
+let currentPlayer = null;
 let currentWeek = 1;
 
-let currentPlayer = null;
-
-const LS_PLAYERS = "pickem_players";
-const LS_PICKS = "pickem_picks";
-
-let players = {};
+// picks[player][week][gameId] = "Team"
 let picks = {};
 
-async function loadNFLScores() {
-  const res = await fetch("scores_2026.json");
-  const data = await res.json();
-  return data;
+
+// ============================================================
+// INITIAL LOAD — schedule + scores + picks from backend
+// ============================================================
+document.addEventListener("DOMContentLoaded", () => {
+  Promise.all([
+    fetch("2026_NFL_schedule.json").then(r => r.json()),
+    fetch("2026_scores.json").then(r => r.json()),
+    fetch("/onrender/getPicks").then(r => r.json())   // backend load
+  ])
+  .then(([scheduleJson, scoresJson, backendPicks]) => {
+
+    scheduleData = scheduleJson.weeks;
+    scoresData = scoresJson.weeks || scoresJson;
+
+    picks = backendPicks || {};
+
+    initPlayerPanel();
+    renderPlayerList();
+    renderPicksForWeek(currentWeek);
+  })
+  .catch(err => {
+    console.error("INIT ERROR:", err);
+  });
+});
+
+
+// ============================================================
+// PLAYER PANEL LOGIC
+// ============================================================
+function initPlayerPanel() {
+  document.getElementById("add-player-btn").onclick = addPlayer;
+  document.getElementById("delete-player-btn").onclick = deletePlayer;
+  document.getElementById("player-list").onchange = selectPlayer;
+  document.getElementById("show-weekly-picks-btn").onclick = () => {
+    renderPicksForWeek(currentWeek);
+  };
+
+  document.getElementById("prev-week-btn").onclick = () => changeWeek(-1);
+  document.getElementById("next-week-btn").onclick = () => changeWeek(1);
+
+  document.getElementById("submit-picks-btn").onclick = submitPicks;
+  document.getElementById("edit-picks-btn").onclick = () => {
+    updateDetails("Edit mode enabled. Change picks and resubmit.");
+  };
 }
 
-function normalizeTeamKey(name) {
-  const norm = name.toLowerCase().replace(/[^a-z]/g, "");
+function addPlayer() {
+  const name = document.getElementById("player-name-input").value.trim();
+  if (!name) return;
 
-  for (const key in teamInfo) {
-    const info = teamInfo[key];
-
-    const mascot = info.mascotName.toLowerCase().replace(/[^a-z]/g, "");
-    const city = info.cityName.toLowerCase().replace(/[^a-z]/g, "");
-    const abbrev = info.abbrevName.toLowerCase().replace(/[^a-z]/g, "");
-    const full = info.fullName.toLowerCase().replace(/[^a-z]/g, "");
-
-    if (norm === mascot) return key;
-    if (norm === city) return key;
-    if (norm === abbrev) return key;
-    if (norm === full) return key;
+  if (!players.includes(name)) {
+    players.push(name);
   }
 
-  return name; // fallback
-}
+  if (!picks[name]) picks[name] = {};
 
-function mergeScoresIntoSchedule(scoreMap) {
-  Object.keys(scoreMap).forEach(weekKey => {
-    const weekScores = scoreMap[weekKey].scores;
-    const games = scheduleData.weeks[weekKey].games;
-
-//    console.group(`🔍 WEEK ${weekKey} MERGE START`);
-
-    weekScores.forEach(scoreObj => {
-
-//      console.group(`🔎 Checking score: ${scoreObj.away} @ ${scoreObj.home} (${scoreObj.score})`);
-
-      const game = games.find(g => {
-        const awayKey = normalizeTeamKey(g.away);
-        const homeKey = normalizeTeamKey(g.home);
-
-        const awayMascot = teamInfo[awayKey]?.mascotName?.toLowerCase().replace(/[^a-z]/g, "");
-        const homeMascot = teamInfo[homeKey]?.mascotName?.toLowerCase().replace(/[^a-z]/g, "");
-
-        const scoreAway = scoreObj.away.toLowerCase().replace(/[^a-z]/g, "");
-        const scoreHome = scoreObj.home.toLowerCase().replace(/[^a-z]/g, "");
-
-//        console.log("COMPARE:");
-//        console.log("  schedule away mascot:", awayMascot);
-//        console.log("  schedule home mascot:", homeMascot);
-//        console.log("  score away mascot:", scoreAway);
-//        console.log("  score home mascot:", scoreHome);
-
-        const match = (awayMascot === scoreAway && homeMascot === scoreHome);
-
-//        console.log("  MATCH RESULT:", match ? "✔ MATCH" : "❌ NO MATCH");
-
-        return match;
-      });
-
-      if (!game) {
-//        console.warn(`❌ No match found for: ${scoreObj.away} @ ${scoreObj.home}`);
-      } else {
-//      console.log(`✔ MATCH FOUND → ${game.away} @ ${game.home} = ${scoreObj.score}`);
-
-        const [awayScore, homeScore] = scoreObj.score.split("-").map(Number);
-        game.score = scoreObj.score;
-        game.awayScore = awayScore;
-        game.homeScore = homeScore;
-      }
-
-//      console.groupEnd();
-    });
-
-//    console.group(`📌 FINAL scheduleData WEEK ${weekKey}`);
-//    console.log(scheduleData.weeks[weekKey]);
-//    console.groupEnd();
-
-//    console.groupEnd();
-  });
-}
-
-let currentSeason = 2026;
-
-async function loadPicks(season = currentSeason) {
-  try {
-    const res = await fetch(`${API_BASE}/picks/${season}`);
-    const data = await res.json();
-    picks = data.players || {};
-    return picks;
-  } catch (err) {
-    console.error("Error loading picks:", err);
-    return {};
-  }
-}
-
-async function savePicks(season, player, week, picksObj) {
-  try {
-    await fetch(`${API_BASE}/picks/${season}/${player}/${week}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(picksObj)
-    });
-  } catch (err) {
-    console.error("Error saving picks:", err);
-  }
-}
-
-function ensurePlayer(player) {
-  if (!picks[player]) {
-    picks[player] = {};
-  }
-}
-
-function ensureWeek(player, weekKey) {
-  if (!picks[player][weekKey]) {
-    picks[player][weekKey] = {};
-  }
-}
-
-function setPickBackend(player, weekKey, weekObj) {
-  fetch(`${API_BASE}/picks/${currentSeason}/${player}/${weekKey}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(weekObj)
-  }).catch(err => console.error("Error saving pick backend:", err));
-}
-
-async function initPicksSystem() {
-  await loadPicks(currentSeason);
-}
-
-function normalizePickName(name) {
-  return name.toLowerCase().replace(/[^a-z]/g, "");
-}
-
-async function loadSchedule() {
-  const res = await fetch(SCHEDULE_URL);
-  scheduleData = await res.json();
-
-  currentWeek = scheduleData.currentWeek || 1;
-}
-
-async function loadTeamInfo() {
-  const res = await fetch(TEAMINFO_URL);
-  teamInfo = await res.json();
-}
-
-async function initApp() {
-  console.log("🔵 initApp() starting…");
-
-  await loadSchedule();
-  console.log("✔ Schedule loaded");
-
-  await loadTeamInfo();
-  console.log("✔ Team info loaded");
-
-  await initScores();
-  console.log("✔ Scores merged");
-
-  await initPicksSystem();
-  console.log("✔ Picks system initialized");
-
-  // ALWAYS render weekly picks — even with NO player
-  renderPicksForWeek(currentWeek);
-
-  renderCurrentWeek();
-  renderStandings();
-
-  console.log("✔ initApp() complete");
-}
-
-async function initScores() {
-  const scoreMap = await loadNFLScores();
-  mergeScoresIntoSchedule(scoreMap);
-}
-
-const teamLogos = {
-  ARI: "LOGOS/ARI.PNG",
-  ATL: "LOGOS/ATL.PNG",
-  BAL: "LOGOS/BAL.PNG",
-  BUF: "LOGOS/BUF.PNG",
-  CAR: "LOGOS/CAR.PNG",
-  CHI: "LOGOS/CHI.PNG",
-  CIN: "LOGOS/CIN.PNG",
-  CLE: "LOGOS/CLE.PNG",
-  DAL: "LOGOS/DAL.PNG",
-  DEN: "LOGOS/DEN.PNG",
-  DET: "LOGOS/DET.PNG",
-  GB:  "LOGOS/GB.PNG",
-  HOU: "LOGOS/HOU.PNG",
-  IND: "LOGOS/IND.PNG",
-  JAX: "LOGOS/JAX.PNG",
-  KC:  "LOGOS/KC.PNG",
-  LV:  "LOGOS/LV.PNG",
-  LAC: "LOGOS/LAC.PNG",
-  LAR: "LOGOS/LAR.PNG",
-  MIA: "LOGOS/MIA.PNG",
-  MIN: "LOGOS/MIN.PNG",
-  NE:  "LOGOS/NE.PNG",
-  NO:  "LOGOS/NO.PNG",
-  NYG: "LOGOS/NYG.PNG",
-  NYJ: "LOGOS/NYJ.PNG",
-  PHI: "LOGOS/PHI.PNG",
-  PIT: "LOGOS/PIT.PNG",
-  SEA: "LOGOS/SEA.PNG",
-  SF:  "LOGOS/SF.PNG",
-  TB:  "LOGOS/TB.PNG",
-  TEN: "LOGOS/TEN.PNG",
-  WAS: "LOGOS/WAS.PNG"
-};
-
-function loadLocalStorage() {
-  try {
-    const p = localStorage.getItem(LS_PLAYERS);
-    players = p ? JSON.parse(p) : {};
-  } catch (e) {
-    players = {};
-  }
-}
-
-function saveLocalStorage() {
-  localStorage.setItem(LS_PLAYERS, JSON.stringify(players));
-}
-
-function setupUIHandlers() {
-  const setPlayerBtn = document.getElementById("set-player-btn");
-  const leaderboardBtn = document.getElementById("leaderboard-btn");
-  const showMyPicksBtn = document.getElementById("show-my-picks-btn");
-  const teamsBtn = document.getElementById("teams-btn");
-  const scheduleBtn = document.getElementById("schedule-btn");
-  const submitPicksBtn = document.getElementById("submit-picks-btn");
-  const editPicksBtn = document.getElementById("edit-picks-btn");
-  const scheduleWeekSelect = document.getElementById("schedule-week-select");
-  const deletePlayerBtn = document.getElementById("delete-player-btn");
-
-  // --- SET PLAYER ---
-  setPlayerBtn.addEventListener("click", async () => {
-    await setPlayer();
-  });
-
-  // --- SHOW MY PICKS ---
-  showMyPicksBtn.addEventListener("click", () => {
-    if (!currentPlayer) {
-      showNotification("Set your player name first.");
-      return;
-    }
-    showPlayerPicks(currentPlayer);
-  });
-
-  // --- DELETE PLAYER ---
-  deletePlayerBtn.addEventListener("click", async () => {
-    const list = document.getElementById("player-list");
-    const name = list.value;
-    if (!name) return;
-
-    // Delete locally
-    delete players[name];
-    delete picks[name];
-    saveLocalStorage();
-    refreshPlayerList();
-
-    // Delete from backend
-    await deletePlayerFromBackend(name);
-
-    showNotification(`Deleted player ${name} and all picks.`);
-  });
-
-  // --- LEADERBOARD ---
-  leaderboardBtn.addEventListener("click", () => {
-    togglePanel("leaderboard-panel");
-    renderLeaderboard();
-  });
-
-  // --- TEAMS ---
-  teamsBtn.addEventListener("click", () => {
-    togglePanel("teams-panel");
-  });
-
-  // --- SCHEDULE ---
-  scheduleBtn.addEventListener("click", () => {
-    togglePanel("nfl-schedule-panel");
-    renderNFLWeekSchedule();
-  });
-
-  // --- SUBMIT PICKS ---
-  submitPicksBtn.addEventListener("click", () => {
-    submitCurrentWeekPicks();
-  });
-
-  // --- EDIT PICKS ---
-  editPicksBtn.addEventListener("click", () => {
-    editCurrentWeekPicks();
-  });
-
-  // --- WEEK SELECTOR ---
-  scheduleWeekSelect.addEventListener("change", () => {
-    renderNFLWeekSchedule();
-  });
-}
-
-function togglePanel(id) {
-  const panels = ["leaderboard-panel", "teams-panel", "team-detail-panel", "nfl-schedule-panel"];
-  panels.forEach(pid => {
-    const el = document.getElementById(pid);
-    if (!el) return;
-    el.classList.toggle("hidden", pid !== id);
-  });
-}
-
-async function deletePlayerFromBackend(player) {
-  // Overwrite all weeks with empty objects
-  for (let w = 1; w <= 18; w++) {
-    await fetch(`${API_BASE}/picks/${currentSeason}/${player}/${w}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({})
-    });
-  }
-}
-
-function refreshPlayerList() {
-  const list = document.getElementById("player-list");
-  list.innerHTML = "";
-
-  Object.keys(players).forEach(name => {
-    const opt = document.createElement("option");
-    opt.value = name;
-    opt.textContent = name;
-    list.appendChild(opt);
-  });
-}
-
-function detectCurrentNFLWeek(schedule) {
-  const today = new Date();
-  for (let w = 1; w <= 18; w++) {
-    const weekKey = String(w);
-    const games = schedule.weeks[weekKey].games;
-    const dates = games.map(g => new Date(`${g.date} 2026`)); // assumes g.date like "Sep 15"
-    const lastGame = dates.reduce((a, b) => a > b ? a : b);
-    if (today <= lastGame) {
-      return w;
-    }
-  }
-  return 18;
-}
-
-function renderCurrentWeek() {
-  document.getElementById("current-week").textContent = `Week ${currentWeek}`; // NFL panel
-  document.getElementById("picks-current-week").textContent = `Week ${currentWeek}`; // Picks panel
-  
-  renderSeasonStandings();
-  renderWeekStandings(currentWeek);
-}
-
-document.getElementById("prev-week").onclick = () => changeWeek(-1);
-document.getElementById("next-week").onclick = () => changeWeek(1);
-
-function changeWeek(delta) {
-  currentWeek += delta;
-  if (currentWeek < 1) currentWeek = 1;
-  if (currentWeek > 18) currentWeek = 18;
-
-  renderCurrentWeek();
-  renderPicksForWeek(currentWeek);
-}
-
-// --- STANDINGS ENGINE (simplified: based on results you’ll add later) ---
-
-function computeTeamRecords() {
-  // For now, stub: all 0-0. Later, you’ll compute from real results.
-  const records = {};
-  Object.keys(teamInfo).forEach(team => {
-    records[team] = {
-      wins: 0,
-      losses: 0,
-      homeWins: 0,
-      homeLosses: 0,
-      awayWins: 0,
-      awayLosses: 0,
-      confWins: 0,
-      confLosses: 0,
-      divWins: 0,
-      divLosses: 0
-    };
-  });
-  // TODO: when you have results, update records here.
-  return records;
-}
-
-function renderStandings() {
-  const records = computeTeamRecords();
-
-  const afcDivs = ["East", "North", "South", "West"];
-  const nfcDivs = ["East", "North", "South", "West"];
-
-  renderConferenceStandings("AFC", afcDivs, records, "afc-standings", "afc-best");
-  renderConferenceStandings("NFC", nfcDivs, records, "nfc-standings", "nfc-best");
-}
-
-function renderConferenceStandings(conf, divisions, records, standingsId, bestId) {
-  const container = document.getElementById(standingsId);
-  container.innerHTML = "";
-
-  const teamsInConf = [];
-
-  // --- Division Standings ---
-  divisions.forEach(div => {
-    const divBlock = document.createElement("div");
-    divBlock.className = "standings-division";
-
-    const h = document.createElement("h5");
-    h.textContent = `${conf} ${div}`;
-    divBlock.appendChild(h);
-
-    // Teams in this division
-    const divTeams = Object.keys(teamInfo).filter(t => {
-      const info = teamInfo[t];
-      return info.conference === conf && info.division === div;
-    });
-
-    // Sort division teams alphabetically by fullName
-    divTeams.sort((a, b) => teamInfo[a].fullName.localeCompare(teamInfo[b].fullName));
-
-    divTeams.forEach(team => {
-      teamsInConf.push(team);
-      const row = createStandingsRow(team, records[team]);
-      divBlock.appendChild(row);
-    });
-
-    container.appendChild(divBlock);
-  });
-
-  // --- Conference Best Teams ---
-  const bestContainer = document.getElementById(bestId);
-  bestContainer.innerHTML = "";
-  bestContainer.classList.add("best-list");
-
-  // Sort by record, ties alphabetical
-  const sorted = teamsInConf.sort((a, b) => {
-    const ra = records[a];
-    const rb = records[b];
-
-    if (ra.wins !== rb.wins) return rb.wins - ra.wins;
-    if (ra.losses !== rb.losses) return ra.losses - rb.losses;
-
-    // Alphabetical tiebreaker
-    return teamInfo[a].fullName.localeCompare(teamInfo[b].fullName);
-  });
-
-  sorted.forEach(team => {
-    const row = document.createElement("div");
-    row.className = "team-row";
-
-    // Team name + logo
-    const nameCell = document.createElement("div");
-    nameCell.className = "team-name";
-
-    const logo = document.createElement("img");
-    logo.className = "team-logo";
-    logo.src = getTeamLogo(team);
-
-    const nameText = document.createElement("span");
-    nameText.textContent = team;
-
-    nameCell.appendChild(logo);
-    nameCell.appendChild(nameText);
-
-    // W/L column
-    const wlCell = document.createElement("div");
-    wlCell.textContent = `${records[team].wins}-${records[team].losses}`;
-
-    row.appendChild(nameCell);
-    row.appendChild(wlCell);
-
-    row.addEventListener("click", () => showTeamDetail(team));
-
-    bestContainer.appendChild(row);
-  });
-}
-
-function getTeamHelmet(team) {
-  return getTeamLogo(team); // reuse logos for now
-}
-
-function loadLogoBanner() {
-  const banner = document.getElementById("logo-banner");
-  banner.innerHTML = "";
-
-  Object.keys(teamLogos).forEach(team => {
-    const img = document.createElement("img");
-    img.src = teamLogos[team];
-    img.className = "teamLogo"; // optional CSS class
-    banner.appendChild(img);
-  });
-}
-
-function createStandingsRow(team, rec) {
-  const row = document.createElement("div");
-  row.className = "team-row";
-
-  const nameCell = document.createElement("div");
-  nameCell.className = "team-name";
-
-  const logo = document.createElement("img");
-  logo.className = "team-logo";
-  logo.src = getTeamLogo(team);
-
-  const nameText = document.createElement("span");
-  nameText.textContent = team;
-
-  nameCell.appendChild(logo);
-  nameCell.appendChild(nameText);
-
-  const wlCell = document.createElement("div");
-  wlCell.textContent = `${rec.wins}-${rec.losses}`;
-
-  const homeCell = document.createElement("div");
-  homeCell.textContent = `${rec.homeWins}-${rec.homeLosses}`;
-
-  const awayCell = document.createElement("div");
-  awayCell.textContent = `${rec.awayWins}-${rec.awayLosses}`;
-
-  const confCell = document.createElement("div");
-  confCell.textContent = `${rec.confWins}-${rec.confLosses}`;
-
-  const divCell = document.createElement("div");
-  divCell.textContent = `${rec.divWins}-${rec.divLosses}`;
-
-  row.appendChild(nameCell);
-  row.appendChild(wlCell);
-  row.appendChild(homeCell);
-  row.appendChild(awayCell);
-  row.appendChild(confCell);
-  row.appendChild(divCell);
-
-  row.addEventListener("click", () => showTeamDetail(team));
-
-  return row;
-}
-
-function getTeamLogo(team) {
-  return teamLogos[team] || "";
-}
-
-// --- TEAMS LIST / TEAM DETAIL ---
-
-function renderTeamsList() {
-  const container = document.getElementById("teams-list");
-  container.innerHTML = "";
-
-  // Sort by fullName alphabetically
-  Object.keys(teamInfo)
-    .sort((a, b) => teamInfo[a].fullName.localeCompare(teamInfo[b].fullName))
-    .forEach(team => {
-
-      // --- render row ---
-      const row = document.createElement("div");
-      row.className = "team-row";
-
-      // Team name + logo
-      const nameCell = document.createElement("div");
-      nameCell.className = "team-name";
-
-      const logo = document.createElement("img");
-      logo.className = "team-logo";
-      logo.src = getTeamLogo(team);
-
-      const nameText = document.createElement("span");
-      nameText.textContent = teamInfo[team].fullName;
-
-      nameCell.appendChild(logo);
-      nameCell.appendChild(nameText);
-
-      // Conference + Division
-      const divCell = document.createElement("div");
-      divCell.textContent = `${teamInfo[team].conference} ${teamInfo[team].division}`;
-
-      // Build row
-      row.appendChild(nameCell);
-      row.appendChild(divCell);
-
-      // Click → open Team Info + Team Schedule
-      row.addEventListener("click", () => showTeamDetail(team));
-
-      container.appendChild(row);
-    });
-}
-
-function showTeamDetail(team) {
-  togglePanel("team-detail-panel");
-
-  const info = teamInfo[team];
-  const infoContainer = document.getElementById("team-info");
-  infoContainer.innerHTML = "";
-
-  const logo = document.createElement("img");
-  logo.src = getTeamLogo(team);
-
-  const name = document.createElement("h4");
-  name.textContent = info.fullName;
-
-  const stadium = document.createElement("p");
-  stadium.textContent = `Stadium: ${info.stadium} (${info.city})`;
-
-  const coach = document.createElement("p");
-  coach.textContent = `Head Coach: ${info.coach}`;
-
-  const divConf = document.createElement("p");
-  divConf.textContent = `${info.conference} ${info.division}`;
-
-  infoContainer.appendChild(logo);
-  infoContainer.appendChild(name);
-  infoContainer.appendChild(stadium);
-  infoContainer.appendChild(coach);
-  infoContainer.appendChild(divConf);
-
-  renderTeamSchedule(team);
-}
-
-function renderTeamSchedule(team) {
-  const container = document.getElementById("team-schedule");
-  container.innerHTML = "";
-
-  const records = computeTeamRecords(); // for opponent record snapshot
-  const today = new Date();
-
-  const scheduleLines = [];
-
-  Object.keys(scheduleData.weeks).forEach(weekKey => {
-    const games = scheduleData.weeks[weekKey].games;
-    games.forEach((g, idx) => {
-      if (g.home === team || g.away === team) {
-        const isHome = g.home === team;
-        const opponent = isHome ? g.away : g.home;
-        const dateObj = new Date(`${g.date} 2026`);
-        const past = dateObj < today;
-
-        const line = document.createElement("div");
-        line.textContent = `Week ${weekKey} ${isHome ? "vs" : "@"} ${opponent}`;
-
-        if (past) {
-          // TODO: when you have results, show W/L here
-          line.textContent += " (final)";
-        } else {
-          const oppRec = records[opponent];
-          line.textContent += ` (${oppRec.wins}-${oppRec.losses})`;
-        }
-
-        scheduleLines.push(line);
-      }
-    });
-  });
-
-  scheduleLines.forEach(l => container.appendChild(l));
-}
-
-// --- NFL SCHEDULE VIEW ---
-
-function renderNFLWeekScheduleSelector() {
-  const select = document.getElementById("schedule-week-select");
-  select.innerHTML = "";
-  Object.keys(scheduleData.weeks).forEach(weekKey => {
-    const opt = document.createElement("option");
-    opt.value = weekKey;
-    opt.textContent = `Week ${weekKey}`;
-    if (Number(weekKey) === currentWeek) opt.selected = true;
-    select.appendChild(opt);
-  });
-}
-
-function renderNFLWeekSchedule() {
-  const select = document.getElementById("schedule-week-select");
-  const weekKey = select.value;
-  const container = document.getElementById("nfl-schedule-week");
-  container.innerHTML = "";
-
-  const games = scheduleData.weeks[weekKey].games;
-  games.forEach(g => {
-    const row = document.createElement("div");
-    row.className = "pick-row";
-
-    const matchup = document.createElement("div");
-    matchup.textContent = `${g.away} @ ${g.home}`;
-
-    const dateCell = document.createElement("div");
-    dateCell.textContent = g.date;
-
-    const tvCell = document.createElement("div");
-    tvCell.textContent = g.network || "";
-
-    row.appendChild(matchup);
-    row.appendChild(dateCell);
-    row.appendChild(tvCell);
-
-    container.appendChild(row);
-  });
-}
-
-// --- GAME DATA ---
-
-function parseGameDate(game) {
-  return new Date(`${game.date} ${game.time} 2026`);
-}
-// --- EARLIEST GAME cutoff (kept, harmless) ---
-function getWeekCutoff(week) {
-  const games = scheduleData.weeks[String(week)].games;
-  const times = games.map(g => parseGameDate(g));
-  return new Date(Math.min(...times));
-}
-
-// --- RENDER NFL SCORES (only shows scores, no picks) ---
-function renderNFLScores(week) {
-  const container = document.getElementById("nfl-scores-list");
-  container.innerHTML = "";
-
-  const weekKey = String(week);
-  const games = scheduleData.weeks[weekKey].games;
-
-  games.forEach(g => {
-    const row = document.createElement("div");
-    row.className = "score-row";
-
-    const matchup = document.createElement("div");
-    matchup.textContent = `${g.away} @ ${g.home}`;
-
-    const scoreCell = document.createElement("div");
-    scoreCell.textContent = g.score ? g.score : "TBD";
-
-    const winnerCell = document.createElement("div");
-    if (g.score) {
-      const [a, b] = g.score.split("-").map(Number);
-      const winner = a > b ? g.away : g.home;
-      winnerCell.textContent = winner;
-      winnerCell.className = "winner";
-    } else {
-      winnerCell.textContent = "";
-    }
-
-    row.appendChild(matchup);
-    row.appendChild(scoreCell);
-    row.appendChild(winnerCell);
-
-    container.appendChild(row);
-  });
-}
-
-// --- UNIFIED PICK SYSTEM
-
-// --- PLAYER SETUP ---
-async function setPlayer(name) {
   currentPlayer = name;
+  renderPlayerList();
+  updateDetails(`Player "${name}" added.`);
+}
 
-  await initPicksSystem();   // loads picks for this player
+function deletePlayer() {
+  if (!currentPlayer) return;
 
-  const container = document.getElementById("weekly-picks");
-  if (!container) {
-    console.warn("weekly-picks element not found in DOM → delaying render.");
-    return;
-  }
+  players = players.filter(p => p !== currentPlayer);
+  delete picks[currentPlayer];
 
+  currentPlayer = players.length ? players[0] : null;
+  renderPlayerList();
+  updateDetails("Player deleted.");
+}
+
+function selectPlayer(e) {
+  currentPlayer = e.target.value;
   renderPicksForWeek(currentWeek);
-  renderStandings();
+  updateDetails(`Selected player: ${currentPlayer}`);
 }
 
-// --- SET PICK ---
-function setPick(player, weekKey, gameId, team) {
-  if (!picks[player]) picks[player] = {};
-  if (!picks[player][weekKey]) picks[player][weekKey] = {};
+function renderPlayerList() {
+  const sel = document.getElementById("player-list");
+  sel.innerHTML = "";
 
-  picks[player][weekKey][gameId] = team;
+  players.forEach(p => {
+    const opt = document.createElement("option");
+    opt.value = p;
+    opt.textContent = p;
+    sel.appendChild(opt);
+  });
 
-  // backend save
-  setPickBackend(player, weekKey, picks[player][weekKey]);
-
-  renderPicksForWeek(weekKey);
+  if (currentPlayer) sel.value = currentPlayer;
 }
 
-// --- RENDER WEEKLY PICKS ---
+
+// ============================================================
+// WEEK SELECTOR
+// ============================================================
+function changeWeek(delta) {
+  const newWeek = currentWeek + delta;
+  if (!scheduleData[String(newWeek)]) return;
+
+  currentWeek = newWeek;
+  document.getElementById("current-week-label").textContent = `Week ${currentWeek}`;
+  renderPicksForWeek(currentWeek);
+}
+
+
+// ============================================================
+// WEEKLY PICKS RENDER
+// ============================================================
 function renderPicksForWeek(weekKey) {
   const container = document.getElementById("weekly-picks");
-  if (!container) {
-    console.warn("weekly-picks element not found in DOM.");
-    return;
-  }
-
   container.innerHTML = "";
 
-  const weekData = scheduleData.weeks[weekKey];
-  if (!weekData || !weekData.games) {
-    console.warn("No schedule data for week:", weekKey);
+  if (!currentPlayer) {
+    updateDetails("Select a player to make picks.");
     return;
   }
 
-  const games = weekData.games;
+  const weekData = scheduleData[String(weekKey)];
+  const weekPicks = picks[currentPlayer]?.[weekKey] || {};
 
-  // Picks only matter if a player exists
-  const weekPicks = currentPlayer ? (picks[currentPlayer]?.[weekKey] || {}) : {};
-
-  games.forEach(g => {
+  weekData.games.forEach(g => {
     const row = document.createElement("div");
     row.className = "game-row";
 
@@ -824,259 +142,94 @@ function renderPicksForWeek(weekKey) {
     const homeBtn = document.createElement("button");
     homeBtn.textContent = g.home;
 
-    // Only attach pick handlers if a player exists
-    if (currentPlayer) {
-      awayBtn.onclick = () => setPick(currentPlayer, weekKey, g.id, g.away);
-      homeBtn.onclick = () => setPick(currentPlayer, weekKey, g.id, g.home);
+    awayBtn.onclick = () => setPick(currentPlayer, weekKey, g.id, g.away);
+    homeBtn.onclick = () => setPick(currentPlayer, weekKey, g.id, g.home);
 
-      const pick = weekPicks[g.id];
-      if (pick === g.away) awayBtn.classList.add("selected");
-      if (pick === g.home) homeBtn.classList.add("selected");
-    }
+    const pick = weekPicks[g.id];
+    if (pick === g.away) awayBtn.classList.add("selected");
+    if (pick === g.home) homeBtn.classList.add("selected");
 
     row.appendChild(awayBtn);
     row.appendChild(homeBtn);
     container.appendChild(row);
   });
+
+  updateDetailsPanel(weekKey);
 }
 
-// --- SHOW ALL WEEKS FOR A PLAYER ---
-function showPlayerPicks(player) {
-  const container = document.getElementById("player-picks-content");
-  container.innerHTML = "";
 
-  const playerWeeks = picks[player] || {};
+// ============================================================
+// SET PICK
+// ============================================================
+function setPick(player, weekKey, gameId, teamName) {
+  if (!picks[player]) picks[player] = {};
+  if (!picks[player][weekKey]) picks[player][weekKey] = {};
 
-  Object.keys(playerWeeks).sort((a, b) => Number(a) - Number(b)).forEach(weekKey => {
-    const weekData = scheduleData.weeks[weekKey];
-    if (!weekData) return;
-
-    const header = document.createElement("h4");
-    header.textContent = `Week ${weekKey}`;
-    container.appendChild(header);
-
-    const weekPicks = playerWeeks[weekKey];
-
-    weekData.games.forEach(g => {
-      const pick = weekPicks[g.id] || "No pick";
-      const line = document.createElement("div");
-      line.textContent = `${g.away} @ ${g.home} → ${pick}`;
-      container.appendChild(line);
-    });
-  });
-
-  document.getElementById("player-picks-panel").classList.remove("hidden");
-}
-
-// --- SUBMIT (no locking, just timestamp + stats) ---
-function submitCurrentWeekPicks() {
-  if (!currentPlayer) {
-    showNotification("Set your player name first.");
-    return;
-  }
-
-  const weekKey = String(currentWeek);
-  const weekPicks = picks[currentPlayer]?.[weekKey];
-
-  if (!weekPicks || Object.keys(weekPicks).length === 0) {
-    showNotification("No picks to submit for this week.");
-    return;
-  }
-
-  picks[currentPlayer][weekKey].submittedAt = new Date().toISOString();
-  savePicks(currentSeason, currentPlayer, weekKey, weekPicks);
-
-  showNotification("Picks submitted.");
-  updateLeagueStats();
-
-  renderSeasonStandings();
-  renderWeekStandings(currentWeek);
-}
-
-function renderPlayerPicksForWeek() {
-  const container = document.getElementById("player-picks-content");
-  container.innerHTML = "";
-
-  const weekKey = String(currentWeek);
-  const weekPicks = picks[currentPlayer]?.[weekKey] || {};
-  const games = scheduleData.weeks[weekKey].games;
-
-  games.forEach(g => {
-    const pick = weekPicks[g.id] || "No pick";
-    const line = document.createElement("div");
-    line.textContent = `${g.away} @ ${g.home} → ${pick}`;
-    container.appendChild(line);
-  });
-
-  document.getElementById("player-picks-panel").classList.remove("hidden");
-}
-
-function editCurrentWeekPicks() {
-  const player = currentPlayer;
-  const weekKey = String(currentWeek);
-
-  if (!picks[player] || !picks[player][weekKey]) return;
+  picks[player][weekKey][gameId] = teamName;
 
   renderPicksForWeek(weekKey);
-  
-  renderSeasonStandings();
-  renderWeekStandings(currentWeek);
 }
 
-function getPick(weekKey, gameId) {
-  const player = currentPlayer;
-  return picks[player]?.[weekKey]?.[gameId] || null;
-}
 
-function getWinner(game) {
-  if (!game.score) return null;
-  const [a, b] = game.score.split("-").map(Number);
-  return a > b ? game.away : game.home;
-}
+// ============================================================
+// SUBMIT PICKS — SAVE TO BACKEND (NO LOCALSTORAGE)
+// ============================================================
+function submitPicks() {
+  if (!currentPlayer) {
+    updateDetails("No player selected.");
+    return;
+  }
 
-function computeSeasonRecord(player) {
-  let wins = 0;
-  let losses = 0;
+  const weekKey = currentWeek;
+  const weekData = scheduleData[String(weekKey)];
+  const weekPicks = picks[currentPlayer]?.[weekKey] || {};
 
-  const playerWeeks = picks[player] || {};
+  const totalGames = weekData.games.length;
+  const madePicks = Object.keys(weekPicks).length;
 
-  Object.keys(playerWeeks).forEach(weekKey => {
-    const weekData = scheduleData.weeks[weekKey];
-    if (!weekData) return;
+  updateDetails(`Submitting ${madePicks}/${totalGames} picks…`);
 
-    const weekPicks = playerWeeks[weekKey];
-
-    weekData.games.forEach(g => {
-      const winner = getWinner(g);
-      if (!winner) return;
-
-      const pick = weekPicks[g.id];
-      if (!pick) return;
-
-      if (pick === winner) wins++;
-      else losses++;
-    });
-  });
-
-  return { wins, losses };
-}
-
-function computeWeekRecord(player, weekKey) {
-  let wins = 0;
-  let losses = 0;
-
-  const weekData = scheduleData.weeks[weekKey];
-  if (!weekData) return { wins: 0, losses: 0 };
-
-  const weekPicks = picks[player]?.[weekKey] || {};
-
-  weekData.games.forEach(g => {
-    const winner = getWinner(g);
-    if (!winner) return;
-
-    const pick = weekPicks[g.id];
-    if (!pick) return;
-
-    if (pick === winner) wins++;
-    else losses++;
-  });
-
-  return { wins, losses };
-}
-
-function renderSeasonStandings() {
-  const container = document.getElementById("season-standings");
-  container.innerHTML = "";
-
-  if (!players) return;
-
-  const rows = Object.keys(players).map(player => {
-    const { wins, losses } = computeSeasonRecord(player);
-    return { player, wins, losses };
-  });
-
-  rows.sort((a, b) => b.wins - a.wins);
-
-  rows.forEach(r => {
-    const div = document.createElement("div");
-    div.textContent = `${r.player}: ${r.wins}-${r.losses}`;
-    container.appendChild(div);
-  });
-}
-
-function renderWeekStandings(weekKey) {
-  const container = document.getElementById("week-standings");
-  container.innerHTML = "";
-
-  if (!players) return;
-
-  const rows = Object.keys(players).map(player => {
-    const { wins, losses } = computeWeekRecord(player, weekKey);
-    return { player, wins, losses };
-  });
-
-  rows.sort((a, b) => b.wins - a.wins);
-
-  rows.forEach(r => {
-    const div = document.createElement("div");
-    div.textContent = `${r.player}: ${r.wins}-${r.losses}`;
-    container.appendChild(div);
+  // SEND TO BACKEND
+  fetch("/onrender/savePicks", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      player: currentPlayer,
+      week: weekKey,
+      picks: weekPicks
+    })
+  })
+  .then(r => r.json())
+  .then(res => {
+    updateDetails(`Picks submitted successfully for ${currentPlayer}.`);
+  })
+  .catch(err => {
+    console.error("SAVE ERROR:", err);
+    updateDetails("Error submitting picks.");
   });
 }
 
 
-// --- NFL STATS / LEADERBOARD ---
-
-function updateLeagueStats() {
-  const total = Object.keys(players).length;
-  document.getElementById("total-participants").textContent = total;
-
-  const weekKey = String(currentWeek);
-  let weekCount = 0;
-  Object.keys(picks).forEach(player => {
-    const p = picks[player];
-    if (p[weekKey] && p[weekKey].submittedAt) weekCount++;
-  });
-  document.getElementById("week-participants").textContent = weekCount;
+// ============================================================
+// DETAILS PANEL UPDATE
+// ============================================================
+function updateDetails(msg) {
+  document.getElementById("picks-detail-window").textContent = msg;
 }
 
-function renderLeaderboard() {
-  const container = document.getElementById("leaderboard-list");
-  container.innerHTML = "";
+function updateDetailsPanel(weekKey) {
+  if (!currentPlayer) {
+    updateDetails("Select a player to make picks.");
+    return;
+  }
 
-  const rows = Object.keys(players).map(player => {
-    const p = picks[player] || {};
-    const weeksPlayed = Object.keys(p).length;
-    const totalPicks = Object.values(p).reduce((sum, weekObj) => {
-      if (!weekObj || typeof weekObj !== "object") return sum;
-      return sum + Object.keys(weekObj).filter(k => k !== "submittedAt").length;
-    }, 0);
+  const weekData = scheduleData[String(weekKey)];
+  const weekPicks = picks[currentPlayer]?.[weekKey] || {};
 
-    return { player, weeksPlayed, totalPicks };
+  let lines = weekData.games.map(g => {
+    const pick = weekPicks[g.id] || "-";
+    return `${g.away} vs ${g.home}: ${pick}`;
   });
 
-  rows.sort((a, b) => b.weeksPlayed - a.weeksPlayed || b.totalPicks - a.totalPicks);
-
-  rows.forEach(row => {
-    const div = document.createElement("div");
-    div.textContent = `${row.player}: Weeks played ${row.weeksPlayed}, Picks made ${row.totalPicks}`;
-    div.addEventListener("click", () => showPlayerPicks(row.player));
-    container.appendChild(div);
-  });
+  document.getElementById("picks-detail-window").innerHTML = lines.join("<br>");
 }
-
-// --- NOTIFICATIONS ---
-
-function showNotification(msg) {
-  const el = document.getElementById("picks-notification");
-  el.textContent = msg;
-  el.classList.remove("hidden");
-  setTimeout(() => el.classList.add("hidden"), 3000);
-}
-
-// --- INIT (unchanged) ---
-
-loadLogoBanner();
-loadLocalStorage();
-setupUIHandlers();
-initApp();
