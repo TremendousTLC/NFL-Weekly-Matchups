@@ -12,6 +12,75 @@ let picks = {};
 
 
 // ============================================================
+// TEAM LOGOS (your LOGOS folder, NFL abbreviations)
+// ============================================================
+const teamLogos = {
+  ARI: "LOGOS/ari.png",
+  ATL: "LOGOS/atl.png",
+  BAL: "LOGOS/bal.png",
+  BUF: "LOGOS/buf.png",
+  CAR: "LOGOS/car.png",
+  CHI: "LOGOS/chi.png",
+  CIN: "LOGOS/cin.png",
+  CLE: "LOGOS/cle.png",
+  DAL: "LOGOS/dal.png",
+  DEN: "LOGOS/den.png",
+  DET: "LOGOS/det.png",
+  GB:  "LOGOS/gb.png",
+  HOU: "LOGOS/hou.png",
+  IND: "LOGOS/ind.png",
+  JAX: "LOGOS/jax.png",
+  KC:  "LOGOS/kc.png",
+  LV:  "LOGOS/lv.png",
+  LAC: "LOGOS/lac.png",
+  LAR: "LOGOS/lar.png",
+  MIA: "LOGOS/mia.png",
+  MIN: "LOGOS/min.png",
+  NE:  "LOGOS/ne.png",
+  NO:  "LOGOS/no.png",
+  NYG: "LOGOS/nyg.png",
+  NYJ: "LOGOS/nyj.png",
+  PHI: "LOGOS/phi.png",
+  PIT: "LOGOS/pit.png",
+  SEA: "LOGOS/sea.png",
+  SF:  "LOGOS/sf.png",
+  TB:  "LOGOS/tb.png",
+  TEN: "LOGOS/ten.png",
+  WAS: "LOGOS/was.png"
+};
+
+function loadLogoBanner() {
+  const banner = document.getElementById("logo-banner");
+  banner.innerHTML = "";
+
+  Object.keys(teamLogos).forEach(team => {
+    const img = document.createElement("img");
+    img.src = teamLogos[team];
+    img.className = "teamLogo";
+    banner.appendChild(img);
+  });
+}
+
+
+// ============================================================
+// WEEK DETECTION (your original working version)
+// ============================================================
+function detectCurrentNFLWeek(schedule) {
+  const today = new Date();
+  for (let w = 1; w <= 18; w++) {
+    const weekKey = String(w);
+    const games = schedule.weeks[weekKey].games;
+    const dates = games.map(g => new Date(`${g.date} 2026`));
+    const lastGame = dates.reduce((a, b) => a > b ? a : b);
+    if (today <= lastGame) {
+      return w;
+    }
+  }
+  return 18;
+}
+
+
+// ============================================================
 // INITIAL LOAD — schedule + scores + picks from backend
 // ============================================================
 document.addEventListener("DOMContentLoaded", () => {
@@ -27,6 +96,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     picks = backendPicks || {};
 
+    // detect correct week
+    currentWeek = detectCurrentNFLWeek(scheduleJson);
+    document.getElementById("current-week-label").textContent = `Week ${currentWeek}`;
+
+    loadLogoBanner();
     initPlayerPanel();
     renderPlayerList();
     renderPicksForWeek(currentWeek);
@@ -105,13 +179,17 @@ function renderPlayerList() {
 
 
 // ============================================================
-// WEEK SELECTOR
+// WEEK SELECTOR (patched)
 // ============================================================
 function changeWeek(delta) {
-  const newWeek = currentWeek + delta;
-  if (!scheduleData[String(newWeek)]) return;
+  currentWeek += delta;
+  if (currentWeek < 1) currentWeek = 1;
+  if (currentWeek > 18) currentWeek = 18;
 
-  currentWeek = newWeek;
+  renderCurrentWeek();
+}
+
+function renderCurrentWeek() {
   document.getElementById("current-week-label").textContent = `Week ${currentWeek}`;
   renderPicksForWeek(currentWeek);
 }
