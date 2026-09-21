@@ -178,17 +178,11 @@ async function initApp() {
   await initPicksSystem();
   console.log("✔ Picks system initialized");
 
-  // Always show schedule + standings even with no players
+  // ALWAYS render weekly picks — even with NO player
+  renderPicksForWeek(currentWeek);
+
   renderCurrentWeek();
   renderStandings();
-
-  // Only render picks if weekly-picks exists AND a player is set
-  const weeklyPicksEl = document.getElementById("weekly-picks");
-  if (weeklyPicksEl && currentPlayer) {
-    renderPicksForWeek(currentWeek);
-  } else {
-    console.warn("ℹ Picks will render once a player is set.");
-  }
 
   console.log("✔ initApp() complete");
 }
