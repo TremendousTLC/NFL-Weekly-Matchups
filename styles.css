@@ -70,6 +70,15 @@ section {
   border-bottom: none;
 }
 
+#logo-banner {
+  display: flex;
+  justify-content: center;   /* centers logos horizontally */
+  align-items: center;        /* centers logos vertically */
+  gap: 10px;                  /* spacing between logos */
+  flex-wrap: wrap;            /* allows wrapping if screen is small */
+  padding: 10px;
+}
+
 /* =============================== */
 /* LEFT COLUMN                     */
 /* =============================== */

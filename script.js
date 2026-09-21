@@ -82,7 +82,7 @@ function detectCurrentNFLWeek(schedule) {
 document.addEventListener("DOMContentLoaded", () => {
   Promise.all([
     fetch("2026_NFL_schedule.json").then(r => r.json()),
-    fetch("2026_scores.json").then(r => r.json()),
+    fetch("scores_2026.json").then(r => r.json()),
     fetch("/onrender/getPicks").then(r => r.json())   // backend load
   ])
   .then(([scheduleJson, scoresJson, backendPicks]) => {
