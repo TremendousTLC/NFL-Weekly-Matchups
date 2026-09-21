@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>NFL Weekly Matchup 088</title>
+  <title>NFL Weekly Matchup 089</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -47,8 +47,8 @@
           <h3>Player Picks</h3>
           <div id="player-picks-content"></div>
         </div>
-		
-		<h3>Season Standings</h3>
+
+        <h3>Season Standings</h3>
         <div id="season-standings"></div>
 
         <h3>Week Standings</h3>
@@ -60,7 +60,7 @@
         </div>
       </section>
 
-      <!-- MANAGE PLAYERS (MOVED HERE, OUT OF WEEKLY PICKS AREA) -->
+      <!-- MANAGE PLAYERS -->
       <div id="player-management" class="side-panel">
         <h3>Manage Players</h3>
         <select id="player-list"></select>
@@ -82,9 +82,8 @@
           <button id="next-week" onclick="changeWeek(1)">▶</button>
         </div>
 
-        <div id="picks-scroll">
-          <div id="matchups-container"></div>
-        </div>
+        <!-- ⭐ THIS IS THE CRITICAL ELEMENT YOUR JS NEEDS ⭐ -->
+        <div id="weekly-picks"></div>
 
         <div class="picks-actions">
           <button id="submit-picks-btn">Submit Picks</button>
