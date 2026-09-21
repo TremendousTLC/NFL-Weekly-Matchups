@@ -266,12 +266,13 @@ function submitPicks() {
 
   const weekKey = currentWeek;
   const weekData = scheduleData[String(weekKey)];
-  const weekPicks = picks[currentPlayer]?.[weekKey] || {};
+  const weekPicks = {};
 
-  const totalGames = weekData.games.length;
-  const madePicks = Object.keys(weekPicks).length;
-
-  updateDetails(`Submitting ${madePicks}/${totalGames} picks…`);
+  // FIX: use game.id, not index
+  weekData.games.forEach(g => {
+    const pick = picks[currentPlayer]?.[weekKey]?.[g.id] || null;
+    if (pick) weekPicks[g.id] = pick;
+  });
 
   savePicks(currentPlayer, weekKey, weekPicks)
     .then(() => updateDetails(`Picks submitted successfully for ${currentPlayer}.`))
@@ -280,7 +281,6 @@ function submitPicks() {
       updateDetails("Error submitting picks.");
     });
 }
-
 
 // ============================================================
 // DETAILS PANEL UPDATE
