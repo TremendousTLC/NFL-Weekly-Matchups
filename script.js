@@ -1,15 +1,25 @@
 // ============================================================
 // GLOBAL STATE
 // ============================================================
-let scheduleData = null;   // weeks["1"].games[]
-let scoresData = null;     // scores by gameId
-let players = [];          // ["Terry", "Jim", ...]
+let scheduleData = null;
+let scoresData = null;
+let players = [];
 let currentPlayer = null;
 let currentWeek = 1;
 
 // picks[player][week][gameId] = "Team"
 let picks = {};
 
+
+// ============================================================
+// BACKEND API BASE
+// ============================================================
+const API_BASE = "https://nfl-pickem-backend.onrender.com";
+
+
+// ============================================================
+// TEAM LOGOS (uppercase filenames)
+// ============================================================
 const teamLogos = {
   ARI: "LOGOS/ARI.PNG",
   ATL: "LOGOS/ATL.PNG",
@@ -44,7 +54,6 @@ const teamLogos = {
   TEN: "LOGOS/TEN.PNG"
 };
 
-
 function loadLogoBanner() {
   const banner = document.getElementById("logo-banner");
   banner.innerHTML = "";
@@ -68,31 +77,62 @@ function detectCurrentNFLWeek(schedule) {
     const games = schedule.weeks[weekKey].games;
     const dates = games.map(g => new Date(`${g.date} 2026`));
     const lastGame = dates.reduce((a, b) => a > b ? a : b);
-    if (today <= lastGame) {
-      return w;
-    }
+    if (today <= lastGame) return w;
   }
   return 18;
 }
 
 
 // ============================================================
-// INITIAL LOAD — schedule + scores + picks from backend
+// BACKEND LOAD PICKS
 // ============================================================
-document.addEventListener("DOMContentLoaded", () => {
-  Promise.all([
-    fetch("2026_NFL_schedule.json").then(r => r.json()),
-    fetch("scores_2026.json").then(r => r.json()),
-    fetch("/onrender/getPicks").then(r => r.json())   // backend load
-  ])
-  .then(([scheduleJson, scoresJson, backendPicks]) => {
+async function loadPicks() {
+  try {
+    const res = await fetch(`${API_BASE}/getPicks`);
+    const data = await res.json();
+    return data || {};
+  } catch (err) {
+    console.error("Error loading picks:", err);
+    return {};
+  }
+}
+
+
+// ============================================================
+// BACKEND SAVE PICKS
+// ============================================================
+async function savePicks(player, week, weekPicks) {
+  try {
+    const res = await fetch(`${API_BASE}/savePicks`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        player,
+        week,
+        picks: weekPicks
+      })
+    });
+
+    return await res.json();
+  } catch (err) {
+    console.error("Error saving picks:", err);
+  }
+}
+
+
+// ============================================================
+// INITIAL LOAD
+// ============================================================
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const scheduleJson = await fetch("2026_NFL_schedule.json").then(r => r.json());
+    const scoresJson   = await fetch("scores_2026.json").then(r => r.json());
+    const backendPicks = await loadPicks();
 
     scheduleData = scheduleJson.weeks;
-    scoresData = scoresJson.weeks || scoresJson;
+    scoresData   = scoresJson.weeks || scoresJson;
+    picks        = backendPicks || {};
 
-    picks = backendPicks || {};
-
-    // detect correct week
     currentWeek = detectCurrentNFLWeek(scheduleJson);
     document.getElementById("current-week-label").textContent = `Week ${currentWeek}`;
 
@@ -100,10 +140,10 @@ document.addEventListener("DOMContentLoaded", () => {
     initPlayerPanel();
     renderPlayerList();
     renderPicksForWeek(currentWeek);
-  })
-  .catch(err => {
+
+  } catch (err) {
     console.error("INIT ERROR:", err);
-  });
+  }
 });
 
 
@@ -131,10 +171,7 @@ function addPlayer() {
   const name = document.getElementById("player-name-input").value.trim();
   if (!name) return;
 
-  if (!players.includes(name)) {
-    players.push(name);
-  }
-
+  if (!players.includes(name)) players.push(name);
   if (!picks[name]) picks[name] = {};
 
   currentPlayer = name;
@@ -175,7 +212,7 @@ function renderPlayerList() {
 
 
 // ============================================================
-// WEEK SELECTOR (patched)
+// WEEK SELECTOR
 // ============================================================
 function changeWeek(delta) {
   currentWeek += delta;
@@ -246,7 +283,7 @@ function setPick(player, weekKey, gameId, teamName) {
 
 
 // ============================================================
-// SUBMIT PICKS — SAVE TO BACKEND (NO LOCALSTORAGE)
+// SUBMIT PICKS
 // ============================================================
 function submitPicks() {
   if (!currentPlayer) {
@@ -263,24 +300,12 @@ function submitPicks() {
 
   updateDetails(`Submitting ${madePicks}/${totalGames} picks…`);
 
-  // SEND TO BACKEND
-  fetch("/onrender/savePicks", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      player: currentPlayer,
-      week: weekKey,
-      picks: weekPicks
-    })
-  })
-  .then(r => r.json())
-  .then(res => {
-    updateDetails(`Picks submitted successfully for ${currentPlayer}.`);
-  })
-  .catch(err => {
-    console.error("SAVE ERROR:", err);
-    updateDetails("Error submitting picks.");
-  });
+  savePicks(currentPlayer, weekKey, weekPicks)
+    .then(() => updateDetails(`Picks submitted successfully for ${currentPlayer}.`))
+    .catch(err => {
+      console.error("SAVE ERROR:", err);
+      updateDetails("Error submitting picks.");
+    });
 }
 
 
