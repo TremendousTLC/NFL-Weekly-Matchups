@@ -46,11 +46,11 @@ function mergeScoresIntoSchedule(scoreMap) {
     const weekScores = scoreMap[weekKey].scores;
     const games = scheduleData.weeks[weekKey].games;
 
-    console.group(`🔍 WEEK ${weekKey} MERGE START`);
+//    console.group(`🔍 WEEK ${weekKey} MERGE START`);
 
     weekScores.forEach(scoreObj => {
 
-      console.group(`🔎 Checking score: ${scoreObj.away} @ ${scoreObj.home} (${scoreObj.score})`);
+//      console.group(`🔎 Checking score: ${scoreObj.away} @ ${scoreObj.home} (${scoreObj.score})`);
 
       const game = games.find(g => {
         const awayKey = normalizeTeamKey(g.away);
@@ -62,21 +62,21 @@ function mergeScoresIntoSchedule(scoreMap) {
         const scoreAway = scoreObj.away.toLowerCase().replace(/[^a-z]/g, "");
         const scoreHome = scoreObj.home.toLowerCase().replace(/[^a-z]/g, "");
 
-        console.log("COMPARE:");
-        console.log("  schedule away mascot:", awayMascot);
-        console.log("  schedule home mascot:", homeMascot);
-        console.log("  score away mascot:", scoreAway);
-        console.log("  score home mascot:", scoreHome);
+//        console.log("COMPARE:");
+//        console.log("  schedule away mascot:", awayMascot);
+//        console.log("  schedule home mascot:", homeMascot);
+//        console.log("  score away mascot:", scoreAway);
+//        console.log("  score home mascot:", scoreHome);
 
         const match = (awayMascot === scoreAway && homeMascot === scoreHome);
 
-        console.log("  MATCH RESULT:", match ? "✔ MATCH" : "❌ NO MATCH");
+//        console.log("  MATCH RESULT:", match ? "✔ MATCH" : "❌ NO MATCH");
 
         return match;
       });
 
       if (!game) {
-        console.warn(`❌ No match found for: ${scoreObj.away} @ ${scoreObj.home}`);
+//        console.warn(`❌ No match found for: ${scoreObj.away} @ ${scoreObj.home}`);
       } else {
         console.log(`✔ MATCH FOUND → ${game.away} @ ${game.home} = ${scoreObj.score}`);
 
@@ -86,14 +86,14 @@ function mergeScoresIntoSchedule(scoreMap) {
         game.homeScore = homeScore;
       }
 
-      console.groupEnd();
+//      console.groupEnd();
     });
 
-    console.group(`📌 FINAL scheduleData WEEK ${weekKey}`);
-    console.log(scheduleData.weeks[weekKey]);
-    console.groupEnd();
+//    console.group(`📌 FINAL scheduleData WEEK ${weekKey}`);
+//    console.log(scheduleData.weeks[weekKey]);
+//    console.groupEnd();
 
-    console.groupEnd();
+//    console.groupEnd();
   });
 }
 
