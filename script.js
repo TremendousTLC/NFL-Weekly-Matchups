@@ -78,7 +78,7 @@ function mergeScoresIntoSchedule(scoreMap) {
       if (!game) {
 //        console.warn(`❌ No match found for: ${scoreObj.away} @ ${scoreObj.home}`);
       } else {
-        console.log(`✔ MATCH FOUND → ${game.away} @ ${game.home} = ${scoreObj.score}`);
+//      console.log(`✔ MATCH FOUND → ${game.away} @ ${game.home} = ${scoreObj.score}`);
 
         const [awayScore, homeScore] = scoreObj.score.split("-").map(Number);
         game.score = scoreObj.score;
@@ -145,8 +145,6 @@ function setPickBackend(player, weekKey, weekObj) {
 
 async function initPicksSystem() {
   await loadPicks(currentSeason);
-
-  console.log("Picks system initialized.");
 }
 
 function normalizePickName(name) {
@@ -198,7 +196,6 @@ async function initApp() {
 async function initScores() {
   const scoreMap = await loadNFLScores();
   mergeScoresIntoSchedule(scoreMap);
-  console.log("Scores merged:", scoreMap);
 }
 
 const teamLogos = {
