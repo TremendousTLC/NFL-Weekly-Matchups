@@ -794,93 +794,47 @@ async function setPlayer() {
 }
 
 // --- SET PICK ---
-function setPick(weekKey, gameId, team) {
-  if (!currentPlayer) {
-    showNotification("Set your player name first.");
-    return;
-  }
+function setPick(player, weekKey, gameId, team) {
+  if (!picks[player]) picks[player] = {};
+  if (!picks[player][weekKey]) picks[player][weekKey] = {};
 
-  ensurePlayer(currentPlayer);
-  ensureWeek(currentPlayer, weekKey);
+  picks[player][weekKey][gameId] = team;
 
-  picks[currentPlayer][weekKey][gameId] = team;
-
-  setPickBackend(currentPlayer, weekKey, picks[currentPlayer][weekKey]);
+  // backend save
+  setPickBackend(player, weekKey, picks[player][weekKey]);
 
   renderPicksForWeek(weekKey);
-  showPlayerPicks(currentPlayer);
 }
 
 // --- RENDER WEEKLY PICKS ---
-function renderPicksForWeek(week) {
-  const container = document.getElementById("matchups-container");
+function renderPicksForWeek(weekKey) {
+  const container = document.getElementById("weekly-picks");
   container.innerHTML = "";
 
-  const weekKey = String(week);
   const games = scheduleData.weeks[weekKey].games;
   const weekPicks = picks[currentPlayer]?.[weekKey] || {};
 
   games.forEach(g => {
-    const pick = weekPicks[g.id] || null;
-
     const row = document.createElement("div");
-    row.className = "matchup-row";
+    row.className = "game-row";
 
     const awayBtn = document.createElement("button");
-    awayBtn.className = "team-btn";
     awayBtn.textContent = g.away;
+    awayBtn.onclick = () => setPick(currentPlayer, weekKey, g.id, g.away);
 
     const homeBtn = document.createElement("button");
-    homeBtn.className = "team-btn";
     homeBtn.textContent = g.home;
+    homeBtn.onclick = () => setPick(currentPlayer, weekKey, g.id, g.home);
 
-    // --- PLAYER PICK HIGHLIGHT ---
+    const pick = weekPicks[g.id];
+
     if (pick === g.away) awayBtn.classList.add("selected");
     if (pick === g.home) homeBtn.classList.add("selected");
 
-    // --- NFL WINNER + CORRECT/WRONG PICK HIGHLIGHT ---
-    if (g.score) {
-      const [a, b] = g.score.split("-").map(Number);
-      const winner = a > b ? g.away : g.home;
-
-      // Highlight actual NFL winner (subtle)
-      if (winner === g.away) awayBtn.classList.add("nfl-winner");
-      if (winner === g.home) homeBtn.classList.add("nfl-winner");
-
-      // Highlight correct/wrong pick
-      if (pick) {
-        if (pick === winner) {
-          // Correct pick
-          if (winner === g.away) awayBtn.classList.add("correct-pick");
-          if (winner === g.home) homeBtn.classList.add("correct-pick");
-        } else {
-          // Wrong pick
-          if (pick === g.away) awayBtn.classList.add("wrong-pick");
-          if (pick === g.home) homeBtn.classList.add("wrong-pick");
-        }
-      }
-    }
-
-    // --- CLICK HANDLERS ---
-    awayBtn.addEventListener("click", () => setPick(weekKey, g.id, g.away));
-    homeBtn.addEventListener("click", () => setPick(weekKey, g.id, g.home));
-
-    // --- SCORE DISPLAY ---
-    const scoreSpan = document.createElement("span");
-    scoreSpan.className = "score-display";
-    scoreSpan.textContent = `${g.awayScore ?? "-"} - ${g.homeScore ?? "-"}`;
-
-    // --- BUILD ROW ---
     row.appendChild(awayBtn);
     row.appendChild(homeBtn);
-    row.appendChild(scoreSpan);
-
     container.appendChild(row);
   });
-
-  // --- ALWAYS UPDATE STANDINGS ---
-  renderSeasonStandings();
-  renderWeekStandings(currentWeek);
 }
 
 // --- SHOW ALL WEEKS FOR A PLAYER ---
@@ -888,26 +842,25 @@ function showPlayerPicks(player) {
   const container = document.getElementById("player-picks-content");
   container.innerHTML = "";
 
-  const p = picks[player] || {};
+  const playerWeeks = picks[player] || {};
 
-  Object.keys(p)
-    .sort((a, b) => Number(a) - Number(b))
-    .forEach(weekKey => {
-      const weekPicks = p[weekKey];
-      const weekData = scheduleData.weeks[weekKey];
-      if (!weekData) return;
+  Object.keys(playerWeeks).sort((a, b) => Number(a) - Number(b)).forEach(weekKey => {
+    const weekData = scheduleData.weeks[weekKey];
+    if (!weekData) return;
 
-      const header = document.createElement("h4");
-      header.textContent = `Week ${weekKey}`;
-      container.appendChild(header);
+    const header = document.createElement("h4");
+    header.textContent = `Week ${weekKey}`;
+    container.appendChild(header);
 
-      weekData.games.forEach(g => {
-        const pick = weekPicks[g.id] || "No pick";
-        const line = document.createElement("div");
-        line.textContent = `${g.away} @ ${g.home} → ${pick}`;
-        container.appendChild(line);
-      });
+    const weekPicks = playerWeeks[weekKey];
+
+    weekData.games.forEach(g => {
+      const pick = weekPicks[g.id] || "No pick";
+      const line = document.createElement("div");
+      line.textContent = `${g.away} @ ${g.home} → ${pick}`;
+      container.appendChild(line);
     });
+  });
 
   document.getElementById("player-picks-panel").classList.remove("hidden");
 }
@@ -982,16 +935,15 @@ function computeSeasonRecord(player) {
   let wins = 0;
   let losses = 0;
 
-  const playerPicks = picks[player] || {};
+  const playerWeeks = picks[player] || {};
 
-  Object.keys(playerPicks).forEach(weekKey => {
+  Object.keys(playerWeeks).forEach(weekKey => {
     const weekData = scheduleData.weeks[weekKey];
     if (!weekData) return;
 
-    const weekPicks = playerPicks[weekKey];
-    const games = weekData.games;
+    const weekPicks = playerWeeks[weekKey];
 
-    games.forEach(g => {
+    weekData.games.forEach(g => {
       const winner = getWinner(g);
       if (!winner) return;
 
@@ -1014,9 +966,8 @@ function computeWeekRecord(player, weekKey) {
   if (!weekData) return { wins: 0, losses: 0 };
 
   const weekPicks = picks[player]?.[weekKey] || {};
-  const games = weekData.games;
 
-  games.forEach(g => {
+  weekData.games.forEach(g => {
     const winner = getWinner(g);
     if (!winner) return;
 
