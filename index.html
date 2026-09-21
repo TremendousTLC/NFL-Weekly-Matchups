@@ -2,172 +2,110 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>NFL Weekly Matchup-15</title>
-  <script src="script.js?v=15"></script>
-  <link rel="stylesheet" href="styles.css?v=4">
+  <title>NFL Weekly Matchup-16</title>
+  <script src="script.js?v=16"></script>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-  <!-- =============================== -->
-  <!-- HEADER WITH TEAM LOGOS          -->
-  <!-- =============================== -->
-  <header id="header">
-    <div id="logo-banner">
-      <img src="LOGOS/ARI.PNG" class="teamLogo">
-      <img src="LOGOS/ATL.PNG" class="teamLogo">
-      <img src="LOGOS/BAL.PNG" class="teamLogo">
-      <img src="LOGOS/BUF.PNG" class="teamLogo">
-      <img src="LOGOS/CAR.PNG" class="teamLogo">
-      <img src="LOGOS/CHI.PNG" class="teamLogo">
-      <img src="LOGOS/CIN.PNG" class="teamLogo">
-      <img src="LOGOS/CLE.PNG" class="teamLogo">
-      <img src="LOGOS/DAL.PNG" class="teamLogo">
-      <img src="LOGOS/DEN.PNG" class="teamLogo">
-      <img src="LOGOS/DET.PNG" class="teamLogo">
-      <img src="LOGOS/GB.PNG" class="teamLogo">
-      <img src="LOGOS/HOU.PNG" class="teamLogo">
-      <img src="LOGOS/IND.PNG" class="teamLogo">
-      <img src="LOGOS/JAX.PNG" class="teamLogo">
-      <img src="LOGOS/KC.PNG" class="teamLogo">
-      <img src="LOGOS/LAC.PNG" class="teamLogo">
-      <img src="LOGOS/LAR.PNG" class="teamLogo">
-      <img src="LOGOS/LV.PNG" class="teamLogo">
-	  <img src="LOGOS/MIA.PNG" class="teamLogo">
-      <img src="LOGOS/MIN.PNG" class="teamLogo">
-      <img src="LOGOS/NE.PNG" class="teamLogo">
-      <img src="LOGOS/NO.PNG" class="teamLogo">
-      <img src="LOGOS/NYG.PNG" class="teamLogo">
-      <img src="LOGOS/NYJ.PNG" class="teamLogo">
-      <img src="LOGOS/PHI.PNG" class="teamLogo">
-      <img src="LOGOS/PIT.PNG" class="teamLogo">
-      <img src="LOGOS/SEA.PNG" class="teamLogo">
-      <img src="LOGOS/SF.PNG" class="teamLogo">
-      <img src="LOGOS/TB.PNG" class="teamLogo">
-      <img src="LOGOS/TEN.PNG" class="teamLogo">
-      <img src="LOGOS/WAS.PNG" class="teamLogo">
-    </div>
-  </header>
+  <!-- LOGO BANNER -->
+  <div id="logo-banner"></div>
 
-  <!-- =============================== -->
-  <!-- MAIN LAYOUT GRID                -->
-  <!-- =============================== -->
-  <main id="layout">
+  <!-- MAIN LAYOUT: LEFT / CENTER / RIGHT -->
+  <div id="main-layout">
 
-    <!-- =============================== -->
-    <!-- LEFT COLUMN                     -->
-    <!-- =============================== -->
-    <section id="left-column">
+    <!-- ============================================================
+         LEFT PANEL
+    ============================================================ -->
+    <section id="left-panel">
 
-      <!-- PLAYER PANEL -->
-      <section id="player-panel">
-        <h2>Player</h2>
+      <h2>Player</h2>
 
-        <div class="panel-block">
-          <label>Player Name:</label>
-          <input id="player-name-input" type="text" placeholder="Enter name">
-          <button id="add-player-btn">Add Player</button>
-        </div>
+      <input id="player-name-input" type="text" placeholder="Enter name">
+      <button id="add-player-btn">Add Player</button>
 
-        <div class="panel-block">
-          <label>Select Player:</label>
-          <select id="player-list"></select>
-          <button id="delete-player-btn">Delete Player</button>
-        </div>
+      <h3>Select Player</h3>
+      <select id="player-list"></select>
+      <button id="delete-player-btn">Delete Player</button>
 
-        <div class="panel-block">
-          <button id="show-weekly-picks-btn">Show Weekly Picks</button>
-        </div>
-      </section>
+      <button id="show-weekly-picks-btn">Show Weekly Picks</button>
 
-      <!-- DETAILS PANEL -->
-      <section id="details-panel">
-        <h2>Pick Details</h2>
-        <div id="picks-detail-window">
-          Select a player to make picks.
-        </div>
-      </section>
+      <h3>Pick Details</h3>
+      <div id="picks-detail-window"></div>
 
-      <!-- LEAGUE STANDINGS PANEL -->
-      <section id="league-standings-panel">
-        <h2>League Standings</h2>
+      <h3>League Standings</h3>
+      <div class="standings-box">
+        <h4>Weekly Leaderboard</h4>
+        <div id="weekly-leaderboard"></div>
 
-        <div class="panel-block">
-          <h3>Weekly Leaderboard</h3>
-          <div id="weekly-leaderboard"></div>
-        </div>
-
-        <div class="panel-block">
-          <h3>Season Standings</h3>
-          <div id="season-standings"></div>
-        </div>
-      </section>
+        <h4>Season Standings</h4>
+        <div id="season-standings"></div>
+      </div>
 
     </section>
 
-    <!-- =============================== -->
-    <!-- CENTER COLUMN                    -->
-    <!-- =============================== -->
+    <!-- ============================================================
+         WEEKLY PICKS PANEL
+    ============================================================ -->
     <section id="weekly-picks-panel">
+
       <h2>Weekly Picks</h2>
 
-      <div class="panel-block week-header">
-        <button id="prev-week-btn">&lt; Prev</button>
-        <span id="current-week-label">Week 1</span>
-        <button id="next-week-btn">Next &gt;</button>
+      <div id="week-nav">
+        <button id="prev-week-btn">◀ Prev</button>
+        <span id="current-week-label">Week -</span>
+        <button id="next-week-btn">Next ▶</button>
       </div>
 
-      <div id="weekly-picks">
-        <!-- Games will render here -->
-      </div>
+      <!-- This is where bye weeks + matchup buttons appear -->
+      <div id="weekly-picks"></div>
 
-      <div class="panel-block">
+      <div class="picks-actions">
         <button id="submit-picks-btn">Submit Picks</button>
         <button id="edit-picks-btn">Edit Picks</button>
       </div>
+
     </section>
 
-    <!-- =============================== -->
-    <!-- RIGHT COLUMN                     -->
-    <!-- =============================== -->
-    <section id="right-column">
+    <!-- ============================================================
+         RIGHT PANEL
+    ============================================================ -->
+    <section id="right-panel">
 
-      <!-- NFL TEAM STANDINGS PANEL -->
-      <section id="nfl-standings-panel">
-        <h2 id="nfl-title">
-           NFL Team Standings
-           <span id="current-nfl-week"></span>
-        </h2>
+      <h2 id="nfl-title">
+        NFL Team Standings
+        <span id="current-nfl-week"></span>
+      </h2>
 
-        <div class="panel-block">
-          <h3>AFC Standings</h3>
-          <div id="afc-standings"></div>
-        </div>
+      <div class="standings-box">
+        <h3>AFC Standings</h3>
+        <div id="afc-standings"></div>
+      </div>
 
-        <div class="panel-block">
-          <h3>NFC Standings</h3>
-          <div id="nfc-standings"></div>
-        </div>
-      </section>
+      <div class="standings-box">
+        <h3>NFC Standings</h3>
+        <div id="nfc-standings"></div>
+      </div>
 
-      <!-- TEAM LEADERS PANEL -->
-      <section id="team-leaders-panel">
-        <h2>AFC Team Leaders</h2>
+      <div class="standings-box">
+        <h3>AFC Team Leaders</h3>
         <div id="afc-leaders"></div>
+      </div>
 
-        <h2>NFC Team Leaders</h2>
+      <div class="standings-box">
+        <h3>NFC Team Leaders</h3>
         <div id="nfc-leaders"></div>
-      </section>
+      </div>
 
-      <!-- NFL PLAYOFFS PANEL -->
-      <section id="playoffs-panel">
-        <h2>NFL Playoffs</h2>
-        <div id="playoff-bracket"></div>
-      </section>
+      <div class="standings-box">
+        <h3>NFL Playoffs</h3>
+        <div id="nfl-playoffs"></div>
+      </div>
 
     </section>
 
-  </main>
+  </div> <!-- END MAIN LAYOUT -->
 
 </body>
 </html>
