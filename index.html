@@ -1,88 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <title>NFL Weekly Matchup 092</title>
+  <title>NFL Weekly Matchup - 001</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-
-  <!-- TOP: LOGO BANNER -->
-  <div id="logo-banner"></div>
+  <!-- Top Logo Banner -->
+  <div id="logo-banner">
+    <!-- You can add <img class="teamLogo" src="..."> here -->
+    <span>NFL Weekly Matchup</span>
+  </div>
 
   <div id="app">
-
-    <!-- LEFT COLUMN -->
+    <!-- LEFT: LEAGUE PANEL -->
     <div id="left-column">
-
-      <!-- LEAGUE PANEL -->
       <section id="league-panel">
         <h2>League</h2>
 
         <div class="league-current-player">
-          <label for="player-name">Player / Team Name:</label>
-          <input type="text" id="player-name" placeholder="e.g. Terry, Legendary-Fake-Laugher">
-          <button id="set-player-btn">Set Player</button>
-          <button id="show-my-picks-btn">Show My Picks</button>
+          <input id="player-name-input" type="text" placeholder="Player / Team Name">
+          <button id="add-player-btn">Add Player</button>
+        </div>
+
+        <div>
+          <label for="player-list">Current Player:</label>
+          <select id="player-list"></select>
         </div>
 
         <div class="league-stats">
-          <p><strong>Total Participants:</strong> <span id="total-participants">0</span></p>
-          <p><strong>Participants This Week:</strong> <span id="week-participants">0</span></p>
+          <p>Total Participants: <span id="total-participants">0</span></p>
         </div>
 
-        <div class="league-actions">
-          <button id="leaderboard-btn">View Leaderboard</button>
-          <button id="view-submissions-btn">View Submissions</button>
-        </div>
+        <h3>Season Leaderboard</h3>
+        <div id="season-leaderboard"></div>
 
-        <div id="leaderboard-panel" class="panel hidden">
-          <h3>Season Leaderboard</h3>
-          <div id="leaderboard-list"></div>
-        </div>
+        <h3>Player Picks</h3>
+        <div id="player-picks-panel"></div>
 
-        <div id="player-picks-panel" class="side-panel">
-          <h3>Player Picks</h3>
-          <div id="player-picks-content"></div>
-        </div>
-
-        <h3>Season Standings</h3>
-        <div id="season-standings"></div>
-
-        <h3>Week Standings</h3>
-        <div id="week-standings"></div>
-
-        <div id="submissions-window" class="panel hidden">
-          <h3>Weekly Submissions</h3>
-          <div id="submissions-list"></div>
-        </div>
-      </section>
-
-      <!-- MANAGE PLAYERS -->
-      <div id="player-management" class="side-panel">
         <h3>Manage Players</h3>
-        <select id="player-list"></select>
-        <button id="delete-player-btn">Delete Player</button>
-      </div>
+        <section id="player-management">
+          <button id="delete-player-btn">Delete Player</button>
+        </section>
+      </section>
+    </div>
 
-    </div> <!-- END LEFT COLUMN -->
-
-
-    <!-- CENTER: WEEKLY PICKS PANEL -->
+    <!-- MIDDLE: WEEKLY PICKS -->
     <section id="picks-panel">
       <div id="weekly-picks-container">
-
         <h2 id="weekly-title">Weekly Picks</h2>
 
         <div id="week-selector">
-          <button id="prev-week" onclick="changeWeek(-1)">◀</button>
-          <span id="picks-current-week">Week -</span>
-          <button id="next-week" onclick="changeWeek(1)">▶</button>
+          <button id="prev-week-btn">◀</button>
+          <span id="picks-current-week">Week 1</span>
+          <button id="next-week-btn">▶</button>
         </div>
 
-        <!-- ⭐ THIS IS THE CRITICAL ELEMENT YOUR JS NEEDS ⭐ -->
         <div id="weekly-picks"></div>
 
         <div class="picks-actions">
@@ -90,79 +63,29 @@
           <button id="edit-picks-btn">Edit Picks</button>
         </div>
 
-        <div id="picks-notification" class="notification hidden"></div>
-
         <div id="picks-detail-window"></div>
-
       </div>
     </section>
 
-
-    <!-- RIGHT: NFL PANEL -->
+    <!-- RIGHT: NFL DASHBOARD -->
     <section id="nfl-panel">
       <h2>NFL Dashboard</h2>
+      <p>Current NFL Week: <span id="current-nfl-week">1</span></p>
 
-      <div id="current-week-display">
-        <strong>Current NFL Week:</strong> <span id="current-week">-</span>
-      </div>
+      <h3>AFC Standings</h3>
+      <div id="afc-standings"></div>
 
-      <div id="nfl-standings">
+      <h3>NFC Standings</h3>
+      <div id="nfc-standings"></div>
 
-        <!-- AFC block -->
-        <div class="conference-block">
-          <div class="conference-left">
-            <h3>AFC Standings</h3>
-            <div id="afc-standings"></div>
-          </div>
+      <h3>AFC Best Teams</h3>
+      <div id="afc-best"></div>
 
-          <div class="conference-right">
-            <h4>AFC Best Teams</h4>
-            <div id="afc-best"></div>
-          </div>
-        </div>
-
-        <!-- NFC block -->
-        <div class="conference-block">
-          <div class="conference-left">
-            <h3>NFC Standings</h3>
-            <div id="nfc-standings"></div>
-          </div>
-
-          <div class="conference-right">
-            <h4>NFC Best Teams</h4>
-            <div id="nfc-best"></div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="nfl-buttons">
-        <button id="teams-btn">Teams</button>
-        <button id="schedule-btn">NFL Schedule</button>
-      </div>
-
-      <div id="teams-panel" class="panel hidden">
-        <h3>Teams</h3>
-        <div id="teams-list"></div>
-      </div>
-
-      <div id="team-detail-panel" class="panel hidden">
-        <h3>Team Info & Schedule</h3>
-        <div id="team-info"></div>
-        <div id="team-schedule"></div>
-      </div>
-
-      <div id="nfl-schedule-panel" class="panel hidden">
-        <h3>NFL Schedule</h3>
-        <label for="schedule-week-select">Week:</label>
-        <select id="schedule-week-select"></select>
-        <div id="nfl-schedule-week"></div>
-      </div>
-
+      <h3>NFC Best Teams</h3>
+      <div id="nfc-best"></div>
     </section>
-
   </div>
 
-  <script src="script.js?v=160"></script>
+  <script src="script.js"></script>
 </body>
 </html>
