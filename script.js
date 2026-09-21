@@ -166,16 +166,20 @@ async function loadTeamInfo() {
 }
 
 async function initApp() {
-  await loadSchedule();
-  await mergeScores();
-  await loadPlayers();
+  await loadSchedule();     // loads scheduleData
+  await loadTeamInfo();     // loads teamInfo
+  await initScores();       // loads & merges scores
+  await initPicksSystem();  // loads picks
 
+  // If no players exist, stop here
   if (!currentPlayer) {
     console.warn("No players exist → waiting for player creation.");
     return;
   }
 
+  renderCurrentWeek();
   renderPicksForWeek(currentWeek);
+  renderStandings();
 }
 
 async function initScores() {
