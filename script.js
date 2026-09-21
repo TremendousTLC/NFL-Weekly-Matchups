@@ -166,20 +166,38 @@ async function loadTeamInfo() {
 }
 
 async function initApp() {
-  await loadSchedule();     // loads scheduleData
-  await loadTeamInfo();     // loads teamInfo
-  await initScores();       // loads & merges scores
-  await initPicksSystem();  // loads picks
+  console.log("🔵 initApp() starting…");
 
-  // If no players exist, stop here
+  await loadSchedule();     
+  console.log("✔ Schedule loaded");
+
+  await loadTeamInfo();     
+  console.log("✔ Team info loaded");
+
+  await initScores();       
+  console.log("✔ Scores merged");
+
+  await initPicksSystem();  
+  console.log("✔ Picks system initialized");
+
   if (!currentPlayer) {
-    console.warn("No players exist → waiting for player creation.");
-    return;
+    console.warn("⚠ No players exist → waiting for player creation.");
+    return;   // ← prevents early rendering
   }
 
   renderCurrentWeek();
+
+  const weeklyPicksEl = document.getElementById("weekly-picks");
+  if (!weeklyPicksEl) {
+    console.warn("⚠ weekly-picks element not found → delaying picks render.");
+    return;   // ← prevents DOM crash
+  }
+
   renderPicksForWeek(currentWeek);
+
   renderStandings();
+
+  console.log("✔ initApp() complete");
 }
 
 async function initScores() {
