@@ -1,4 +1,6 @@
-/* GLOBAL */
+/* ==================================================
+   GLOBAL STYLES
+================================================== */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -6,6 +8,7 @@ body {
   color: #f5f5f5;
 }
 
+/* ---------- Top Banner (NFL Logos) ---------- */
 #logo-banner {
   position: fixed;
   top: 0;
@@ -15,13 +18,24 @@ body {
   background: #0d1328;
   display: flex;
   justify-content: center;
-  align-items: center;
   gap: 10px;
   padding: 6px;
+  align-items: center;
   z-index: 1000;
   border-bottom: 2px solid #1a2135;
 }
 
+.teamLogo {
+  height: 48px;
+  width: auto;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.teamLogo:hover {
+  transform: scale(1.1);
+}
+
+/* ---------- MAIN APP GRID LAYOUT ---------- */
 #app {
   margin-top: 70px;
   display: grid;
@@ -32,13 +46,17 @@ body {
 }
 
 #league-panel,
+#player-picks-panel,
+#player-management,
 #picks-panel,
 #nfl-panel {
   width: 590px;
   box-sizing: border-box;
 }
 
-/* LEFT PANEL */
+/* ==================================================
+   LEFT PANEL — LEAGUE AREA
+================================================== */
 #left-column {
   display: flex;
   flex-direction: column;
@@ -62,18 +80,22 @@ body {
   align-items: center;
 }
 
-#player-name-input {
-  flex: 1;
-  padding: 6px 8px;
+#player-picks-panel {
+  background: #101528;
+  padding: 10px;
+  border-radius: 6px;
 }
 
-#add-player-btn,
-#delete-player-btn {
-  padding: 6px 10px;
-  cursor: pointer;
+#player-management {
+  background: #101528;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #333;
 }
 
-/* MIDDLE PANEL — WEEKLY PICKS */
+/* ==================================================
+   MIDDLE PANEL — WEEKLY PICKS (NEW CLEAN VERSION)
+================================================== */
 #picks-panel {
   background: #151a2c;
   padding: 12px 16px;
@@ -96,6 +118,7 @@ body {
   font-weight: bold;
 }
 
+/* ---------- Week Selector ---------- */
 #week-selector {
   display: flex;
   justify-content: center;
@@ -118,7 +141,9 @@ body {
   font-weight: bold;
 }
 
-/* WEEKLY PICKS BUTTON LAYOUT */
+/* ==================================================
+   WEEKLY PICKS — NEW BUTTON LAYOUT
+================================================== */
 #weekly-picks {
   display: flex;
   flex-direction: column;
@@ -162,19 +187,7 @@ body {
   border-color: #3e8e41 !important;
 }
 
-/* Correct / wrong / winner borders */
-.game-row.correct-pick {
-  border: 3px solid #00ff00;
-}
-.game-row.wrong-pick {
-  border: 3px solid #ff0000;
-}
-.game-row.nfl-winner {
-  border: 2px solid gold;
-  box-shadow: 0 0 6px gold;
-}
-
-/* Submit / Edit buttons */
+/* ---------- Submit / Edit Buttons ---------- */
 .picks-actions {
   margin-top: 20px;
   display: flex;
@@ -193,16 +206,9 @@ body {
   font-weight: bold;
 }
 
-#picks-detail-window {
-  margin-top: 10px;
-  background: #101528;
-  padding: 10px;
-  border-radius: 6px;
-  min-height: 80px;
-  color: #fff;
-}
-
-/* RIGHT PANEL — NFL DASHBOARD */
+/* ==================================================
+   RIGHT PANEL — NFL DASHBOARD
+================================================== */
 #nfl-panel {
   background: #151a2c;
   padding: 12px 16px;
@@ -247,6 +253,16 @@ body {
   gap: 6px;
 }
 
+.team-logo {
+  width: 16px;
+  height: 16px;
+}
+
 .best-list .team-row {
   grid-template-columns: 1fr 32px;
+}
+
+#team-info img {
+  width: 40px;
+  height: 40px;
 }
