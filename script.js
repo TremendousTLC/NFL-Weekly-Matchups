@@ -985,14 +985,17 @@ function computeSeasonRecord(player) {
   const playerPicks = picks[player] || {};
 
   Object.keys(playerPicks).forEach(weekKey => {
+    const weekData = scheduleData.weeks[weekKey];
+    if (!weekData) return;
+
     const weekPicks = playerPicks[weekKey];
-    const games = scheduleData.weeks[weekKey].games;
+    const games = weekData.games;
 
     games.forEach(g => {
       const winner = getWinner(g);
       if (!winner) return;
 
-      const pick = weekPicks[g.id];   // ⭐ FIXED: use gameId
+      const pick = weekPicks[g.id];
       if (!pick) return;
 
       if (pick === winner) wins++;
@@ -1007,14 +1010,17 @@ function computeWeekRecord(player, weekKey) {
   let wins = 0;
   let losses = 0;
 
+  const weekData = scheduleData.weeks[weekKey];
+  if (!weekData) return { wins: 0, losses: 0 };
+
   const weekPicks = picks[player]?.[weekKey] || {};
-  const games = scheduleData.weeks[weekKey].games;
+  const games = weekData.games;
 
   games.forEach(g => {
     const winner = getWinner(g);
     if (!winner) return;
 
-    const pick = weekPicks[g.id];   // ⭐ FIXED: use gameId
+    const pick = weekPicks[g.id];
     if (!pick) return;
 
     if (pick === winner) wins++;
@@ -1027,6 +1033,8 @@ function computeWeekRecord(player, weekKey) {
 function renderSeasonStandings() {
   const container = document.getElementById("season-standings");
   container.innerHTML = "";
+
+  if (!players) return;
 
   const rows = Object.keys(players).map(player => {
     const { wins, losses } = computeSeasonRecord(player);
@@ -1045,6 +1053,8 @@ function renderSeasonStandings() {
 function renderWeekStandings(weekKey) {
   const container = document.getElementById("week-standings");
   container.innerHTML = "";
+
+  if (!players) return;
 
   const rows = Object.keys(players).map(player => {
     const { wins, losses } = computeWeekRecord(player, weekKey);
