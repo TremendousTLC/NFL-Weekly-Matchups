@@ -894,14 +894,14 @@ function showPlayerPicks(player) {
     .sort((a, b) => Number(a) - Number(b))
     .forEach(weekKey => {
       const weekPicks = p[weekKey];
+      const weekData = scheduleData.weeks[weekKey];
+      if (!weekData) return;
 
       const header = document.createElement("h4");
       header.textContent = `Week ${weekKey}`;
       container.appendChild(header);
 
-      const games = scheduleData.weeks[weekKey].games;
-
-      games.forEach(g => {
+      weekData.games.forEach(g => {
         const pick = weekPicks[g.id] || "No pick";
         const line = document.createElement("div");
         line.textContent = `${g.away} @ ${g.home} → ${pick}`;
