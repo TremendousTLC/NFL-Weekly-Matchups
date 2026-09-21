@@ -1,7 +1,5 @@
 /* ==================================================
    GLOBAL STYLES
-   - Page background, fonts, colors
-   - Main app grid layout (3-column structure)
 ================================================== */
 body {
   margin: 0;
@@ -96,7 +94,7 @@ body {
 }
 
 /* ==================================================
-   MIDDLE PANEL — WEEKLY PICKS
+   MIDDLE PANEL — WEEKLY PICKS (NEW CLEAN VERSION)
 ================================================== */
 #picks-panel {
   background: #151a2c;
@@ -120,6 +118,7 @@ body {
   font-weight: bold;
 }
 
+/* ---------- Week Selector ---------- */
 #week-selector {
   display: flex;
   justify-content: center;
@@ -143,14 +142,12 @@ body {
 }
 
 /* ==================================================
-   ⭐ FINAL WORKING WEEKLY PICKS BUTTON LAYOUT
-   (Matches your screenshot, fixes broken display)
+   WEEKLY PICKS — NEW BUTTON LAYOUT
 ================================================== */
-
 #weekly-picks {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   width: 100%;
   margin-top: 10px;
 }
@@ -160,27 +157,28 @@ body {
   justify-content: space-between;
   align-items: center;
   background: #1a2135;
-  padding: 10px;
-  border-radius: 6px;
-  gap: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  gap: 12px;
 }
 
 .game-row button {
   flex: 1;
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid #888;
   background: #d0d0d0;
   color: #000;
   font-weight: bold;
   text-align: center;
-  transition: background 0.15s ease;
+  transition: background 0.15s ease, transform 0.1s ease;
 }
 
 .game-row button:hover {
   background: #b5b5b5;
+  transform: scale(1.03);
 }
 
 .game-row button.selected {
@@ -189,20 +187,23 @@ body {
   border-color: #3e8e41 !important;
 }
 
+/* ---------- Submit / Edit Buttons ---------- */
 .picks-actions {
-  margin-top: 15px;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .picks-actions button {
-  padding: 10px 16px;
-  font-size: 15px;
+  padding: 12px 18px;
+  font-size: 16px;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid #333;
   background: #eee;
+  color: #000;
+  font-weight: bold;
 }
 
 /* ==================================================
