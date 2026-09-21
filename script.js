@@ -154,24 +154,27 @@ function renderPicksForWeek(weekKey) {
     const homeBtn = document.createElement("button");
     homeBtn.textContent = g.home;
 
-    // click to pick only if player set
-    if (currentPlayer) {
-      awayBtn.onclick = () => setPick(currentPlayer, weekKey, g.id, g.away);
-      homeBtn.onclick = () => setPick(currentPlayer, weekKey, g.id, g.home);
-    } else {
-      awayBtn.disabled = true;
-      homeBtn.disabled = true;
-    }
+    // CLICK HANDLERS — GUARANTEED TO FIRE
+    awayBtn.addEventListener("click", () => {
+      if (!currentPlayer) return;
+      setPick(currentPlayer, weekKey, g.id, g.away);
+    });
 
-    // highlight selected pick
+    homeBtn.addEventListener("click", () => {
+      if (!currentPlayer) return;
+      setPick(currentPlayer, weekKey, g.id, g.home);
+    });
+
+    // HIGHLIGHT SELECTED PICK
     const pick = weekPicks[g.id];
     if (pick === g.away) awayBtn.classList.add("selected");
     if (pick === g.home) homeBtn.classList.add("selected");
 
-    // winner / correct / wrong borders
+    // WINNER / CORRECT / WRONG BORDERS
     const score = weekScores[g.id];
     if (score && score.winner) {
       row.classList.add("nfl-winner");
+
       if (pick) {
         if (pick === score.winner) {
           row.classList.add("correct-pick");
@@ -190,10 +193,20 @@ function renderPicksForWeek(weekKey) {
 }
 
 function setPick(player, weekKey, gameId, teamName) {
+  // Ensure player exists in picks structure
   if (!picks[player]) picks[player] = {};
   if (!picks[player][weekKey]) picks[player][weekKey] = {};
+
+  // Save the pick
   picks[player][weekKey][gameId] = teamName;
+
+  console.log("Pick saved:", player, weekKey, gameId, teamName);
+
+  // Re-render the week so highlight updates instantly
   renderPicksForWeek(weekKey);
+
+  // Update detail window
+  updatePicksDetail(weekKey);
 }
 
 // ===== SUBMIT PICKS =====
@@ -203,25 +216,32 @@ function submitPicks() {
       "Select a player before submitting picks.";
     return;
   }
-  const weekPicks = picks[currentPlayer]?.[currentWeek] || {};
-  const games = scheduleData.weeks[currentWeek].games;
-  const weekScores = scoresData[currentWeek] || {};
+
+  const weekKey = currentWeek;
+  const weekData = scheduleData.weeks[weekKey];
+  const weekScores = scoresData[weekKey] || {};
+  const weekPicks = picks[currentPlayer]?.[weekKey] || {};
 
   let correct = 0;
-  let total = games.length;
+  let total = weekData.games.length;
 
-  games.forEach(g => {
+  weekData.games.forEach(g => {
     const pick = weekPicks[g.id];
     const score = weekScores[g.id];
-    if (pick && score && score.winner && pick === score.winner) {
-      correct++;
+
+    if (pick && score && score.winner) {
+      if (pick === score.winner) {
+        correct++;
+      }
     }
   });
 
+  // Update detail window
   document.getElementById("picks-detail-window").textContent =
-    `Submitted: ${correct} correct out of ${total} games for ${currentPlayer}.`;
+    `${currentPlayer} submitted picks: ${correct} correct out of ${total} games.`;
 
-  renderPicksForWeek(currentWeek);
+  // Re-render to apply correct/wrong borders
+  renderPicksForWeek(weekKey);
 }
 
 // ===== STANDINGS (simple demo) =====
@@ -305,15 +325,21 @@ function renderStandings() {
 // ===== DETAIL =====
 function updatePicksDetail(weekKey) {
   const div = document.getElementById("picks-detail-window");
+
+  // No player selected
   if (!currentPlayer) {
     div.textContent = "Select a player to make picks.";
     return;
   }
+
+  const weekData = scheduleData.weeks[weekKey];
   const weekPicks = picks[currentPlayer]?.[weekKey] || {};
-  const games = scheduleData.weeks[weekKey].games;
-  const lines = games.map(g => {
+
+  // Build readable list of picks
+  const lines = weekData.games.map(g => {
     const pick = weekPicks[g.id] || "-";
     return `${g.away} vs ${g.home}: ${pick}`;
   });
+
   div.textContent = lines.join("\n");
 }
