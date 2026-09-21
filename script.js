@@ -355,6 +355,9 @@ function detectCurrentNFLWeek(schedule) {
 function renderCurrentWeek() {
   document.getElementById("current-week").textContent = `Week ${currentWeek}`; // NFL panel
   document.getElementById("picks-current-week").textContent = `Week ${currentWeek}`; // Picks panel
+  
+  renderSeasonStandings();
+  renderWeekStandings(currentWeek);
 }
 
 document.getElementById("prev-week").onclick = () => changeWeek(-1);
@@ -785,6 +788,9 @@ async function setPlayer() {
 
   renderPicksForWeek(currentWeek);
   showPlayerPicks(currentPlayer);
+  
+  renderSeasonStandings();
+  renderWeekStandings(currentWeek);
 }
 
 // --- SET PICK ---
@@ -871,6 +877,10 @@ function renderPicksForWeek(week) {
 
     container.appendChild(row);
   });
+
+  // --- ALWAYS UPDATE STANDINGS ---
+  renderSeasonStandings();
+  renderWeekStandings(currentWeek);
 }
 
 // --- SHOW ALL WEEKS FOR A PLAYER ---
@@ -922,6 +932,9 @@ function submitCurrentWeekPicks() {
 
   showNotification("Picks submitted.");
   updateLeagueStats();
+
+  renderSeasonStandings();
+  renderWeekStandings(currentWeek);
 }
 
 function renderPlayerPicksForWeek() {
@@ -949,6 +962,9 @@ function editCurrentWeekPicks() {
   if (!picks[player] || !picks[player][weekKey]) return;
 
   renderPicksForWeek(weekKey);
+  
+  renderSeasonStandings();
+  renderWeekStandings(currentWeek);
 }
 
 function getPick(weekKey, gameId) {
@@ -956,7 +972,96 @@ function getPick(weekKey, gameId) {
   return picks[player]?.[weekKey]?.[gameId] || null;
 }
 
-// --- LEAGUE STATS / LEADERBOARD (kept, minimal) ---
+function getWinner(game) {
+  if (!game.score) return null;
+  const [a, b] = game.score.split("-").map(Number);
+  return a > b ? game.away : game.home;
+}
+
+function computeSeasonRecord(player) {
+  let wins = 0;
+  let losses = 0;
+
+  const playerPicks = picks[player] || {};
+
+  Object.keys(playerPicks).forEach(weekKey => {
+    const weekPicks = playerPicks[weekKey];
+    const games = scheduleData.weeks[weekKey].games;
+
+    games.forEach(g => {
+      const winner = getWinner(g);
+      if (!winner) return;
+
+      const pick = weekPicks[g.id];
+      if (!pick) return;
+
+      if (pick === winner) wins++;
+      else losses++;
+    });
+  });
+
+  return { wins, losses };
+}
+
+function computeWeekRecord(player, weekKey) {
+  let wins = 0;
+  let losses = 0;
+
+  const weekPicks = picks[player]?.[weekKey] || {};
+  const games = scheduleData.weeks[weekKey].games;
+
+  games.forEach(g => {
+    const winner = getWinner(g);
+    if (!winner) return;
+
+    const pick = weekPicks[g.id];
+    if (!pick) return;
+
+    if (pick === winner) wins++;
+    else losses++;
+  });
+
+  return { wins, losses };
+}
+
+function renderSeasonStandings() {
+  const container = document.getElementById("season-standings");
+  container.innerHTML = "";
+
+  const rows = Object.keys(players).map(player => {
+    const { wins, losses } = computeSeasonRecord(player);
+    return { player, wins, losses };
+  });
+
+  rows.sort((a, b) => b.wins - a.wins);
+
+  rows.forEach(r => {
+    const div = document.createElement("div");
+    div.textContent = `${r.player}: ${r.wins}-${r.losses}`;
+    container.appendChild(div);
+  });
+}
+
+function renderWeekStandings(weekKey) {
+  const container = document.getElementById("week-standings");
+  container.innerHTML = "";
+
+  const rows = Object.keys(players).map(player => {
+    const { wins, losses } = computeWeekRecord(player, weekKey);
+    return { player, wins, losses };
+  });
+
+  rows.sort((a, b) => b.wins - a.wins);
+
+  rows.forEach(r => {
+    const div = document.createElement("div");
+    div.textContent = `${r.player}: ${r.wins}-${r.losses}`;
+    container.appendChild(div);
+  });
+}
+
+
+// --- NFL STATS / LEADERBOARD ---
 
 function updateLeagueStats() {
   const total = Object.keys(players).length;
