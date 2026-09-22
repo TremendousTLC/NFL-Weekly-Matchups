@@ -49,13 +49,13 @@ h2 {
    ============================================================ */
 
 #left-panel {
-  width: 22%;
+  width: 33%;
   padding: 10px;
 }
 
 #player-list,
 #player-name-input {
-  width: 100%;
+  width: 50%;
   margin-bottom: 8px;
 }
 
@@ -72,7 +72,7 @@ h2 {
    ============================================================ */
 
 #weekly-picks-panel {
-  width: 50%;
+  width: 33%;
   padding: 10px;
   text-align: center;
 }
@@ -164,7 +164,7 @@ h2 {
    ============================================================ */
 
 #right-panel {
-  width: 28%;
+  width: 33%;
   padding: 10px;
 }
 
