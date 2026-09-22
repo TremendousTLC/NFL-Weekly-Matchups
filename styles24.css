@@ -25,6 +25,17 @@ h2 {
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+/* Three panels: equal width */
+#left-panel,
+#weekly-picks-panel,
+#right-panel {
+  width: 33%;
+  box-sizing: border-box;
+  padding: 10px;
 }
 
 /* ============================================================
@@ -48,14 +59,9 @@ h2 {
    LEFT PANEL (PLAYER + DETAILS)
    ============================================================ */
 
-#left-panel {
-  width: 33%;
-  padding: 10px;
-}
-
 #player-list,
 #player-name-input {
-  width: 50%;
+  width: 100%;
   margin-bottom: 8px;
 }
 
@@ -72,8 +78,6 @@ h2 {
    ============================================================ */
 
 #weekly-picks-panel {
-  width: 33%;
-  padding: 10px;
   text-align: center;
 }
 
@@ -96,7 +100,7 @@ h2 {
   font-size: 14px;
 }
 
-/* Team grid */
+/* Team grid: one game per row */
 #weekly-picks {
   display: flex;
   flex-direction: column;   /* stack rows vertically */
@@ -109,10 +113,9 @@ h2 {
   width: 260px;
   display: flex;
   justify-content: space-between;
-  margin: 4px auto;
 }
 
-/* Team buttons — compact, not full width */
+/* Team buttons — compact */
 #weekly-picks .game-row button {
   width: 120px;
   padding: 6px 10px;
@@ -163,12 +166,6 @@ h2 {
    RIGHT PANEL (STANDINGS)
    ============================================================ */
 
-#right-panel {
-  width: 33%;
-  padding: 10px;
-}
-
-/* NFL Team Standings title with right-aligned week */
 #nfl-title {
   display: flex;
   justify-content: space-between;
@@ -186,4 +183,29 @@ h2 {
   padding: 10px;
   border-radius: 6px;
   margin-top: 10px;
+}
+
+/* ============================================================
+   GENERAL BUTTON STYLES
+   ============================================================ */
+
+button {
+  font-family: inherit;
+}
+
+/* ============================================================
+   RESPONSIVE TWEAKS
+   ============================================================ */
+
+@media (max-width: 900px) {
+  #main-layout {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #left-panel,
+  #weekly-picks-panel,
+  #right-panel {
+    width: 100%;
+  }
 }
