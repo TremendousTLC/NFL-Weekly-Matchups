@@ -1,110 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>NFL Weekly Matchup-32</title>
-  <script defer src="script.js?v=32"></script>
-  <link rel="stylesheet" href="styles24.css">
+    <meta charset="UTF-8">
+    <title>NFL Weekly Matchup-33</title>
+	<script defer src="script.js?v=33"></script>
+    <link rel="stylesheet" href="styles24.css">
 </head>
 
 <body>
 
-  <!-- LOGO BANNER -->
-  <div id="logo-banner"></div>
-
-  <!-- MAIN LAYOUT: LEFT / CENTER / RIGHT -->
-  <div id="main-layout">
+    <!-- ============================================================
+         LOGO BANNER
+    ============================================================ -->
+    <div id="logo-banner"></div>
 
     <!-- ============================================================
-         LEFT PANEL
+         MAIN LAYOUT (LEFT / CENTER / RIGHT PANELS)
     ============================================================ -->
-    <section id="left-panel">
+    <div id="main-layout">
 
-      <h2>Player</h2>
+        <!-- ============================================================
+             LEFT PANEL — PLAYER + PICK DETAILS + LEAGUE STANDINGS
+        ============================================================ -->
+        <div id="left-panel">
 
-      <input id="player-name-input" type="text" placeholder="Enter name">
-      <button id="add-player-btn">Add Player</button>
+            <h2>Player</h2>
 
-      <h3>Select Player</h3>
-      <select id="player-list"></select>
-      <button id="delete-player-btn">Delete Player</button>
+            <input id="player-name-input" type="text" placeholder="Enter name">
+            <button onclick="addPlayer()">Add Player</button>
 
-      <button id="show-weekly-picks-btn">Show Weekly Picks</button>
+            <select id="player-list"></select>
 
-      <h3>Pick Details</h3>
-      <div id="picks-detail-window"></div>
+            <button onclick="deletePlayer()">Delete Player</button>
+            <button onclick="showWeeklyPicks()">Show Weekly Picks</button>
 
-      <h3>League Standings</h3>
-      <div class="standings-box">
-        <h4>Weekly Leaderboard</h4>
-        <div id="weekly-leaderboard"></div>
+            <h2>Pick Details</h2>
+            <div id="picks-detail-window"></div>
 
-        <h4>Season Standings</h4>
-        <div id="season-standings"></div>
-      </div>
+            <h2>League Standings</h2>
 
-    </section>
+            <div class="standings-box">
+                <h3>Weekly Leaderboard</h3>
+            </div>
 
-    <!-- ============================================================
-         WEEKLY PICKS PANEL
-    ============================================================ -->
-    <section id="weekly-picks-panel">
+            <div class="standings-box">
+                <h3>Season Standings</h3>
+            </div>
 
-      <h2>Weekly Picks</h2>
+        </div>
 
-      <div id="week-nav">
-        <button id="prev-week-btn">◀ Prev</button>
-        <span id="current-week-label">Week -</span>
-        <button id="next-week-btn">Next ▶</button>
-      </div>
+        <!-- ============================================================
+             CENTER PANEL — WEEKLY PICKS
+        ============================================================ -->
+        <div id="weekly-picks-panel">
 
-      <div id="weekly-picks"></div>
+            <h2>Weekly Picks — <span id="current-week-label"></span></h2>
 
-      <div class="picks-actions">
-        <button id="submit-picks-btn">Submit Picks</button>
-        <button id="edit-picks-btn">Edit Picks</button>
-      </div>
+            <div id="week-nav">
+                <button onclick="changeWeek(-1)">Prev</button>
+                <span id="current-week-label"></span>
+                <button onclick="changeWeek(1)">Next</button>
+            </div>
 
-    </section>
+            <div id="weekly-picks"></div>
 
-    <!-- ============================================================
-         RIGHT PANEL
-    ============================================================ -->
-    <section id="right-panel">
+            <div class="picks-actions">
+                <button onclick="submitPicks()">Submit Picks</button>
+                <button onclick="editPicks()">Edit Picks</button>
+            </div>
 
-      <h2 id="nfl-title">
-        NFL Team Standings
-        <span id="current-nfl-week"></span>
-      </h2>
+        </div>
 
-      <div class="standings-box">
-        <h3>AFC Standings</h3>
-        <div id="afc-standings"></div>
-      </div>
+        <!-- ============================================================
+             RIGHT PANEL — NFL TEAM STANDINGS
+        ============================================================ -->
+        <div id="right-panel">
 
-      <div class="standings-box">
-        <h3>NFC Standings</h3>
-        <div id="nfc-standings"></div>
-      </div>
+            <h2 id="nfl-title">
+                NFL Team Standings
+                <span id="current-nfl-week"></span>
+            </h2>
 
-      <div class="standings-box">
-        <h3>AFC Team Leaders</h3>
-        <div id="afc-leaders"></div>
-      </div>
+            <div class="standings-box">
+                <button onclick="showAFCStandings()">AFC Standings</button>
+            </div>
 
-      <div class="standings-box">
-        <h3>NFC Team Leaders</h3>
-        <div id="nfc-leaders"></div>
-      </div>
+            <div class="standings-box">
+                <button onclick="showNFCStandings()">NFC Standings</button>
+            </div>
 
-      <div class="standings-box">
-        <h3>NFL Playoffs</h3>
-        <div id="nfl-playoffs"></div>
-      </div>
+            <div class="standings-box">
+                <button onclick="showAFCLeaders()">AFC Team Leaders</button>
+            </div>
 
-    </section>
+            <div class="standings-box">
+                <button onclick="showNFCLeaders()">NFC Team Leaders</button>
+            </div>
 
-  </div> <!-- END MAIN LAYOUT -->
-    
-  </body>
+            <div class="standings-box">
+                <button onclick="showPlayoffs()">NFL Playoffs</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
 </html>
