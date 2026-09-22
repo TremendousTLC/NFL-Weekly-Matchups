@@ -99,8 +99,8 @@ h2 {
 /* Team grid */
 #weekly-picks {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;   /* stack rows vertically */
+  align-items: center;       /* center each row */
   gap: 10px;
 }
 
