@@ -40,8 +40,8 @@ async function loadData() {
 
 function detectNFLWeek() {
   const today = new Date();
-  const month = today.getMonth() + 1;
-  const day   = today.getDate();
+  const todayMonth = today.getMonth() + 1; // Sept = 9
+  const todayDay = today.getDate();        // 22
 
   const weeksObj = schedule.weeks;
 
@@ -51,12 +51,16 @@ function detectNFLWeek() {
 
     const firstGame = weekData.games[0];
 
-    // Parse "Sep 9" → month/day
-    const [gMonthStr, gDayStr] = firstGame.date.replace(/[^\w\s]/g, "").split(" ");
-    const gMonth = monthNameToNumber(gMonthStr);
-    const gDay   = parseInt(gDayStr);
+    // Example: "Thu Sept 24"
+    const parts = firstGame.date.split(" ");
+    const monthName = parts[1];     // "Sept"
+    const dayNumber = parseInt(parts[2]); // 24
 
-    if (gMonth > month || (gMonth === month && gDay >= day)) {
+    const gameMonth = monthNameToNumber(monthName);
+    const gameDay = dayNumber;
+
+    // First future week = current NFL week
+    if (gameMonth > todayMonth || (gameMonth === todayMonth && gameDay >= todayDay)) {
       nflCurrentWeek = w;
       return;
     }
@@ -68,7 +72,7 @@ function detectNFLWeek() {
 function monthNameToNumber(name) {
   const map = {
     "Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,
-    "Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12
+    "Jul":7,"Aug":8,"Sep":9,"Sept":9,"Oct":10,"Nov":11,"Dec":12
   };
   return map[name] || 1;
 }
