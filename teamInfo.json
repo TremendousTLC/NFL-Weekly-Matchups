@@ -175,17 +175,6 @@
     "conference": "AFC",
     "division": "West"
   },
-  "Raiders": {
-    "fullName": "Las Vegas Raiders",
-    "mascotName": "Raiders",
-    "cityName": "Las Vegas",
-    "abbrevName": "LV",
-    "stadium": "Allegiant Stadium",
-    "city": "Las Vegas, NV",
-    "coach": "Antonio Pierce",
-    "conference": "AFC",
-    "division": "West"
-  },
   "Chargers": {
     "fullName": "Los Angeles Chargers",
     "mascotName": "Chargers",
@@ -206,6 +195,17 @@
     "city": "Inglewood, CA",
     "coach": "Sean McVay",
     "conference": "NFC",
+    "division": "West"
+  },
+  "Raiders": {
+    "fullName": "Las Vegas Raiders",
+    "mascotName": "Raiders",
+    "cityName": "Las Vegas",
+    "abbrevName": "LV",
+    "stadium": "Allegiant Stadium",
+    "city": "Las Vegas, NV",
+    "coach": "Antonio Pierce",
+    "conference": "AFC",
     "division": "West"
   },
   "Dolphins": {
