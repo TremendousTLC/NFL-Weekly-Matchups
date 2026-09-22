@@ -1,32 +1,22 @@
-/* ============================================================
-   GLOBAL STATE
-   ============================================================ */
-
 let players = [];
 let currentPlayer = null;
 
-let currentWeek = 1;          // Weekly Picks navigation
-let nflCurrentWeek = 1;       // True NFL week (fixed)
+let currentWeek = 1;
+let nflCurrentWeek = 1;
 
-let schedule = {};            // full JSON object
+let schedule = {};
 let scores = [];
 let teamInfo = [];
 
-/* ============================================================
-   INITIAL LOAD
-   ============================================================ */
-
 window.onload = async () => {
   await loadData();
+  renderLogos();
   detectNFLWeek();
+  currentWeek = nflCurrentWeek;   // FIXED
   renderNFLWeekTitle();
   renderPlayerList();
   renderCurrentWeek();
 };
-
-/* ============================================================
-   LOAD JSON DATA
-   ============================================================ */
 
 async function loadData() {
   schedule = await fetch("2026_NFL_schedule.json").then(r => r.json());
@@ -34,32 +24,42 @@ async function loadData() {
   teamInfo = await fetch("teamInfo.json").then(r => r.json());
 }
 
-/* ============================================================
-   DETECT TRUE NFL WEEK (MATCHES YOUR JSON)
-   ============================================================ */
+/* LOGOS */
+function renderLogos() {
+  const banner = document.getElementById("logo-banner");
+  banner.innerHTML = "";
 
+  const teams = Object.values(teamInfo);
+
+  teams.forEach(team => {
+    const img = document.createElement("img");
+    img.src = team.logo;
+    img.className = "teamLogo";
+    banner.appendChild(img);
+  });
+}
+
+/* NFL WEEK DETECTION */
 function detectNFLWeek() {
   const today = new Date();
-  const todayMonth = today.getMonth() + 1; // Sept = 9
-  const todayDay = today.getDate();        // 22
+  const todayMonth = today.getMonth() + 1;
+  const todayDay = today.getDate();
 
   const weeksObj = schedule.weeks;
 
   for (let w = 1; w <= 18; w++) {
     const weekData = weeksObj[w];
-    if (!weekData || !weekData.games || weekData.games.length === 0) continue;
+    if (!weekData || !weekData.games.length) continue;
 
     const firstGame = weekData.games[0];
 
-    // Example: "Thu Sept 24"
     const parts = firstGame.date.split(" ");
-    const monthName = parts[1];     // "Sept"
-    const dayNumber = parseInt(parts[2]); // 24
+    const monthName = parts[1];
+    const dayNumber = parseInt(parts[2]);
 
     const gameMonth = monthNameToNumber(monthName);
     const gameDay = dayNumber;
 
-    // First future week = current NFL week
     if (gameMonth > todayMonth || (gameMonth === todayMonth && gameDay >= todayDay)) {
       nflCurrentWeek = w;
       return;
@@ -77,19 +77,13 @@ function monthNameToNumber(name) {
   return map[name] || 1;
 }
 
-/* ============================================================
-   NFL WEEK TITLE
-   ============================================================ */
-
+/* NFL WEEK TITLE */
 function renderNFLWeekTitle() {
   const span = document.getElementById("current-nfl-week");
   if (span) span.textContent = `Week ${nflCurrentWeek}`;
 }
 
-/* ============================================================
-   PLAYER MANAGEMENT
-   ============================================================ */
-
+/* PLAYER MANAGEMENT */
 function addPlayer() {
   const nameInput = document.getElementById("player-name-input");
   const name = nameInput.value.trim();
@@ -129,14 +123,10 @@ function renderPlayerList() {
 }
 
 function clearPickDetails() {
-  const win = document.getElementById("picks-detail-window");
-  win.innerHTML = "";
+  document.getElementById("picks-detail-window").innerHTML = "";
 }
 
-/* ============================================================
-   WEEKLY PICKS NAVIGATION
-   ============================================================ */
-
+/* WEEK NAVIGATION */
 function changeWeek(delta) {
   currentWeek += delta;
   if (currentWeek < 1) currentWeek = 1;
@@ -146,16 +136,16 @@ function changeWeek(delta) {
 }
 
 function renderCurrentWeek() {
-  const weekLabel = document.getElementById("current-week-label");
-  if (weekLabel) weekLabel.textContent = `Week ${currentWeek}`;
+  const headerLabel = document.getElementById("current-week-label");
+  const navLabel = document.getElementById("current-week-nav");
+
+  if (headerLabel) headerLabel.textContent = `Week ${currentWeek}`;
+  if (navLabel) navLabel.textContent = `Week ${currentWeek}`;
 
   renderWeeklyPicks();
 }
 
-/* ============================================================
-   WEEKLY PICKS DISPLAY (MATCHES YOUR JSON)
-   ============================================================ */
-
+/* WEEKLY PICKS */
 function renderWeeklyPicks() {
   const container = document.getElementById("weekly-picks");
   container.innerHTML = "";
@@ -181,10 +171,7 @@ function renderWeeklyPicks() {
   });
 }
 
-/* ============================================================
-   PICK SELECTION
-   ============================================================ */
-
+/* PICK SELECTION */
 function selectPick(game, team) {
   if (!currentPlayer) return;
 
@@ -196,18 +183,7 @@ function selectPick(game, team) {
   `;
 }
 
-/* ============================================================
-   SHOW WEEKLY PICKS FOR PLAYER
-   ============================================================ */
-
-function showWeeklyPicks() {
-  renderCurrentWeek();
-}
-
-/* ============================================================
-   STANDINGS PLACEHOLDERS
-   ============================================================ */
-
+/* STANDINGS PLACEHOLDERS */
 function showAFCStandings() { alert("AFC Standings coming soon!"); }
 function showNFCStandings() { alert("NFC Standings coming soon!"); }
 function showAFCLeaders()   { alert("AFC Leaders coming soon!"); }

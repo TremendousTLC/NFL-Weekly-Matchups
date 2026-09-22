@@ -2,26 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NFL Weekly Matchup-35</title>
-	<script defer src="script.js?v=35"></script>
+    <title>NFL Weekly Matchup-36</title>
+	<script defer src="script.js?v=36"></script>
     <link rel="stylesheet" href="styles24.css">
 </head>
 
 <body>
 
-    <!-- ============================================================
-         LOGO BANNER
-    ============================================================ -->
+    <!-- LOGO BANNER -->
     <div id="logo-banner"></div>
 
-    <!-- ============================================================
-         MAIN LAYOUT (LEFT / CENTER / RIGHT PANELS)
-    ============================================================ -->
+    <!-- MAIN LAYOUT -->
     <div id="main-layout">
 
-        <!-- ============================================================
-             LEFT PANEL — PLAYER + PICK DETAILS + LEAGUE STANDINGS
-        ============================================================ -->
+        <!-- LEFT PANEL -->
         <div id="left-panel">
 
             <h2>Player</h2>
@@ -49,16 +43,14 @@
 
         </div>
 
-        <!-- ============================================================
-             CENTER PANEL — WEEKLY PICKS
-        ============================================================ -->
+        <!-- WEEKLY PICKS PANEL -->
         <div id="weekly-picks-panel">
 
             <h2>Weekly Picks — <span id="current-week-label"></span></h2>
 
             <div id="week-nav">
                 <button onclick="changeWeek(-1)">Prev</button>
-                <span id="current-week-label"></span>
+                <span id="current-week-nav"></span>
                 <button onclick="changeWeek(1)">Next</button>
             </div>
 
@@ -71,9 +63,7 @@
 
         </div>
 
-        <!-- ============================================================
-             RIGHT PANEL — NFL TEAM STANDINGS
-        ============================================================ -->
+        <!-- RIGHT PANEL -->
         <div id="right-panel">
 
             <h2 id="nfl-title">
