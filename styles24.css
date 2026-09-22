@@ -1,264 +1,86 @@
-/* ============================================================
-   TEAM LOGOS (RESTORED)
-   ============================================================ */
-
-const teamLogos = {
-  ARI: "LOGOS/ARI.PNG",
-  ATL: "LOGOS/ATL.PNG",
-  BAL: "LOGOS/BAL.PNG",
-  BUF: "LOGOS/BUF.PNG",
-  CAR: "LOGOS/CAR.PNG",
-  CHI: "LOGOS/CHI.PNG",
-  CIN: "LOGOS/CIN.PNG",
-  CLE: "LOGOS/CLE.PNG",
-  DAL: "LOGOS/DAL.PNG",
-  DEN: "LOGOS/DEN.PNG",
-  DET: "LOGOS/DET.PNG",
-  GB:  "LOGOS/GB.PNG",
-  HOU: "LOGOS/HOU.PNG",
-  IND: "LOGOS/IND.PNG",
-  JAX: "LOGOS/JAX.PNG",
-  KC:  "LOGOS/KC.PNG",
-  LAC: "LOGOS/LAC.PNG",
-  LAR: "LOGOS/LAR.PNG",
-  LV:  "LOGOS/LV.PNG",
-  MIA: "LOGOS/MIA.PNG",
-  MIN: "LOGOS/MIN.PNG",
-  NE:  "LOGOS/NE.PNG",
-  NO:  "LOGOS/NO.PNG",
-  NYG: "LOGOS/NYG.PNG",
-  NYJ: "LOGOS/NYJ.PNG",
-  PHI: "LOGOS/PHI.PNG",
-  PIT: "LOGOS/PIT.PNG",
-  SEA: "LOGOS/SEA.PNG",
-  SF:  "LOGOS/SF.PNG",
-  TB:  "LOGOS/TB.PNG",
-  TEN: "LOGOS/TEN.PNG",
-  WAS: "LOGOS/WAS.PNG"
-};
-
-/* ============================================================
-   GLOBAL STATE
-   ============================================================ */
-
-let players = [];
-let currentPlayer = null;
-
-let currentWeek = 1;
-let nflCurrentWeek = 1;
-
-let schedule = {};
-let scores = [];
-let teamInfo = [];
-
-/* ============================================================
-   INITIAL LOAD
-   ============================================================ */
-
-window.onload = async () => {
-  await loadData();
-  loadLogoBanner();          // FIXED
-  detectNFLWeek();
-  currentWeek = nflCurrentWeek;   // FIXED
-  renderNFLWeekTitle();
-  renderPlayerList();
-  renderCurrentWeek();
-};
-
-/* ============================================================
-   LOAD JSON DATA
-   ============================================================ */
-
-async function loadData() {
-  schedule = await fetch("2026_NFL_schedule.json").then(r => r.json());
-  scores   = await fetch("scores_2026.json").then(r => r.json());
-  teamInfo = await fetch("teamInfo.json").then(r => r.json());
+body {
+  background-color: #4a00ff !important;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-/* ============================================================
-   LOGO BANNER (RESTORED)
-   ============================================================ */
-
-function loadLogoBanner() {
-  const banner = document.getElementById("logo-banner");
-  banner.innerHTML = "";
-
-  Object.keys(teamLogos).forEach(team => {
-    const img = document.createElement("img");
-    img.src = teamLogos[team];
-    img.className = "teamLogo";
-    banner.appendChild(img);
-  });
+/* MAIN LAYOUT */
+#main-layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
 }
 
-/* ============================================================
-   NFL WEEK DETECTION
-   ============================================================ */
-
-function detectNFLWeek() {
-  const today = new Date();
-  const todayMonth = today.getMonth() + 1;
-  const todayDay = today.getDate();
-
-  const weeksObj = schedule.weeks;
-
-  for (let w = 1; w <= 18; w++) {
-    const weekData = weeksObj[w];
-    if (!weekData || !weekData.games.length) continue;
-
-    const firstGame = weekData.games[0];
-
-    const parts = firstGame.date.split(" ");
-    const monthName = parts[1];
-    const dayNumber = parseInt(parts[2]);
-
-    const gameMonth = monthNameToNumber(monthName);
-    const gameDay = dayNumber;
-
-    if (gameMonth > todayMonth || (gameMonth === todayMonth && gameDay >= todayDay)) {
-      nflCurrentWeek = w;
-      return;
-    }
-  }
-
-  nflCurrentWeek = 18;
+/* PANELS */
+#left-panel,
+#weekly-picks-panel,
+#right-panel {
+  width: 33%;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-function monthNameToNumber(name) {
-  const map = {
-    "Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,
-    "Jul":7,"Aug":8,"Sep":9,"Sept":9,"Oct":10,"Nov":11,"Dec":12
-  };
-  return map[name] || 1;
+/* LOGO BANNER */
+#logo-banner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 0;
 }
 
-/* ============================================================
-   NFL WEEK TITLE
-   ============================================================ */
-
-function renderNFLWeekTitle() {
-  const span = document.getElementById("current-nfl-week");
-  if (span) span.textContent = `Week ${nflCurrentWeek}`;
+.teamLogo {
+  width: 40px;
+  height: 40px;
 }
 
-/* ============================================================
-   PLAYER MANAGEMENT
-   ============================================================ */
-
-function addPlayer() {
-  const nameInput = document.getElementById("player-name-input");
-  const name = nameInput.value.trim();
-  if (!name) return;
-
-  if (!players.includes(name)) players.push(name);
-  nameInput.value = "";
-
-  renderPlayerList();
+/* WEEK NAVIGATION */
+#week-nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 10px;
 }
 
-function deletePlayer() {
-  if (!currentPlayer) return;
-
-  players = players.filter(p => p !== currentPlayer);
-  currentPlayer = null;
-
-  renderPlayerList();
-  clearPickDetails();
+/* WEEKLY PICKS */
+#weekly-picks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
-function renderPlayerList() {
-  const list = document.getElementById("player-list");
-  list.innerHTML = "";
-
-  players.forEach(player => {
-    const option = document.createElement("option");
-    option.value = player;
-    option.textContent = player;
-    list.appendChild(option);
-  });
-
-  list.onchange = () => {
-    currentPlayer = list.value;
-    showWeeklyPicks();
-  };
+.game-row {
+  width: 260px;
+  display: flex;
+  justify-content: space-between;
 }
 
-function clearPickDetails() {
-  document.getElementById("picks-detail-window").innerHTML = "";
+.game-row button {
+  width: 120px;
+  padding: 6px 10px;
+  background: #333;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 4px;
 }
 
-/* ============================================================
-   WEEK NAVIGATION
-   ============================================================ */
-
-function changeWeek(delta) {
-  currentWeek += delta;
-  if (currentWeek < 1) currentWeek = 1;
-  if (currentWeek > 18) currentWeek = 18;
-
-  renderCurrentWeek();
+/* PICK ACTION BUTTONS */
+.picks-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 15px;
 }
 
-function renderCurrentWeek() {
-  const headerLabel = document.getElementById("current-week-label");
-  const navLabel = document.getElementById("current-week-nav");
-
-  if (headerLabel) headerLabel.textContent = `Week ${currentWeek}`;
-  if (navLabel) navLabel.textContent = `Week ${currentWeek}`;
-
-  renderWeeklyPicks();
+/* STANDINGS BOXES */
+.standings-box {
+  background: #222;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
 }
-
-/* ============================================================
-   WEEKLY PICKS
-   ============================================================ */
-
-function renderWeeklyPicks() {
-  const container = document.getElementById("weekly-picks");
-  container.innerHTML = "";
-
-  const weekData = schedule.weeks[currentWeek];
-  if (!weekData || !weekData.games) return;
-
-  weekData.games.forEach(game => {
-    const row = document.createElement("div");
-    row.className = "game-row";
-
-    const awayBtn = document.createElement("button");
-    awayBtn.textContent = game.away;
-    awayBtn.onclick = () => selectPick(game, game.away);
-
-    const homeBtn = document.createElement("button");
-    homeBtn.textContent = game.home;
-    homeBtn.onclick = () => selectPick(game, game.home);
-
-    row.appendChild(awayBtn);
-    row.appendChild(homeBtn);
-    container.appendChild(row);
-  });
-}
-
-/* ============================================================
-   PICK SELECTION
-   ============================================================ */
-
-function selectPick(game, team) {
-  if (!currentPlayer) return;
-
-  const win = document.getElementById("picks-detail-window");
-  win.innerHTML = `
-    <strong>Week ${currentWeek}</strong><br>
-    ${game.away} vs ${game.home}<br>
-    <strong>Pick:</strong> ${team}
-  `;
-}
-
-/* ============================================================
-   STANDINGS PLACEHOLDERS
-   ============================================================ */
-
-function showAFCStandings() { alert("AFC Standings coming soon!"); }
-function showNFCStandings() { alert("NFC Standings coming soon!"); }
-function showAFCLeaders()   { alert("AFC Leaders coming soon!"); }
-function showNFCLeaders()   { alert("NFC Leaders coming soon!"); }
-function showPlayoffs()     { alert("NFL Playoffs coming soon!"); }
