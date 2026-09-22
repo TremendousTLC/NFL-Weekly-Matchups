@@ -5,9 +5,10 @@
 let players = [];
 let currentPlayer = null;
 
-let currentWeek = 1;              // Weekly Picks navigation week
-let nflCurrentWeek = 1;           // True NFL week (fixed)
-let schedule = [];
+let currentWeek = 1;          // Weekly Picks navigation
+let nflCurrentWeek = 1;       // True NFL week (fixed)
+
+let schedule = {};            // full JSON object
 let scores = [];
 let teamInfo = [];
 
@@ -34,7 +35,7 @@ async function loadData() {
 }
 
 /* ============================================================
-   DETECT TRUE NFL WEEK (DOES NOT CHANGE)
+   DETECT TRUE NFL WEEK (MATCHES YOUR JSON)
    ============================================================ */
 
 function detectNFLWeek() {
@@ -42,12 +43,18 @@ function detectNFLWeek() {
   const month = today.getMonth() + 1;
   const day   = today.getDate();
 
-  // Simple logic: find first week whose date is >= today
-  for (let w = 1; w <= 18; w++) {
-    const game = schedule.find(g => g.week === w);
-    if (!game) continue;
+  const weeksObj = schedule.weeks;
 
-    const [gMonth, gDay] = game.date.split("/").map(Number);
+  for (let w = 1; w <= 18; w++) {
+    const weekData = weeksObj[w];
+    if (!weekData || !weekData.games || weekData.games.length === 0) continue;
+
+    const firstGame = weekData.games[0];
+
+    // Parse "Sep 9" → month/day
+    const [gMonthStr, gDayStr] = firstGame.date.replace(/[^\w\s]/g, "").split(" ");
+    const gMonth = monthNameToNumber(gMonthStr);
+    const gDay   = parseInt(gDayStr);
 
     if (gMonth > month || (gMonth === month && gDay >= day)) {
       nflCurrentWeek = w;
@@ -58,13 +65,21 @@ function detectNFLWeek() {
   nflCurrentWeek = 18;
 }
 
+function monthNameToNumber(name) {
+  const map = {
+    "Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,
+    "Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12
+  };
+  return map[name] || 1;
+}
+
 /* ============================================================
-   NFL WEEK TITLE (FIXED)
+   NFL WEEK TITLE
    ============================================================ */
 
 function renderNFLWeekTitle() {
   const span = document.getElementById("current-nfl-week");
-  if (span) span.textContent = `Current NFL Week: ${nflCurrentWeek}`;
+  if (span) span.textContent = `Week ${nflCurrentWeek}`;
 }
 
 /* ============================================================
@@ -134,16 +149,17 @@ function renderCurrentWeek() {
 }
 
 /* ============================================================
-   WEEKLY PICKS DISPLAY
+   WEEKLY PICKS DISPLAY (MATCHES YOUR JSON)
    ============================================================ */
 
 function renderWeeklyPicks() {
   const container = document.getElementById("weekly-picks");
   container.innerHTML = "";
 
-  const games = schedule.filter(g => g.week === currentWeek);
+  const weekData = schedule.weeks[currentWeek];
+  if (!weekData || !weekData.games) return;
 
-  games.forEach(game => {
+  weekData.games.forEach(game => {
     const row = document.createElement("div");
     row.className = "game-row";
 
@@ -170,7 +186,7 @@ function selectPick(game, team) {
 
   const win = document.getElementById("picks-detail-window");
   win.innerHTML = `
-    <strong>Week ${game.week}</strong><br>
+    <strong>Week ${currentWeek}</strong><br>
     ${game.away} vs ${game.home}<br>
     <strong>Pick:</strong> ${team}
   `;
@@ -185,25 +201,11 @@ function showWeeklyPicks() {
 }
 
 /* ============================================================
-   STANDINGS (PLACEHOLDER)
+   STANDINGS PLACEHOLDERS
    ============================================================ */
 
-function showAFCStandings() {
-  alert("AFC Standings coming soon!");
-}
-
-function showNFCStandings() {
-  alert("NFC Standings coming soon!");
-}
-
-function showAFCLeaders() {
-  alert("AFC Leaders coming soon!");
-}
-
-function showNFCLeaders() {
-  alert("NFC Leaders coming soon!");
-}
-
-function showPlayoffs() {
-  alert("NFL Playoffs coming soon!");
-}
+function showAFCStandings() { alert("AFC Standings coming soon!"); }
+function showNFCStandings() { alert("NFC Standings coming soon!"); }
+function showAFCLeaders()   { alert("AFC Leaders coming soon!"); }
+function showNFCLeaders()   { alert("NFC Leaders coming soon!"); }
+function showPlayoffs()     { alert("NFL Playoffs coming soon!"); }
